@@ -18,10 +18,6 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 player_Walk;
 
-    [SerializeField]
-    public Object player;
-
-
     private void OnEnable()
     {
         InputActions.FindActionMap("Player").Enable();
@@ -87,6 +83,7 @@ public class PlayerController : MonoBehaviour
                 transform.position += new Vector3(-walk_Speed,0,0) * Time.deltaTime;
             }        
         }
+
     }
 
 }

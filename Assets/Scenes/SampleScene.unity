@@ -713,7 +713,7 @@ Transform:
   m_GameObject: {fileID: 1027903006}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -10, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -734,10 +734,10 @@ MonoBehaviour:
   levelData: {fileID: 4900000, guid: 795dd7a57ce6c69ed85a42f418c1339c, type: 3}
   levelDataJson: {fileID: 4900000, guid: 2c53466acb3c9612c9394296dc967fca, type: 3}
   floor: {fileID: 2933661566562210079, guid: c74f1a8af80170da9bf0f28b47162a21, type: 3}
-  wallNorth: {fileID: 0}
-  wallEast: {fileID: 0}
-  wallSouth: {fileID: 0}
-  wallWest: {fileID: 0}
+  wallNorth: {fileID: 8285532633529564575, guid: 8db94fdb9003475d7b8a43198cdcba14, type: 3}
+  wallEast: {fileID: 8285532633529564575, guid: fbca0c73ef13428a2920b55c8431d391, type: 3}
+  wallSouth: {fileID: 8285532633529564575, guid: f7c4baf9a71ec3d58b981cf4e7d1bec8, type: 3}
+  wallWest: {fileID: 8285532633529564575, guid: 4ad0036db30a4b2c29bd7c5608ea3349, type: 3}
 --- !u!1 &1558996858
 GameObject:
   m_ObjectHideFlags: 0

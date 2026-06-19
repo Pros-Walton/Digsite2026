@@ -90,112 +90,112 @@ public class ReadLevel : MonoBehaviour
 
     }
 
-        private void buildWalls()
+    private void buildWalls()
+    {
+        foreach (Tile cur_tile in tileSet)
         {
-            foreach (Tile cur_tile in tileSet)
+            if ((cur_tile.tile_pos_y >= 1) && (cur_tile.tile_type != 0))
             {
-                if ((cur_tile.tile_pos_y >= 1) && (cur_tile.tile_type != 0))
+                foreach (Tile check_tile in tileSet)
                 {
-                    foreach (Tile check_tile in tileSet)
-                    {
-                        if ((check_tile.tile_pos_y == cur_tile.tile_pos_y+1 &&
-                            check_tile.tile_pos_x == cur_tile.tile_pos_x) && 
-                            check_tile.tile_type == 0)
-                            {
-                                int real_pos_x = check_tile.tile_pos_x - level_data.level_rad_x;
-                                int real_pos_y = check_tile.tile_pos_y - level_data.level_rad_y;
-                                Instantiate(
-                                    wallNorth, 
-                                    new Vector3 
-                                    (
-                                        real_pos_x*1.5f,
-                                        0.75f, 
-                                        real_pos_y*1.5f - 0.75f
-                                    ),
-                                    Quaternion.Euler(90.0f, 180.0f, 0.0f)
-                                );
+                    if ((check_tile.tile_pos_y == cur_tile.tile_pos_y+1 &&
+                        check_tile.tile_pos_x == cur_tile.tile_pos_x) && 
+                        check_tile.tile_type == 0)
+                        {
+                            int real_pos_x = check_tile.tile_pos_x - level_data.level_rad_x;
+                            int real_pos_y = check_tile.tile_pos_y - level_data.level_rad_y;
+                            Instantiate(
+                                wallNorth, 
+                                new Vector3 
+                                (
+                                    real_pos_x*1.5f,
+                                    0.75f, 
+                                    real_pos_y*1.5f - 0.75f
+                                ),
+                                Quaternion.Euler(90.0f, 180.0f, 0.0f)
+                            );
 
-                            }
-                    }
-                }
-
-                if ((cur_tile.tile_pos_y <= level_data.level_height - 2) && (cur_tile.tile_type != 0))
-                {
-                    foreach (Tile check_tile in tileSet)
-                    {
-                        if ((check_tile.tile_pos_y == cur_tile.tile_pos_y-1 &&
-                            check_tile.tile_pos_x == cur_tile.tile_pos_x) && 
-                            check_tile.tile_type == 0)
-                            {
-                                int real_pos_x = check_tile.tile_pos_x - level_data.level_rad_x;
-                                int real_pos_y = check_tile.tile_pos_y - level_data.level_rad_y;
-                                Instantiate(
-                                    wallSouth, 
-                                    new Vector3 
-                                    (
-                                        real_pos_x*1.5f,
-                                        0.75f, 
-                                        real_pos_y*1.5f + 0.75f
-                                    ),
-                                    Quaternion.Euler(90.0f, 0.0f, 0.0f)
-                                );
-
-                            }
-                    }
-                }
-
-                if ((cur_tile.tile_pos_x >= 1) && (cur_tile.tile_type != 0))
-                {
-                    foreach (Tile check_tile in tileSet)
-                    {
-                        if ((check_tile.tile_pos_y == cur_tile.tile_pos_y &&
-                            check_tile.tile_pos_x == cur_tile.tile_pos_x+1) && 
-                            check_tile.tile_type == 0)
-                            {
-                                int real_pos_x = check_tile.tile_pos_x - level_data.level_rad_x;
-                                int real_pos_y = check_tile.tile_pos_y - level_data.level_rad_y;
-                                Instantiate(
-                                    wallEast, 
-                                    new Vector3 
-                                    (
-                                        real_pos_x*1.5f - 0.75f,
-                                        0.75f, 
-                                        real_pos_y*1.5f
-                                    ),
-                                    Quaternion.Euler(90.0f, 270.0f, 0.0f)
-                                );
-
-                            }
-                    }
-                }
-
-                if ((cur_tile.tile_pos_x <= level_data.level_width - 2) && (cur_tile.tile_type != 0))
-                {
-                    foreach (Tile check_tile in tileSet)
-                    {
-                        if ((check_tile.tile_pos_y == cur_tile.tile_pos_y &&
-                            check_tile.tile_pos_x == cur_tile.tile_pos_x-1) && 
-                            check_tile.tile_type == 0)
-                            {
-                                int real_pos_x = check_tile.tile_pos_x - level_data.level_rad_x;
-                                int real_pos_y = check_tile.tile_pos_y - level_data.level_rad_y;
-                                Instantiate(
-                                    wallWest, 
-                                    new Vector3 
-                                    (
-                                        real_pos_x*1.5f + 0.75f,
-                                        0.75f, 
-                                        real_pos_y*1.5f
-                                    ),
-                                    Quaternion.Euler(90.0f, 90.0f, 0.0f)
-                                );
-
-                            }
-                    }
+                        }
                 }
             }
 
+            if ((cur_tile.tile_pos_y <= level_data.level_height - 2) && (cur_tile.tile_type != 0))
+            {
+                foreach (Tile check_tile in tileSet)
+                {
+                    if ((check_tile.tile_pos_y == cur_tile.tile_pos_y-1 &&
+                        check_tile.tile_pos_x == cur_tile.tile_pos_x) && 
+                        check_tile.tile_type == 0)
+                        {
+                            int real_pos_x = check_tile.tile_pos_x - level_data.level_rad_x;
+                            int real_pos_y = check_tile.tile_pos_y - level_data.level_rad_y;
+                            Instantiate(
+                                wallSouth, 
+                                new Vector3 
+                                (
+                                    real_pos_x*1.5f,
+                                    0.75f, 
+                                    real_pos_y*1.5f + 0.75f
+                                ),
+                                Quaternion.Euler(90.0f, 0.0f, 0.0f)
+                            );
+
+                        }
+                }
+            }
+
+            if ((cur_tile.tile_pos_x >= 1) && (cur_tile.tile_type != 0))
+            {
+                foreach (Tile check_tile in tileSet)
+                {
+                    if ((check_tile.tile_pos_y == cur_tile.tile_pos_y &&
+                        check_tile.tile_pos_x == cur_tile.tile_pos_x+1) && 
+                        check_tile.tile_type == 0)
+                        {
+                            int real_pos_x = check_tile.tile_pos_x - level_data.level_rad_x;
+                            int real_pos_y = check_tile.tile_pos_y - level_data.level_rad_y;
+                            Instantiate(
+                                wallEast, 
+                                new Vector3 
+                                (
+                                    real_pos_x*1.5f - 0.75f,
+                                    0.75f, 
+                                    real_pos_y*1.5f
+                                ),
+                                Quaternion.Euler(90.0f, 270.0f, 0.0f)
+                            );
+
+                        }
+                }
+            }
+
+            if ((cur_tile.tile_pos_x <= level_data.level_width - 2) && (cur_tile.tile_type != 0))
+            {
+                foreach (Tile check_tile in tileSet)
+                {
+                    if ((check_tile.tile_pos_y == cur_tile.tile_pos_y &&
+                        check_tile.tile_pos_x == cur_tile.tile_pos_x-1) && 
+                        check_tile.tile_type == 0)
+                        {
+                            int real_pos_x = check_tile.tile_pos_x - level_data.level_rad_x;
+                            int real_pos_y = check_tile.tile_pos_y - level_data.level_rad_y;
+                            Instantiate(
+                                wallWest, 
+                                new Vector3 
+                                (
+                                    real_pos_x*1.5f + 0.75f,
+                                    0.75f, 
+                                    real_pos_y*1.5f
+                                ),
+                                Quaternion.Euler(90.0f, 90.0f, 0.0f)
+                            );
+
+                        }
+                }
+            }
         }
+
+    }
 
 //     private void parseData()
 //     {

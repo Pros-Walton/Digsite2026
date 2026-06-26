@@ -1,52 +1,66 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.IO;
 
 
 public class DiggerAgent : MonoBehaviour
 {
 
     public int[,] grid;
-    private ReadLevel level_read;
+    private ReadLevel levelRead;
+    public TextAsset levelDataJson;
     public int height;
     public int width;
     private int x_coords;
     private int y_coords;
-    private bool dungeon_big = false;
+    private bool dungeonBig = false;
 
 
     //parse variables
     private string[] lines;
-    private string[] cur_line;
-    private string line;
+    // private string[] curLine;
+    // private string line;
 
     //Level data parsing
-    private List<int> line_types = new List<int>();
-    private List<List<int>> full_level = new List<List<int>>();
-
-    //Level dimentions
-    private int levelWidth = 0;
-    private int levelHeight = 0;
+    // private List<int> lineTypes = new List<int>();
+    // private List<List<int>> full_level = new List<List<int>>();
 
     //Level gemometry plot
     private int levelRadWidth;
     private int levelRadHeight;
+    private int directionChange = 5;
+    private int roomSpawn = 5;
 
-    private LevelData level_data = new LevelData();
-    private List<string> tile_data = new List<string>();
+    private LevelData levelData = new LevelData();
+    private List<string> tileData = new List<string>();
+
+    private int dungeonSize;
+    private int dungeonFill = 0;
+    private float dungeonThreshold = 0.40f;
+
+    private string dataToSave;
+
+    private List<Vector2> directions = new List<Vector2>();
+    private Vector2 direction = new Vector2();
+    private Vector2 diggerLoc = new Vector2();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         grid = new int[width,height];
-        level_read = this.GetComponent<ReadLevel>();
+        dungeonSize = height*width;
+        levelRead = this.GetComponent<ReadLevel>();
+        levelData = JsonUtility.FromJson<LevelData>(levelDataJson.text);
         setupArray();
         x_coords = (width-1)/2;
         y_coords = (height-1)/2;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        findSize();
+        Digger();
+        parseData();
+        //printData();
+        dataToSave = JsonUtility.ToJson(levelData);
+        string path = (Application.dataPath + "/Scenes/SampleScene/level.json");
+        File.WriteAllText(path, dataToSave);
     }
 
     void setupArray()
@@ -62,14 +76,12 @@ public class DiggerAgent : MonoBehaviour
 
     void Digger()
     {
-        int directionChange = 5;
-        int roomSpawn = 5;
 
-        Vector2 digger_loc = new Vector2(x_coords,y_coords);
+        diggerLoc = new Vector2(x_coords,y_coords);
 
-        grid[(int)digger_loc.x,(int)digger_loc.y] = 1;
+        grid[(int)diggerLoc.x,(int)diggerLoc.y] = 1;
+        dungeonFill += 1;
 
-        List<Vector2> directions = new List<Vector2>();
 
         directions.Add(Vector2.up); 
         directions.Add(Vector2.left); 
@@ -79,11 +91,21 @@ public class DiggerAgent : MonoBehaviour
 
         
 
-        Vector2 direction = directions[UnityEngine.Random.Range(0,3)];
+        direction = directions[UnityEngine.Random.Range(0,3)];
 
-        while (!dungeon_big) 
+        while (!dungeonBig) 
         {
-            digger_loc += direction;
+
+
+
+            outOfBoundsCheck();
+            //Debug.Log(((int)diggerLoc.x).ToString() + ", " + ((int)diggerLoc.y).ToString() + "  |  " +
+            //(((int)diggerLoc.x) + ((int)direction.x)).ToString() + ", " + (((int)diggerLoc.y) + ((int)direction.y)).ToString());
+            diggerLoc += direction;
+
+            int locX = (int)diggerLoc.x;
+            int locY = (int)diggerLoc.y;
+
             if (UnityEngine.Random.Range(0,100) < directionChange)
             {
                 direction = directions[UnityEngine.Random.Range(0,3)];
@@ -91,33 +113,45 @@ public class DiggerAgent : MonoBehaviour
             }
             else
             {
-                directionChange += 5;
+                directionChange += 1;
             }
 
-            if (UnityEngine.Random.Range(0,100) < roomSpawn)
+            if (UnityEngine.Random.Range(0,250) < roomSpawn)
             {
-                int room_x = UnityEngine.Random.Range(2,4);
-                int room_y = UnityEngine.Random.Range(3,7);
-                for (int i = -room_x; i < room_x; i++)
+                int roomX = UnityEngine.Random.Range(1,2);
+                int roomY = UnityEngine.Random.Range(2,4);
+                //Debug.Log("Room start!");
+                for (int i = -roomX; i < roomX; i++)
                 {
-                    for (int j = -room_y; j < room_y; j++)
+                    for (int j = -roomY; j < roomY; j++)
                     {
-                        grid[
-                            (int)digger_loc.x + i,
-                            (int)digger_loc.y + j 
-                        ] = 2;
+                        int roomBuildX = locX + i;
+                        int roomBuildY = locY + j;
+                        if (inRange(roomBuildX,0,height) && inRange(roomBuildY,0,width))
+                        {
+                            //Debug.Log(roomBuildX.ToString() + ", " + roomBuildY.ToString());
+                            grid[roomBuildX,roomBuildY] = 2;
+                        }
                     }
                 }
+                //Debug.Log("Room done! " + locX.ToString() + ", " + locY.ToString());
                 roomSpawn = 0;
+                dungeonFill += (roomX * roomY);
 
             }
             else
             {
-                roomSpawn += 5;
-                grid[
-                    (int)digger_loc.x,
-                    (int)digger_loc.y
-                    ] = 1;
+                roomSpawn += 1;
+                if (inRange(locX,0,height) && inRange(locY,0,width))
+                {
+                    grid[locX,locY] = 1;
+                }
+                dungeonFill += 1;
+            }
+
+            if ((dungeonFill / dungeonSize) > dungeonThreshold)
+            {
+                dungeonBig = true;
             }
         }
 
@@ -125,60 +159,92 @@ public class DiggerAgent : MonoBehaviour
 
         private void parseData()
     {
-        if (level_read.levelData != null)
-        {
-            lines = (level_read.levelData.text.Split("/"));
-        }
+        // if (levelRead.levelData != null)
+        // {
+        //     lines = (levelRead.levelData.text.Split("/"));
+        // }
 
 //        Debug.Log(lines[0]);
 
-        for (int i = 0; i < lines.Length; i++)
+        for (int i = 0; i < width; i++)
         {
-            line = lines[i];
-            cur_line = line.Split(",");
-            for (int j = 0; j < cur_line.Length; j++)
+            // line = lines[i];
+            // curLine = line.Split(",");
+            for (int j = 0; j < height; j++)
             {
-                Tile cur_tile = new Tile();
-                cur_tile.tile_type = int.Parse(cur_line[j]);
-                cur_tile.tile_pos_x = j;
-                cur_tile.tile_pos_y = i;
-                line_types.Add((int.Parse(cur_line[j])));
-                string tile_serial = JsonUtility.ToJson(cur_tile);
-                tile_data.Add(tile_serial);
-               //level_data[i][j] = cur_line[j];
+                Tile curTile = new Tile();
+                curTile.type = grid[i,j];
+                //Debug.Log(grid[i,j]);
+                curTile.posX = j;
+                curTile.posY = i;
+                // lineTypes.Add((int.Parse(curLine[j])));
+                string serial = JsonUtility.ToJson(curTile);
+                //Debug.Log(serial);
+                tileData.Add(serial);
+                //level_data[i][j] = curLine[j];
             }
-            full_level.Add(line_types);
-            line_types = new List<int>();
+            // full_level.Add(lineTypes);
+            // lineTypes = new List<int>();
         }
-        level_read.level_data.data = tile_data;
+        levelData.data = tileData;
     }
 
     private void printData()
     {
-        foreach (List<int> line_now in full_level)
+        for (int i = 0; i < width; i++) 
         {
-            foreach (int tile in line_now) 
+            for (int j = 0; j < height; j++)
             {
-                Debug.Log(tile);
+                Debug.Log(grid[i,j]);
             }
         }
-
     }
 
     private void findSize()
     {
-        levelHeight = full_level.Count;
-        foreach (List<int> line_row in full_level)
+        // levelHeight = full_level.Count;
+        // foreach (List<int> line_row in full_level)
+        // {
+        //     levelWidth = Mathf.Max(levelWidth, line_row.Count);
+        // }
+
+        levelRadHeight = (height - 1)/2;
+        levelRadWidth = (width - 1)/2;
+
+        levelData.height = height;
+        levelData.width = width;
+        levelData.radX = levelRadWidth;
+        levelData.radY = levelRadHeight;
+    }
+
+    private void outOfBoundsCheck()
+    {
+        if (((int)diggerLoc.x + (int)direction.x) > (width - 2))
         {
-            levelWidth = Mathf.Max(levelWidth, line_row.Count);
+            direction = directions[0];
+            directionChange = 0;
+        }
+        else if (((int)diggerLoc.x + (int)direction.x) < 2)
+        {
+            direction = directions[2];
+            directionChange = 0;
         }
 
-        levelRadHeight = (levelHeight - 1)/2;
-        levelRadWidth = (levelWidth - 1)/2;
-
-        level_read.level_data.level_height = levelHeight;
-        level_read.level_data.level_width = levelWidth;
-        level_read.level_data.level_rad_x = levelRadWidth;
-        level_read.level_data.level_rad_y = levelRadHeight;
+        if (((int)diggerLoc.x + (int)direction.x) > (height - 2))
+        {
+            direction = directions[1];
+            directionChange = 0;
+        }
+        else if (((int)diggerLoc.y + (int)direction.y) < 2)
+        {
+            direction = directions[3];
+            directionChange = 0;
+        }
+    }
+    
+    private bool inRange(int target, int low, int high)
+    {
+        //Debug.Log(low.ToString() + " " + target.ToString() + " " + high.ToString());
+        return (low < target) && (target < high);
     }
 }

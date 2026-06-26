@@ -1847,6 +1847,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1027903007}
+  - component: {fileID: 1027903009}
   - component: {fileID: 1027903008}
   m_Layer: 0
   m_Name: Geometry
@@ -1882,13 +1883,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d980d80a74f5c5089984cfa00cd4b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReadLevel
-  levelData: {fileID: 4900000, guid: 795dd7a57ce6c69ed85a42f418c1339c, type: 3}
+  levelDataTxt: {fileID: 0}
   levelDataJson: {fileID: 4900000, guid: 2c53466acb3c9612c9394296dc967fca, type: 3}
   floor: {fileID: 2933661566562210079, guid: c74f1a8af80170da9bf0f28b47162a21, type: 3}
   wallNorth: {fileID: 8285532633529564575, guid: 8db94fdb9003475d7b8a43198cdcba14, type: 3}
   wallEast: {fileID: 8285532633529564575, guid: fbca0c73ef13428a2920b55c8431d391, type: 3}
   wallSouth: {fileID: 8285532633529564575, guid: f7c4baf9a71ec3d58b981cf4e7d1bec8, type: 3}
   wallWest: {fileID: 8285532633529564575, guid: 4ad0036db30a4b2c29bd7c5608ea3349, type: 3}
+  levelData:
+    width: 0
+    height: 0
+    radX: 0
+    radY: 0
+    data: []
+--- !u!114 &1027903009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1027903006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf51858bd2530b7fb0dee21c3f83fe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiggerAgent
+  levelDataJson: {fileID: 4900000, guid: 2c53466acb3c9612c9394296dc967fca, type: 3}
+  height: 41
+  width: 41
 --- !u!1 &1100752640
 GameObject:
   m_ObjectHideFlags: 0

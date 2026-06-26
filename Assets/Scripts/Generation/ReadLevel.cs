@@ -5,7 +5,7 @@ public class ReadLevel : MonoBehaviour
 {
 
     //Raw data file
-    public TextAsset levelData;
+    public TextAsset levelDataTxt;
     public TextAsset levelDataJson;
 
     public GameObject floor;
@@ -17,9 +17,9 @@ public class ReadLevel : MonoBehaviour
     
 
 
-    public LevelData level_data = new LevelData();
-    private Tile cur_tile = new Tile();
-    private Tile check_tile;
+    public LevelData levelData = new LevelData();
+    private Tile curTile = new Tile();
+    private Tile checkTile;
     //private List<Tile> tileSet = new List<Tile>();
     private Tile[,] tileSet = new Tile[1,1];
 
@@ -29,9 +29,9 @@ public class ReadLevel : MonoBehaviour
         //parseData();
         //printData();
         //findSize();
-        //string parsedLevel = JsonUtility.ToJson(level_data);
-        level_data = JsonUtility.FromJson<LevelData>(levelDataJson.text);
-        tileSet = new Tile[level_data.level_width,level_data.level_height];
+        //string parsedLevel = JsonUtility.ToJson(levelDataTxt);
+        levelData = JsonUtility.FromJson<LevelData>(levelDataJson.text);
+        tileSet = new Tile[levelData.width,levelData.height];
         readTile();
         buildWalls();
         //Debug.Log(parsedLevel);
@@ -45,24 +45,24 @@ public class ReadLevel : MonoBehaviour
 
     private void readTile()
     {
-        foreach (string tile_string in level_data.data)
+        foreach (string string_level in levelData.data)
         {
-            cur_tile = JsonUtility.FromJson<Tile>(tile_string);
-            tileSet[cur_tile.tile_pos_x,cur_tile.tile_pos_y] = cur_tile;
+            curTile = JsonUtility.FromJson<Tile>(string_level);
+            tileSet[curTile.posX,curTile.posY] = curTile;
 
-            int real_pos_x = cur_tile.tile_pos_x - level_data.level_rad_x;
-            int real_pos_y = cur_tile.tile_pos_y - level_data.level_rad_y;
+            int real_posX = curTile.posX - levelData.radX;
+            int real_posY = curTile.posY - levelData.radY;
 
 
-            if (cur_tile.tile_type != 0)
+            if (curTile.type != 0)
             {
                 Instantiate(
                     floor, 
                     new Vector3 
                     (
-                        real_pos_x*1.5f,
+                        real_posX*1.5f,
                         0.0f, 
-                        real_pos_y*1.5f
+                        real_posY*1.5f
                     ), 
                     Quaternion.identity
                 );
@@ -76,22 +76,29 @@ public class ReadLevel : MonoBehaviour
 
     private void buildWalls()
     {
-        foreach (Tile cur_tile in tileSet)
+        foreach (Tile curTile in tileSet)
         {
-            if ((cur_tile.tile_pos_y >= 1) && (cur_tile.tile_type != 0))
+            if ((inRange(curTile.posY, 0, (levelData.height))) && (curTile.type != 0))
             {
-                check_tile = tileSet[cur_tile.tile_pos_x,cur_tile.tile_pos_y + 1];
-                if (check_tile.tile_type == 0)
+                if (curTile.posY < levelData.height-1)
                 {
-                    int real_pos_x = check_tile.tile_pos_x - level_data.level_rad_x;
-                    int real_pos_y = check_tile.tile_pos_y - level_data.level_rad_y;
+                    checkTile = tileSet[curTile.posX,curTile.posY + 1];
+                }
+                else
+                {
+                    checkTile = new Tile();
+                }
+                if (checkTile.type == 0)
+                {
+                    int real_posX = curTile.posX - levelData.radX;
+                    int real_posY = curTile.posY - levelData.radY;
                     Instantiate(
                         wallNorth, 
                         new Vector3 
                         (
-                            real_pos_x*1.5f,
+                            real_posX*1.5f,
                             0.75f, 
-                            real_pos_y*1.5f - 0.75f
+                            real_posY*1.5f + 0.75f
                         ),
                         Quaternion.Euler(90.0f, 180.0f, 0.0f)
                     );
@@ -99,20 +106,27 @@ public class ReadLevel : MonoBehaviour
                 }
             }
 
-            if ((cur_tile.tile_pos_x >= 1) && (cur_tile.tile_type != 0))
+            if ((inRange(curTile.posX, 0, (levelData.width))) && (curTile.type != 0))
             {
-                check_tile = tileSet[cur_tile.tile_pos_x + 1,cur_tile.tile_pos_y];
-                if (check_tile.tile_type == 0)
+                if (curTile.posX < levelData.width-1)
                 {
-                    int real_pos_x = check_tile.tile_pos_x - level_data.level_rad_x;
-                    int real_pos_y = check_tile.tile_pos_y - level_data.level_rad_y;
+                    checkTile = tileSet[(curTile.posX + 1),curTile.posY];
+                }
+                else
+                {
+                    checkTile = new Tile();
+                }
+                if (checkTile.type == 0)
+                {
+                    int real_posX = curTile.posX - levelData.radX;
+                    int real_posY = curTile.posY - levelData.radY;
                     Instantiate(
                         wallEast, 
                         new Vector3 
                         (
-                            real_pos_x*1.5f - 0.75f,
+                            real_posX*1.5f + 0.75f,
                             0.75f, 
-                            real_pos_y*1.5f
+                            real_posY*1.5f
                         ),
                         Quaternion.Euler(90.0f, 270.0f, 0.0f)
                     );
@@ -121,20 +135,27 @@ public class ReadLevel : MonoBehaviour
                 }
             }
 
-            if ((cur_tile.tile_pos_y <= level_data.level_height - 2) && (cur_tile.tile_type != 0))
+            if ((inRange(curTile.posY, 0, (levelData.height))) && (curTile.type != 0))
             {
-                check_tile = tileSet[cur_tile.tile_pos_x,cur_tile.tile_pos_y - 1];
-                if (check_tile.tile_type == 0)
+                if (curTile.posY > 0)
                 {
-                    int real_pos_x = check_tile.tile_pos_x - level_data.level_rad_x;
-                    int real_pos_y = check_tile.tile_pos_y - level_data.level_rad_y;
+                    checkTile = tileSet[curTile.posX,curTile.posY - 1];
+                }
+                else
+                {
+                    checkTile = new Tile();
+                } 
+                if (checkTile.type == 0)
+                {
+                    int real_posX = curTile.posX - levelData.radX;
+                    int real_posY = curTile.posY - levelData.radY;
                     Instantiate(
                         wallSouth, 
                         new Vector3 
                         (
-                            real_pos_x*1.5f,
+                            real_posX*1.5f,
                             0.75f, 
-                            real_pos_y*1.5f + 0.75f
+                            real_posY*1.5f - 0.75f
                         ),
                         Quaternion.Euler(90.0f, 0.0f, 0.0f)
                     );
@@ -143,20 +164,28 @@ public class ReadLevel : MonoBehaviour
             }
 
 
-            if ((cur_tile.tile_pos_x <= level_data.level_width - 2) && (cur_tile.tile_type != 0))
+            if (inRange(curTile.posX, 0, (levelData.width)) && (curTile.type != 0))
             {
-                check_tile = tileSet[cur_tile.tile_pos_x - 1,cur_tile.tile_pos_y];
-                if (check_tile.tile_type == 0)
+                if (curTile.posX > 0)
                 {
-                    int real_pos_x = check_tile.tile_pos_x - level_data.level_rad_x;
-                    int real_pos_y = check_tile.tile_pos_y - level_data.level_rad_y;
+                    checkTile = tileSet[curTile.posX -1 ,curTile.posY];
+                }
+                else
+                {
+                    checkTile = new Tile();
+                } 
+                checkTile = tileSet[curTile.posX - 1,curTile.posY];
+                if (checkTile.type == 0)
+                {
+                    int real_posX = curTile.posX - levelData.radX;
+                    int real_posY = curTile.posY - levelData.radY;
                     Instantiate(
                         wallWest, 
                         new Vector3 
                         (
-                            real_pos_x*1.5f + 0.75f,
+                            real_posX*1.5f - 0.75f,
                             0.75f, 
-                            real_pos_y*1.5f
+                            real_posY*1.5f
                         ),
                         Quaternion.Euler(90.0f, 90.0f, 0.0f)
                     );
@@ -166,6 +195,12 @@ public class ReadLevel : MonoBehaviour
             }
         }
 
+    }
+
+    private bool inRange(int target, int low, int high)
+    {
+        //Debug.Log(low.ToString() + " " + target.ToString() + " " + high.ToString());
+        return (low < target) && (target < high);
     }
 
 }

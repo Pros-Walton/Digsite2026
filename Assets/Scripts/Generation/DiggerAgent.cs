@@ -150,7 +150,7 @@ public class DiggerAgent : MonoBehaviour
             full_level.Add(line_types);
             line_types = new List<int>();
         }
-        level_read.level_data.level_data = tile_data;
+        level_read.level_data.data = tile_data;
     }
 
     private void printData()

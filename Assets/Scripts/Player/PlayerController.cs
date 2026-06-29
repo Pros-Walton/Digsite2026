@@ -16,10 +16,22 @@ public class PlayerController : MonoBehaviour
     private float player_Speed;
     private bool player_isWalk;
 
+    private int hunger_odds = 1000;
+
     private Vector3 player_Walk;
+
+    private PlayerStats stats;
+
+    private void start()
+    {
+        stats = this.GetComponent<PlayerStats>();
+        Debug.Log(stats.stamina);
+    }
 
     private void OnEnable()
     {
+        stats = this.GetComponent<PlayerStats>();
+         Debug.Log(stats.stamina);
         InputActions.FindActionMap("Player").Enable();
     }
 
@@ -57,6 +69,11 @@ public class PlayerController : MonoBehaviour
             if (player_isWalk)
             {
                 transform.position += new Vector3(0,0,walk_Speed) * Time.deltaTime;
+                transform.position = new Vector3(transform.position.x,0.4f,transform.position.z);
+            }
+            if (UnityEngine.Random.Range(0,hunger_odds) == 0)
+            {
+                stats.stamina -= 0.1f;
             }
         }
         else if (action_East.IsPressed())
@@ -65,7 +82,12 @@ public class PlayerController : MonoBehaviour
             if (player_isWalk)
             {
                 transform.position += new Vector3(walk_Speed,0,0) * Time.deltaTime;
-            }        
+                transform.position = new Vector3(transform.position.x,0.4f,transform.position.z);
+            }
+            if (UnityEngine.Random.Range(0,hunger_odds) == 0)
+            {
+                stats.stamina -= 0.1f;
+            }
         }
         else if (action_South.IsPressed())
         {
@@ -73,7 +95,12 @@ public class PlayerController : MonoBehaviour
             if (player_isWalk)
             {
                 transform.position += new Vector3(0,0,-walk_Speed) * Time.deltaTime;
-            }        
+                transform.position = new Vector3(transform.position.x,0.4f,transform.position.z);
+            }
+            if (UnityEngine.Random.Range(0,hunger_odds) == 0)
+            {
+                stats.stamina -= 0.1f;
+            }
         }
         else if (action_West.IsPressed())
         {
@@ -81,7 +108,12 @@ public class PlayerController : MonoBehaviour
             if (player_isWalk)
             {
                 transform.position += new Vector3(-walk_Speed,0,0) * Time.deltaTime;
-            }        
+                transform.position = new Vector3(transform.position.x,0.4f,transform.position.z);
+            }
+            if (UnityEngine.Random.Range(0,hunger_odds) == 0)
+            {
+                stats.stamina -= 0.1f;
+            }
         }
 
     }

@@ -9,7 +9,7 @@ public class PlayerStats : MonoBehaviour
     public string armour;
     //public Armour armour = new Armour();
     public int stamina_max;
-    public int stamina;
+    public float stamina;
 
     public int gold;
     public int score;

@@ -177,6 +177,15 @@ public class DiggerAgent : MonoBehaviour
                 //Debug.Log(grid[i,j]);
                 curTile.posX = j;
                 curTile.posY = i;
+
+                if (curTile.type == 2)
+                {
+                    if (UnityEngine.Random.Range(0,5) == 0)
+                    {
+                        curTile.ent = 1;
+                    }
+                }
+
                 // lineTypes.Add((int.Parse(curLine[j])));
                 string serial = JsonUtility.ToJson(curTile);
                 //Debug.Log(serial);

@@ -15,13 +15,16 @@ public class ReadLevel : MonoBehaviour
     public GameObject wallSouth;
     public GameObject wallWest;
     
-
+    private ObjectLists entityListComp;
+    private GameObject[] entityList;
 
     public LevelData levelData = new LevelData();
     private Tile curTile = new Tile();
     private Tile checkTile;
     //private List<Tile> tileSet = new List<Tile>();
     private Tile[,] tileSet = new Tile[1,1];
+
+    public GameObject playerTarget;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,6 +37,9 @@ public class ReadLevel : MonoBehaviour
         tileSet = new Tile[levelData.width,levelData.height];
         readTile();
         buildWalls();
+        entityListComp = GetComponentInParent<ObjectLists>();
+        entityList = entityListComp.entities;
+        spawnEnemies();
         //Debug.Log(parsedLevel);
     }
 
@@ -201,6 +207,29 @@ public class ReadLevel : MonoBehaviour
     {
         //Debug.Log(low.ToString() + " " + target.ToString() + " " + high.ToString());
         return (low < target) && (target < high);
+    }
+
+    private void spawnEnemies()
+    {
+        foreach (Tile curTile in tileSet)
+        {
+            if (curTile.ent == 1)
+            {
+                int real_posX = curTile.posX - levelData.radX;
+                int real_posY = curTile.posY - levelData.radY;
+                Instantiate(
+                    entityList[0], 
+                    new Vector3 
+                    (
+                        real_posX * 1.5f,
+                        0.4f, 
+                        real_posY * 1.5f
+                    ), 
+                    Quaternion.identity
+                );
+
+            }
+        }
     }
 
 }

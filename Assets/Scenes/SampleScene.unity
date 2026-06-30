@@ -892,6 +892,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 569663020}
+  - component: {fileID: 569663021}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -915,6 +916,21 @@ Transform:
   - {fileID: 1027903007}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &569663021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569663019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7316bc7b3e01a82cfadfa78ba7cdd879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectLists
+  entities:
+  - {fileID: 0}
+  placeholder_Enemy: {fileID: 3174737501289481253, guid: 34730da578aa2340d954982ccaf36281, type: 3}
 --- !u!1 &581500876
 GameObject:
   m_ObjectHideFlags: 0
@@ -1896,6 +1912,7 @@ MonoBehaviour:
     radX: 0
     radY: 0
     data: []
+  playerTarget: {fileID: 1558996858}
 --- !u!114 &1027903009
 MonoBehaviour:
   m_ObjectHideFlags: 0

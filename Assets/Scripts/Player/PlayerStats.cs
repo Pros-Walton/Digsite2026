@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     public int health_max;
-    public int health;
+    public float health;
     //public Weapon weapon = new Weapon();
     public string weapon;
     public string armour;

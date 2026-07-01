@@ -157,6 +157,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPoilot
   playerTarget: {fileID: 0}
+  attack: 1
+  defense: 1
+  maxHP: 10
 --- !u!1 &7207298055512496158
 GameObject:
   m_ObjectHideFlags: 0

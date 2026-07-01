@@ -21,7 +21,7 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ui_health.text = (stats.health.ToString() + "/" + stats.health_max.ToString());
+        ui_health.text = (((int)stats.health).ToString() + "/" + stats.health_max.ToString());
         ui_stamina.text = (((int)stats.stamina).ToString() + "/" + stats.stamina_max.ToString());
         ui_gold.text = stats.gold.ToString();
         ui_score.text = stats.score.ToString();

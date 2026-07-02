@@ -1,12 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.IO;
 
 public class ReadLevel : MonoBehaviour
 {
-
-    //Raw data file
-    public TextAsset levelDataTxt;
-    public TextAsset levelDataJson;
 
     public GameObject floor;
 
@@ -33,7 +30,20 @@ public class ReadLevel : MonoBehaviour
         //printData();
         //findSize();
         //string parsedLevel = JsonUtility.ToJson(levelDataTxt);
-        levelData = JsonUtility.FromJson<LevelData>(levelDataJson.text);
+
+        string path = Application.persistentDataPath + "/level.json";
+        if (File.Exists(path))
+        {
+            levelData = JsonUtility.FromJson<LevelData>(File.ReadAllText(path));
+        }
+        else
+        {
+            File.Create(path);
+            File.WriteAllText(path,"");
+            levelData = JsonUtility.FromJson<LevelData>(File.ReadAllText(path));
+        }
+        Debug.Log(path);
+
         tileSet = new Tile[levelData.width,levelData.height];
         readTile();
         buildWalls();

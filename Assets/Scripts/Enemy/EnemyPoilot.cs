@@ -52,6 +52,10 @@ public class EnemyPoilot : MonoBehaviour
                             attackCooldown = 1.0f;
                             stats.health -= 0.5f * attack; 
                             playerTarget.transform.position += (transform.forward / 5);
+                            if (stats.health <= 0.0f)
+                            {
+                                stats.GameOver();
+                            }
                         }
                         else
                         {

@@ -1899,8 +1899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d980d80a74f5c5089984cfa00cd4b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReadLevel
-  levelDataTxt: {fileID: 0}
-  levelDataJson: {fileID: 4900000, guid: 2c53466acb3c9612c9394296dc967fca, type: 3}
   floor: {fileID: 2933661566562210079, guid: c74f1a8af80170da9bf0f28b47162a21, type: 3}
   wallNorth: {fileID: 8285532633529564575, guid: 8db94fdb9003475d7b8a43198cdcba14, type: 3}
   wallEast: {fileID: 8285532633529564575, guid: fbca0c73ef13428a2920b55c8431d391, type: 3}
@@ -1925,7 +1923,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf51858bd2530b7fb0dee21c3f83fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DiggerAgent
-  levelDataJson: {fileID: 4900000, guid: 2c53466acb3c9612c9394296dc967fca, type: 3}
   height: 41
   width: 41
 --- !u!1 &1100752640
@@ -2423,7 +2420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   InputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  walk_Speed: 5
+  walkSpeed: 2.5
 --- !u!54 &1558996864
 Rigidbody:
   m_ObjectHideFlags: 0

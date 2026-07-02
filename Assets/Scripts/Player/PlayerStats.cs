@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class PlayerStats : MonoBehaviour
 {
@@ -15,14 +17,22 @@ public class PlayerStats : MonoBehaviour
     public int score;
     public int depth;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+
     void Start()
     {
-        
+        Debug.Log(Application.dataPath);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void GameOver()
+    {
+        
+        SceneManager.LoadScene("Scenes/GameOver");
     }
 }

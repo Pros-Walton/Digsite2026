@@ -8,7 +8,6 @@ public class DiggerAgent : MonoBehaviour
 
     public int[,] grid;
     private ReadLevel levelRead;
-    public TextAsset levelDataJson;
     public int height;
     public int width;
     private int x_coords;
@@ -38,6 +37,7 @@ public class DiggerAgent : MonoBehaviour
     private int dungeonFill = 0;
     private float dungeonThreshold = 0.40f;
 
+    private string levelString;
     private string dataToSave;
 
     private List<Vector2> directions = new List<Vector2>();
@@ -47,10 +47,20 @@ public class DiggerAgent : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        string path = (Application.persistentDataPath + "/level.json");
         grid = new int[width,height];
         dungeonSize = height*width;
-        levelRead = this.GetComponent<ReadLevel>();
-        levelData = JsonUtility.FromJson<LevelData>(levelDataJson.text);
+        if (File.Exists(path))
+        {
+            levelString = File.ReadAllText(path);
+        }
+        else
+        {
+            levelString = "";
+            File.Create(path);
+            File.WriteAllText(path,levelString);
+        }
+        //levelData = JsonUtility.FromJson<LevelData>(levelRead);
         setupArray();
         x_coords = (width-1)/2;
         y_coords = (height-1)/2;
@@ -59,7 +69,7 @@ public class DiggerAgent : MonoBehaviour
         parseData();
         //printData();
         dataToSave = JsonUtility.ToJson(levelData);
-        string path = (Application.dataPath + "/Scenes/SampleScene/level.json");
+        Debug.Log(levelString);
         File.WriteAllText(path, dataToSave);
     }
 

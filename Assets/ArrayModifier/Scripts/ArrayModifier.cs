@@ -63,10 +63,10 @@ namespace GyroVectors
         {
             if (!Application.isPlaying)
             {
-                UnityEditor.EditorApplication.delayCall += () =>
-                {
-                    DestroyImmediate(g.gameObject);
-                };
+                // UnityEditor.EditorApplication.delayCall += () =>
+                // {
+                //     DestroyImmediate(g.gameObject);
+                // };
             }
             else
             {

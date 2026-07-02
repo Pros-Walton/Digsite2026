@@ -4,7 +4,7 @@ public class EnemyPoilot : MonoBehaviour
 {
 
     public GameObject playerTarget;
-    private float walk_Speed = 0.5f;
+    private float walk_Speed = 1.5f;
     private Rigidbody body;
 
     private float attackCooldown = 0.0f;
@@ -15,7 +15,7 @@ public class EnemyPoilot : MonoBehaviour
     public int defense;
 
     public int maxHP;
-    private float HP;
+    public float HP;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -51,10 +51,11 @@ public class EnemyPoilot : MonoBehaviour
                         {
                             attackCooldown = 1.0f;
                             stats.health -= 0.5f * attack; 
+                            playerTarget.transform.position += (transform.forward / 5);
                         }
                         else
                         {
-                            Debug.Log(Time.deltaTime * 2);
+                            //Debug.Log(Time.deltaTime * 2);
                             attackCooldown -= Time.deltaTime * 2f;
                         }
                     }

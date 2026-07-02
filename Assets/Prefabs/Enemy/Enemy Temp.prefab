@@ -160,6 +160,7 @@ MonoBehaviour:
   attack: 1
   defense: 1
   maxHP: 10
+  HP: 10
 --- !u!1 &7207298055512496158
 GameObject:
   m_ObjectHideFlags: 0

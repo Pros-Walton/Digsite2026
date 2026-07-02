@@ -5,22 +5,26 @@ public class PlayerController : MonoBehaviour
 {
     public InputActionAsset InputActions;
 
-    private InputAction action_North;
-    private InputAction action_East;
-    private InputAction action_South;
-    private InputAction action_West;
+    private InputAction actionNorth;
+    private InputAction actionEast;
+    private InputAction actionSouth;
+    private InputAction actionWest;
 
-    private InputAction action_Stand; 
+    private InputAction actionStand;
 
-    public float walk_Speed = 1.5f;
-    private float player_Speed;
-    private bool player_isWalk;
+    private InputAction actionAttack; 
 
-    private int hunger_odds = 1000;
+    public float walkSpeed = 3.0f;
+    private float playerSpeed;
+    private bool playerIsWalk;
 
-    private Vector3 player_Walk;
+    private int hungerOdds = 1000;
+
+    private Vector3 playerWalk;
 
     private PlayerStats stats;
+
+    private LayerMask targetMask;
 
     private void start()
     {
@@ -42,77 +46,78 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        action_North = InputSystem.actions.FindAction("North");
-        action_East = InputSystem.actions.FindAction("East");
-        action_South = InputSystem.actions.FindAction("South");
-        action_West = InputSystem.actions.FindAction("West");
-        action_Stand = InputSystem.actions.FindAction("Stand");
+        actionNorth = InputSystem.actions.FindAction("North");
+        actionEast = InputSystem.actions.FindAction("East");
+        actionSouth = InputSystem.actions.FindAction("South");
+        actionWest = InputSystem.actions.FindAction("West");
+        actionStand = InputSystem.actions.FindAction("Stand");
+        actionAttack = InputSystem.actions.FindAction("Attack");
 
     }
 
     private void Update()
     {
         walk();
-
+        interact();
     }
 
     private void walk()
     {
-        if (action_Stand.IsPressed())
+        if (actionStand.IsPressed())
         {
-            player_Speed = 0;
-            player_isWalk = false;
+            playerSpeed = 0;
+            playerIsWalk = false;
         }
         else
         {
-            player_Speed = walk_Speed;
-            player_isWalk = true;
+            playerSpeed = walkSpeed;
+            playerIsWalk = true;
         }
 
-        if (action_North.IsPressed())
+        if (actionNorth.IsPressed())
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
-            if (player_isWalk)
+            if (playerIsWalk)
             {
-                transform.position += new Vector3(0,0,walk_Speed) * Time.deltaTime;
+                transform.position += new Vector3(0,0,walkSpeed) * Time.deltaTime;
             }
-            if (UnityEngine.Random.Range(0,hunger_odds) == 0)
+            if (UnityEngine.Random.Range(0,hungerOdds) == 0)
             {
                 stats.stamina -= 0.1f;
             }
         }
-        else if (action_East.IsPressed())
+        else if (actionEast.IsPressed())
         {
             transform.rotation = Quaternion.Euler(0, 90, 0);
-            if (player_isWalk)
+            if (playerIsWalk)
             {
-                transform.position += new Vector3(walk_Speed,0,0) * Time.deltaTime;
+                transform.position += new Vector3(walkSpeed,0,0) * Time.deltaTime;
             }
-            if (UnityEngine.Random.Range(0,hunger_odds) == 0)
+            if (UnityEngine.Random.Range(0,hungerOdds) == 0)
             {
                 stats.stamina -= 0.1f;
             }
         }
-        else if (action_South.IsPressed())
+        else if (actionSouth.IsPressed())
         {
             transform.rotation = Quaternion.Euler(0, 180, 0);
-            if (player_isWalk)
+            if (playerIsWalk)
             {
-                transform.position += new Vector3(0,0,-walk_Speed) * Time.deltaTime;
+                transform.position += new Vector3(0,0,-walkSpeed) * Time.deltaTime;
             }
-            if (UnityEngine.Random.Range(0,hunger_odds) == 0)
+            if (UnityEngine.Random.Range(0,hungerOdds) == 0)
             {
                 stats.stamina -= 0.1f;
             }
         }
-        else if (action_West.IsPressed())
+        else if (actionWest.IsPressed())
         {
             transform.rotation = Quaternion.Euler(0, 270, 0);
-            if (player_isWalk)
+            if (playerIsWalk)
             {
-                transform.position += new Vector3(-walk_Speed,0,0) * Time.deltaTime;
+                transform.position += new Vector3(-walkSpeed,0,0) * Time.deltaTime;
             }
-            if (UnityEngine.Random.Range(0,hunger_odds) == 0)
+            if (UnityEngine.Random.Range(0,hungerOdds) == 0)
             {
                 stats.stamina -= 0.1f;
             }
@@ -122,7 +127,35 @@ public class PlayerController : MonoBehaviour
 
     private void interact()
     {
-        
+        if (actionAttack.WasPressedThisFrame())
+        {
+            Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f);
+
+            if (UnityEngine.Random.Range(0,(hungerOdds/50)) == 0)
+            {
+                stats.stamina -= 0.3f;
+            }
+
+            foreach (Collider target in targets)
+            {
+                Vector3 targetAngle = (target.transform.position - transform.position).normalized;
+                if (Vector3.Angle(transform.forward, targetAngle) < 60)
+                {
+                    if (target.gameObject.name.Contains("Enemy"))
+                    {
+                        EnemyPoilot enemy = target.gameObject.GetComponent<EnemyPoilot>();
+                        enemy.HP -= 3.0f;
+                        target.gameObject.transform.position -= target.gameObject.transform.forward;
+                        if (enemy.HP <= 0)
+                        {
+                            Destroy(target.gameObject);
+                            stats.score += 10;
+                        }
+                    }
+
+                }
+            }
+        }
     }
 
 }

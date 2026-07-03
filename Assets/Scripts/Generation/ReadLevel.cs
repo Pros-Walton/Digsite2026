@@ -23,9 +23,15 @@ public class ReadLevel : MonoBehaviour
 
     public GameObject playerTarget;
 
+    public DiggerAgent agent;
+
+    public bool load;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        agent = this.GetComponent<DiggerAgent>();
+        agent.runDig();
         //parseData();
         //printData();
         //findSize();

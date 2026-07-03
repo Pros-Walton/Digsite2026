@@ -21,7 +21,6 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(Application.dataPath);
     }
 
     // Update is called once per frame

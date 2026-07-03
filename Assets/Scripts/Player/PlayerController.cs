@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.IO;
 
 public class PlayerController : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 playerWalk;
 
     private PlayerStats stats;
+    private Weapon weapon;
+    private Armour armour;
 
     private LayerMask targetMask;
 
@@ -144,7 +147,7 @@ public class PlayerController : MonoBehaviour
                     if (target.gameObject.name.Contains("Enemy"))
                     {
                         EnemyPoilot enemy = target.gameObject.GetComponent<EnemyPoilot>();
-                        enemy.HP -= 3.0f;
+                        enemy.HP -= (stats.attack * (3.0f) / enemy.defense);
                         target.gameObject.transform.position -= target.gameObject.transform.forward;
                         if (enemy.HP <= 0)
                         {
@@ -155,6 +158,39 @@ public class PlayerController : MonoBehaviour
 
                 }
             }
+        }
+    }
+
+    private void Save()
+    {
+        stats.weapon = JsonUtility.ToJson(weapon);
+        stats.armour = JsonUtility.ToJson(armour);
+        string statString = JsonUtility.ToJson(stats);
+
+        string path = Application.persistentDataPath + "/player.json";
+
+        if(!File.Exists(path))
+        {
+            File.Create(path);
+        }
+
+        File.WriteAllText(path,statString);
+
+    }
+
+    private void Load()
+    {
+        string path = Application.persistentDataPath + "/player.json";
+
+        if (File.Exists(path))
+        {
+
+            string statString = File.ReadAllText(path);
+            stats = JsonUtility.FromJson<PlayerStats>(statString);
+        }
+        else
+        {
+            stats = new PlayerStats();
         }
     }
 

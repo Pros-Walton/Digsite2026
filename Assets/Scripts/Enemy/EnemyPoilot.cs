@@ -50,7 +50,7 @@ public class EnemyPoilot : MonoBehaviour
                         if (attackCooldown <= 0.0f)
                         {
                             attackCooldown = 1.0f;
-                            stats.health -= 0.5f * attack; 
+                            stats.health -= (0.5f * attack) / stats.defense; 
                             playerTarget.transform.position += (transform.forward / 5);
                             if (stats.health <= 0.0f)
                             {

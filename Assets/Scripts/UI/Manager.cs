@@ -26,4 +26,5 @@ public class Manager : MonoBehaviour
         ui_gold.text = stats.gold.ToString();
         ui_score.text = stats.score.ToString();
     }
+
 }

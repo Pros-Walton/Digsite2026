@@ -45,7 +45,7 @@ public class DiggerAgent : MonoBehaviour
     private Vector2 diggerLoc = new Vector2();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void runDig()
     {
         string path = (Application.persistentDataPath + "/level.json");
         grid = new int[width,height];

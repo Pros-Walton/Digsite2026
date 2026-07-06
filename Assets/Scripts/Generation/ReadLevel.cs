@@ -48,7 +48,7 @@ public class ReadLevel : MonoBehaviour
             File.WriteAllText(path,"");
             levelData = JsonUtility.FromJson<LevelData>(File.ReadAllText(path));
         }
-        Debug.Log(path);
+        //Debug.Log(path);
 
         tileSet = new Tile[levelData.width,levelData.height];
         readTile();

@@ -69,7 +69,7 @@ public class DiggerAgent : MonoBehaviour
         parseData();
         //printData();
         dataToSave = JsonUtility.ToJson(levelData);
-        Debug.Log(levelString);
+        //Debug.Log(levelString);
         File.WriteAllText(path, dataToSave);
     }
 

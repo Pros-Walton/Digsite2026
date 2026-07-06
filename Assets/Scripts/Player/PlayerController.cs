@@ -147,7 +147,8 @@ public class PlayerController : MonoBehaviour
                     if (target.gameObject.name.Contains("Enemy"))
                     {
                         EnemyPoilot enemy = target.gameObject.GetComponent<EnemyPoilot>();
-                        enemy.HP -= (stats.attack * (3.0f) / enemy.defense);
+                        enemy.HP -= (stats.weapon.attack * (3.0f) / enemy.defense);
+                        stats.weapon.use();
                         target.gameObject.transform.position -= target.gameObject.transform.forward;
                         if (enemy.HP <= 0)
                         {
@@ -163,8 +164,8 @@ public class PlayerController : MonoBehaviour
 
     private void Save()
     {
-        stats.weapon = JsonUtility.ToJson(weapon);
-        stats.armour = JsonUtility.ToJson(armour);
+        // stats.weapon = JsonUtility.ToJson(weapon);
+        // stats.armour = JsonUtility.ToJson(armour);
         string statString = JsonUtility.ToJson(stats);
 
         string path = Application.persistentDataPath + "/player.json";

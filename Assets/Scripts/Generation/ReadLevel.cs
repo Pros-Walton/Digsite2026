@@ -14,6 +14,7 @@ public class ReadLevel : MonoBehaviour
     
     private ObjectLists entityListComp;
     private GameObject[] entityList;
+    private GameObject[] objList;
 
     public LevelData levelData = new LevelData();
     private Tile curTile = new Tile();
@@ -55,7 +56,9 @@ public class ReadLevel : MonoBehaviour
         buildWalls();
         entityListComp = GetComponentInParent<ObjectLists>();
         entityList = entityListComp.entities;
+        objList = entityListComp.items;
         spawnEnemies();
+        spawnObjects();
         //Debug.Log(parsedLevel);
     }
 
@@ -229,16 +232,39 @@ public class ReadLevel : MonoBehaviour
     {
         foreach (Tile curTile in tileSet)
         {
-            if (curTile.ent == 1)
+            if (curTile.ent != 0)
             {
                 int real_posX = curTile.posX - levelData.radX;
                 int real_posY = curTile.posY - levelData.radY;
                 Instantiate(
-                    entityList[0], 
+                    entityList[curTile.ent - 1], 
                     new Vector3 
                     (
                         real_posX * 1.5f,
                         0.4f, 
+                        real_posY * 1.5f
+                    ), 
+                    Quaternion.identity
+                );
+
+            }
+        }
+    }
+
+    private void spawnObjects()
+    {
+        foreach (Tile curTile in tileSet)
+        {
+            if (curTile.obj != 0)
+            {
+                int real_posX = curTile.posX - levelData.radX;
+                int real_posY = curTile.posY - levelData.radY;
+                Instantiate(
+                    objList[curTile.obj - 1], 
+                    new Vector3 
+                    (
+                        real_posX * 1.5f,
+                        0.15f, 
                         real_posY * 1.5f
                     ), 
                     Quaternion.identity

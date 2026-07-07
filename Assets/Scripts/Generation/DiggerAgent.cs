@@ -32,6 +32,7 @@ public class DiggerAgent : MonoBehaviour
 
     private LevelData levelData = new LevelData();
     private List<string> tileData = new List<string>();
+    private List<Tile> tiles = new List<Tile>();
 
     private int dungeonSize;
     private int dungeonFill = 0;
@@ -67,6 +68,8 @@ public class DiggerAgent : MonoBehaviour
         findSize();
         Digger();
         parseData();
+        dedicateSpace();
+        wirteData();
         //printData();
         dataToSave = JsonUtility.ToJson(levelData);
         //Debug.Log(levelString);
@@ -92,25 +95,16 @@ public class DiggerAgent : MonoBehaviour
         grid[(int)diggerLoc.x,(int)diggerLoc.y] = 1;
         dungeonFill += 1;
 
-
         directions.Add(Vector2.up); 
         directions.Add(Vector2.left); 
         directions.Add(Vector2.down);
         directions.Add(Vector2.right);
 
-
-        
-
         direction = directions[UnityEngine.Random.Range(0,3)];
 
         while (!dungeonBig) 
         {
-
-
-
             outOfBoundsCheck();
-            //Debug.Log(((int)diggerLoc.x).ToString() + ", " + ((int)diggerLoc.y).ToString() + "  |  " +
-            //(((int)diggerLoc.x) + ((int)direction.x)).ToString() + ", " + (((int)diggerLoc.y) + ((int)direction.y)).ToString());
             diggerLoc += direction;
 
             int locX = (int)diggerLoc.x;
@@ -169,17 +163,8 @@ public class DiggerAgent : MonoBehaviour
 
         private void parseData()
     {
-        // if (levelRead.levelData != null)
-        // {
-        //     lines = (levelRead.levelData.text.Split("/"));
-        // }
-
-//        Debug.Log(lines[0]);
-
         for (int i = 0; i < width; i++)
         {
-            // line = lines[i];
-            // curLine = line.Split(",");
             for (int j = 0; j < height; j++)
             {
                 Tile curTile = new Tile();
@@ -188,24 +173,17 @@ public class DiggerAgent : MonoBehaviour
                 curTile.posX = j;
                 curTile.posY = i;
 
-                if (curTile.type == 2)
+                if (curTile.type != 0)
                 {
-                    if (UnityEngine.Random.Range(0,5) == 0)
+                    if (UnityEngine.Random.Range(0,7) == 0)
                     {
-                        curTile.ent = 1;
+                        curTile.ent = (int)UnityEngine.Random.Range(1,1);
                     }
                 }
 
-                // lineTypes.Add((int.Parse(curLine[j])));
-                string serial = JsonUtility.ToJson(curTile);
-                //Debug.Log(serial);
-                tileData.Add(serial);
-                //level_data[i][j] = curLine[j];
+                tiles.Add(curTile);
             }
-            // full_level.Add(lineTypes);
-            // lineTypes = new List<int>();
         }
-        levelData.data = tileData;
     }
 
     private void printData()
@@ -221,11 +199,7 @@ public class DiggerAgent : MonoBehaviour
 
     private void findSize()
     {
-        // levelHeight = full_level.Count;
-        // foreach (List<int> line_row in full_level)
-        // {
-        //     levelWidth = Mathf.Max(levelWidth, line_row.Count);
-        // }
+
 
         levelRadHeight = (height - 1)/2;
         levelRadWidth = (width - 1)/2;
@@ -265,5 +239,33 @@ public class DiggerAgent : MonoBehaviour
     {
         //Debug.Log(low.ToString() + " " + target.ToString() + " " + high.ToString());
         return (low < target) && (target < high);
+    }
+
+    private void wirteData()
+    {
+        foreach (Tile curTile in tiles)
+        {
+            string serial = JsonUtility.ToJson(curTile);
+            tileData.Add(serial);
+        }
+        levelData.data = tileData;
+    }
+
+    private void dedicateSpace()
+    {
+        foreach (Tile curTile in tiles)
+        {
+            if (curTile.type == 2)
+            {
+                if (UnityEngine.Random.Range(0,20) == 0)
+                    {
+                        curTile.obj = (int)UnityEngine.Random.Range(1,1);
+                    }
+                else
+                {
+                    curTile.obj = 0;
+                }            
+            }
+        }
     }
 }

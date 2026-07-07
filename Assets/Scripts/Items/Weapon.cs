@@ -18,11 +18,8 @@ public class Weapon
     {
         return used >= durability;
     }
-}
 
-public class trowel : Weapon
-{
-    void Awake()
+    public void isTrowel()
     {
         name = "Trowel";
         attack = 1;

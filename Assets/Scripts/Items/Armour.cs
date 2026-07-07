@@ -19,14 +19,15 @@ public class Armour
     {
         return used >= durability;
     }
-}
 
-public class cloth : Armour
-{
-        public string name = "Cloth";
-        public int defense = 1;
-        public int durability = 0;
-        public float used = -1.0f;
-        public float damageRate = 0.0f;
 
+    public void isCloth()
+    {
+        name = "Cloth";
+        defense = 1;
+        durability = 0;
+        used = -1.0f;
+        damageRate = 0.0f;
+
+    }
 }

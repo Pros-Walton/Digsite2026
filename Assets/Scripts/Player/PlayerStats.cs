@@ -13,8 +13,6 @@ public class PlayerStats : MonoBehaviour
     public int gold;
     public int score;
     public int depth;
-
-    [System.Serializable]
     public Weapon weapon;
     public Armour armour;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,8 +21,10 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         Debug.Log("Am I even here?");
-        // weapon = new trowel();
-        // armour = new cloth();
+        weapon = new Weapon();
+        armour = new Armour();
+        armour.isCloth();
+        weapon.isTrowel();
     }
 
     // Update is called once per frame

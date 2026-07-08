@@ -122,8 +122,8 @@ public class DiggerAgent : MonoBehaviour
 
             if (UnityEngine.Random.Range(0,250) < roomSpawn)
             {
-                int roomX = UnityEngine.Random.Range(1,2);
-                int roomY = UnityEngine.Random.Range(2,4);
+                int roomX = UnityEngine.Random.Range(2,3);
+                int roomY = UnityEngine.Random.Range(3,7);
                 //Debug.Log("Room start!");
                 for (int i = -roomX; i < roomX; i++)
                 {

@@ -930,7 +930,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjectLists
   entities:
   - {fileID: 0}
+  items:
+  - {fileID: 0}
   placeholder_Enemy: {fileID: 3174737501289481253, guid: 34730da578aa2340d954982ccaf36281, type: 3}
+  placeholder_Item: {fileID: 1148435917789890897, guid: b38aafcb65503fae686b4e5f1c21e1bb, type: 3}
 --- !u!1 &581500876
 GameObject:
   m_ObjectHideFlags: 0
@@ -1911,6 +1914,8 @@ MonoBehaviour:
     radY: 0
     data: []
   playerTarget: {fileID: 1558996858}
+  agent: {fileID: 0}
+  load: 0
 --- !u!114 &1027903009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2462,8 +2467,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   health_max: 30
   health: 30
-  weapon: TEMP_WEP
-  armour: TEMP_ARM
   stamina_max: 30
   stamina: 30
   gold: 0

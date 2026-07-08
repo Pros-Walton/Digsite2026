@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour
 
     private InputAction actionStand;
 
-    private InputAction actionAttack; 
+    private InputAction actionAttack;
+    private InputAction actionUse;
 
     public float walkSpeed = 3.0f;
     private float playerSpeed;
@@ -55,6 +56,7 @@ public class PlayerController : MonoBehaviour
         actionWest = InputSystem.actions.FindAction("West");
         actionStand = InputSystem.actions.FindAction("Stand");
         actionAttack = InputSystem.actions.FindAction("Attack");
+        actionUse = InputSystem.actions.FindAction("Use");
 
     }
 
@@ -160,6 +162,27 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+        if (actionUse.WasPressedThisFrame())
+        {
+            Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f);
+
+
+            foreach (Collider target in targets)
+            {
+                Vector3 targetAngle = (target.transform.position - transform.position).normalized;
+                if (Vector3.Angle(transform.forward, targetAngle) < 60)
+                {
+                    if (target.gameObject.name.Contains("Item"))
+                    {
+                        collectToInventory();
+                        Destroy(target.gameObject);
+                    }
+
+                }
+            }           
+        }
+
     }
 
     private void Save()
@@ -193,6 +216,24 @@ public class PlayerController : MonoBehaviour
         {
             stats = new PlayerStats();
         }
+    }
+
+    private void collectToInventory()
+    {
+        int typeSelector = UnityEngine.Random.Range(0,8);
+        if (typeSelector == 5)
+        {
+            Debug.Log("New Weapon!");
+        }
+        else if (typeSelector == 7)
+        {
+            Debug.Log("New Armour!");
+        }
+        else
+        {
+            Debug.Log("New Artifact!");
+        }
+        Debug.Log("Add inventory lol");
     }
 
 }

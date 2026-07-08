@@ -57,7 +57,7 @@ public class ReadLevel : MonoBehaviour
         entityListComp = GetComponentInParent<ObjectLists>();
         entityList = entityListComp.entities;
         objList = entityListComp.items;
-        spawnEnemies();
+        //spawnEnemies();
         spawnObjects();
         //Debug.Log(parsedLevel);
     }

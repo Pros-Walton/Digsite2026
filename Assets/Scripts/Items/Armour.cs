@@ -21,13 +21,18 @@ public class Armour
     }
 
 
-    public void isCloth()
+    public Armour(int itemID)
     {
-        name = "Cloth";
-        defense = 1;
-        durability = 0;
-        used = -1.0f;
-        damageRate = 0.0f;
+        switch(itemID)
+        {
+            case 0:
+                name = "Cloth";
+                defense = 1;
+                durability = 0;
+                used = -1.0f;
+                damageRate = 0.0f;
+                break;
+        }
 
     }
 }

@@ -19,13 +19,18 @@ public class Weapon
         return used >= durability;
     }
 
-    public void isTrowel()
+    public Weapon(int itemID)
     {
-        name = "Trowel";
-        attack = 1;
-        durability = 0;
-        used = -1.0f;
-        damageRate = 0.0f;
+        switch(itemID)
+        {
+            case 0:
+                name = "Trowel";
+                attack = 1;
+                durability = 0;
+                used = -1.0f;
+                damageRate = 0.0f;
+                break;
+        }
 
     }
 }

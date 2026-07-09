@@ -33,24 +33,9 @@ public class ReadLevel : MonoBehaviour
     {
         agent = this.GetComponent<DiggerAgent>();
         agent.runDig();
-        //parseData();
-        //printData();
-        //findSize();
-        //string parsedLevel = JsonUtility.ToJson(levelDataTxt);
-
-        string path = Application.persistentDataPath + "/level.json";
-        if (File.Exists(path))
-        {
-            levelData = JsonUtility.FromJson<LevelData>(File.ReadAllText(path));
-        }
-        else
-        {
-            File.Create(path);
-            File.WriteAllText(path,"");
-            levelData = JsonUtility.FromJson<LevelData>(File.ReadAllText(path));
-        }
         //Debug.Log(path);
 
+        readFiles();
         tileSet = new Tile[levelData.width,levelData.height];
         readTile();
         buildWalls();
@@ -271,6 +256,22 @@ public class ReadLevel : MonoBehaviour
                 );
 
             }
+        }
+    }
+
+    private void readFiles()
+    {        
+        string levPath = Application.persistentDataPath + "/level.json";
+
+        if (File.Exists(levPath))
+        {
+            levelData = JsonUtility.FromJson<LevelData>(File.ReadAllText(levPath));
+        }
+        else
+        {
+            File.Create(levPath);
+            File.WriteAllText(levPath,"");
+            levelData = JsonUtility.FromJson<LevelData>(File.ReadAllText(levPath));
         }
     }
 

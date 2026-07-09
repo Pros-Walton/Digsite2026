@@ -30,17 +30,26 @@ public class PlayerController : MonoBehaviour
 
     private LayerMask targetMask;
 
-    private void start()
-    {
-        stats = this.GetComponent<PlayerStats>();
-        Debug.Log(stats.stamina);
-    }
+    private Inventory inventory;
 
     private void OnEnable()
     {
         stats = this.GetComponent<PlayerStats>();
          Debug.Log(stats.stamina);
         InputActions.FindActionMap("Player").Enable();
+
+        bool load = false;
+
+        if (load)
+        {
+            Load();
+        }
+        else
+        {
+            Debug.Log("New data!");
+            stats = new PlayerStats();
+            inventory = new Inventory();
+        }
     }
 
     private void OnDisable()
@@ -204,36 +213,56 @@ public class PlayerController : MonoBehaviour
 
     private void Load()
     {
-        string path = Application.persistentDataPath + "/player.json";
+        string statPath = Application.persistentDataPath + "/player.json";
+        string invenPath = Application.persistentDataPath + "/inventory.json";
 
-        if (File.Exists(path))
+        if (File.Exists(statPath))
         {
 
-            string statString = File.ReadAllText(path);
+            string statString = File.ReadAllText(statPath);
             stats = JsonUtility.FromJson<PlayerStats>(statString);
         }
         else
         {
+            File.Create(statPath);
+            File.WriteAllText(statPath,"");
             stats = new PlayerStats();
+        }
+        if (File.Exists(invenPath))
+        {
+            inventory = JsonUtility.FromJson<Inventory>(File.ReadAllText(invenPath));   
+        }
+        else
+        {
+            File.Create(invenPath);
+            File.WriteAllText(invenPath,"");
+            inventory = new Inventory();
         }
     }
 
     private void collectToInventory()
     {
-        int typeSelector = UnityEngine.Random.Range(0,8);
-        if (typeSelector == 5)
+        for (int i = 0; i < UnityEngine.Random.Range(1,3); i++)
         {
-            Debug.Log("New Weapon!");
-        }
-        else if (typeSelector == 7)
-        {
-            Debug.Log("New Armour!");
-        }
-        else
-        {
-            Debug.Log("New Artifact!");
-        }
-        Debug.Log("Add inventory lol");
+            int typeSelector = UnityEngine.Random.Range(0,8);
+
+            switch(typeSelector)
+            {
+                case 3:
+                    inventory.weapons.Add(new Weapon(UnityEngine.Random.Range(0,0)));
+                    //Debug.Log("New Weapon!");
+                    break;
+                case 4: 
+                    inventory.armours.Add(new Armour(UnityEngine.Random.Range(0,0)));
+                    //Debug.Log("New Armour!");
+                    break;
+                default:
+                    inventory.artifacts.Add(new Artifact(UnityEngine.Random.Range(0,0)));
+                    //Debug.Log("New Artifact!");
+                    break;
+            }
+            Debug.Log("Add inventory lol");
+            }
     }
 
 }

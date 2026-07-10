@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private InputAction actionAttack;
     private InputAction actionUse;
+    private InputAction actionInventory;
 
     public float walkSpeed = 3.0f;
     private float playerSpeed;
@@ -31,6 +32,10 @@ public class PlayerController : MonoBehaviour
     private LayerMask targetMask;
 
     private Inventory inventory;
+
+    private GameObject inventoryScreen;
+    private Canvas inventoryCanvas;
+    private Manager uiManager;
 
     private void OnEnable()
     {
@@ -50,6 +55,13 @@ public class PlayerController : MonoBehaviour
             stats = new PlayerStats();
             inventory = new Inventory();
         }
+
+        inventoryScreen = GameObject.Find("InventoryScreen");
+        inventoryCanvas = inventoryScreen.GetComponent<Canvas>();
+        uiManager = GameObject.Find("UI").GetComponent<Manager>();
+        uiManager.giveInventory(inventory);
+
+
     }
 
     private void OnDisable()
@@ -66,12 +78,16 @@ public class PlayerController : MonoBehaviour
         actionStand = InputSystem.actions.FindAction("Stand");
         actionAttack = InputSystem.actions.FindAction("Attack");
         actionUse = InputSystem.actions.FindAction("Use");
+        actionInventory = InputSystem.actions.FindAction("Inventory");
 
     }
 
     private void Update()
     {
-        walk();
+        if (Time.timeScale == 1)
+        {
+            walk();
+        }
         interact();
     }
 
@@ -192,6 +208,20 @@ public class PlayerController : MonoBehaviour
             }           
         }
 
+        if (actionInventory.WasPressedThisFrame())
+        {
+            if (Time.timeScale == 1)
+            {
+                inventoryCanvas.enabled = true;
+                Time.timeScale = 0;
+            }
+            else if (Time.timeScale == 0)
+            {
+                inventoryCanvas.enabled = false;
+                Time.timeScale = 1;
+            }
+        }
+
     }
 
     private void Save()
@@ -261,8 +291,10 @@ public class PlayerController : MonoBehaviour
                     //Debug.Log("New Artifact!");
                     break;
             }
-            Debug.Log("Add inventory lol");
+            //Debug.Log("Add inventory lol");
             }
+            uiManager.giveInventory(inventory);
     }
+    
 
 }

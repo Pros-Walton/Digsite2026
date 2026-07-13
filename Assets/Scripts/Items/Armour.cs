@@ -7,6 +7,7 @@ public class Armour
     public int durability;
     public float used;
     public float damageRate;
+    public string icon;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
     
@@ -31,6 +32,7 @@ public class Armour
                 durability = 0;
                 used = -1.0f;
                 damageRate = 0.0f;
+                icon = "amr_cloth";
                 break;
         }
 

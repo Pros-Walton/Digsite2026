@@ -274,7 +274,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < UnityEngine.Random.Range(1,3); i++)
         {
-            int typeSelector = UnityEngine.Random.Range(0,8);
+            int typeSelector = UnityEngine.Random.Range(4,4);
 
             switch(typeSelector)
             {

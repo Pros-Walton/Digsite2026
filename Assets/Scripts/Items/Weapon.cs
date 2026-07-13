@@ -7,6 +7,7 @@ public class Weapon
     public int durability;
     public float used;
     public float damageRate;
+    public string icon;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public void use()
@@ -29,6 +30,7 @@ public class Weapon
                 durability = 0;
                 used = -1.0f;
                 damageRate = 0.0f;
+                icon = "wep_trowel";
                 break;
         }
 

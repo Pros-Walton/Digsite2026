@@ -4,7 +4,7 @@ public class Item
 {
     public string name;
     public string desc;
-    public string icon_path;
+    public string icon;
 
 
     public Item(int itemID)
@@ -12,8 +12,9 @@ public class Item
         switch(itemID)
         {
             case 0:
-                name = "Artifact 0";
-                desc = "Have you ever heard about Five Nights at Freddy's?";
+                name = "Item 0";
+                desc = "Have you ever heard about Five Nights at Freddy's 2?";
+                icon = "item_0";
                 break;
         }
 

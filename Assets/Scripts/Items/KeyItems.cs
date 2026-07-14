@@ -4,7 +4,7 @@ public class KeyItems
 {
     public string name;
     public string desc;
-    public string icon;
+    public Sprite icon;
 
 
     public KeyItems(int itemID)
@@ -14,7 +14,7 @@ public class KeyItems
             case 0:
                 name = "Key 0";
                 desc = "Have you ever heard about Five Nights at Freddy's 3?";
-                icon = "key_0";
+                icon = Resources.Load<Sprite>("Textures/Items/key_0") as Sprite;
                 break;
         }
 

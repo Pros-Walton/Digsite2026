@@ -54,80 +54,125 @@ public class Manager : MonoBehaviour
 
     public void doArmour()
     {
-        foreach (Button btn in buttonList)
-        {
-            Debug.Log("DESTROY!!");
-            Destroy(btn);
-        }
-        buttonList.RemoveAll( s => s == null);
         Debug.Log("now show armour!");
+        int width = 0;
+        int height = 0;
+        int current = 0;
         foreach (Armour arm in inventory.armours)
         {
+            width = current % 5;
+            height = (int)(current / 5);
+            Vector3 offset = new Vector3(150*width, -150*height, 0);
+
             Button btn = Instantiate(
                 inventoryButton,
-                gridMount, 
+                (gridMount + offset), 
                 Quaternion.identity);
             btn.transform.parent = inventoryGrid.transform;
-            buttonList.Add(btn);
-            Destroy(btn);
-            Debug.Log(arm.name);
+            GameObject image = btn.transform.GetChild(0).gameObject;
+            Image imageProper = image.GetComponent<Image>();
+            imageProper.sprite = arm.icon;
+            current ++;
         }
-        Debug.Log(buttonList.Count);
     }
 
     public void doWeapon()
     {
-        foreach (Button btn in buttonList)
-        {
-            Destroy(btn);
-        }
-        buttonList.RemoveAll( s => s == null);
         Debug.Log("now show weapon!");
+        int width = 0;
+        int height = 0;
+        int current = 0;
         foreach (Weapon wep in inventory.weapons)
         {
-            Debug.Log(wep.name);
+            width = current % 5;
+            height = (int)(current / 5);
+            Vector3 offset = new Vector3(150*width, -150*height, 0);
+            Button btn = Instantiate(
+                inventoryButton,
+                (gridMount + offset), 
+                Quaternion.identity);
+            btn.transform.parent = inventoryGrid.transform;
+            GameObject image = btn.transform.GetChild(0).gameObject;
+            Image imageProper = image.GetComponent<Image>();
+            imageProper.sprite = wep.icon;
+            current ++;
         }
     }
 
     public void doItem()
     {
-        foreach (Button btn in buttonList)
-        {
-            Destroy(btn);
-        }
-        buttonList.RemoveAll( s => s == null);
         Debug.Log("now show item!");
+        int width = 0;
+        int height = 0;
+        int current = 0;
         foreach (Item item in inventory.items)
         {
-            Debug.Log(item.name);
+            width = current % 5;
+            height = (int)(current / 5);
+            Vector3 offset = new Vector3(150*width, -150*height, 0);
+            Button btn = Instantiate(
+                inventoryButton,
+                (gridMount + offset), 
+                Quaternion.identity);
+            btn.transform.parent = inventoryGrid.transform;
+            GameObject image = btn.transform.GetChild(0).gameObject;
+            Image imageProper = image.GetComponent<Image>();
+            imageProper.sprite = item.icon;
+            current ++;
         }
     }
 
     public void doKey()
     {
-        foreach (Button btn in buttonList)
-        {
-            Destroy(btn);
-        }
-        buttonList.RemoveAll( s => s == null);
         Debug.Log("now show key!");
+        int width = 0;
+        int height = 0;
+        int current = 0;
         foreach (KeyItems key in inventory.keys)
         {
-            Debug.Log(key.name);
+            width = current % 5;
+            height = (int)(current / 5);
+            Vector3 offset = new Vector3(150*width, -150*height, 0);
+            Button btn = Instantiate(
+                inventoryButton,
+                (gridMount + offset), 
+                Quaternion.identity);
+            btn.transform.parent = inventoryGrid.transform;
+            GameObject image = btn.transform.GetChild(0).gameObject;
+            Image imageProper = image.GetComponent<Image>();
+            imageProper.sprite = key.icon;
+            current ++;
         }
     }
 
     public void doArtifact()
     {
-        foreach (Button btn in buttonList)
-        {
-            Destroy(btn);
-        }
-        buttonList.RemoveAll( s => s == null);
         Debug.Log("now show artifcat!");
+        int width = 0;
+        int height = 0;
+        int current = 0;
         foreach (Artifact art in inventory.artifacts)
         {
-            Debug.Log(art.name);
+            width = current % 5;
+            height = (int)(current / 5);
+            Vector3 offset = new Vector3(150*width, -150*height, 0);
+            Button btn = Instantiate(
+                inventoryButton,
+                (gridMount + offset), 
+                Quaternion.identity);
+            btn.transform.parent = inventoryGrid.transform;
+            GameObject image = btn.transform.GetChild(0).gameObject;
+            Image imageProper = image.GetComponent<Image>();
+            imageProper.sprite = art.icon;
+            current ++;
+        }
+    }
+
+    public void clearButtons()
+    {
+        foreach(Transform child in inventoryGrid.transform)
+        {
+            Destroy(child.gameObject);
         }
     }
 }

@@ -212,6 +212,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Time.timeScale == 1)
             {
+                uiManager.doArmour();
                 inventoryCanvas.enabled = true;
                 Time.timeScale = 0;
             }
@@ -272,22 +273,45 @@ public class PlayerController : MonoBehaviour
 
     private void collectToInventory()
     {
-        for (int i = 0; i < UnityEngine.Random.Range(1,3); i++)
+        for (int i = 0; i < UnityEngine.Random.Range(5,10); i++)
         {
-            int typeSelector = UnityEngine.Random.Range(4,4);
+            int typeSelector = UnityEngine.Random.Range(4,10);
 
             switch(typeSelector)
             {
                 case 3:
-                    inventory.weapons.Add(new Weapon(UnityEngine.Random.Range(0,0)));
+                    if (inventory.weapons.Count < 15)
+                    {
+                        inventory.weapons.Add(new Weapon(UnityEngine.Random.Range(0,0)));
+                    }
                     //Debug.Log("New Weapon!");
                     break;
-                case 4: 
-                    inventory.armours.Add(new Armour(UnityEngine.Random.Range(0,0)));
+                case 4:
+                    if (inventory.armours.Count < 15)
+                    {
+                        inventory.armours.Add(new Armour(UnityEngine.Random.Range(0,0)));
+                    }
                     //Debug.Log("New Armour!");
                     break;
                 default:
-                    inventory.artifacts.Add(new Artifact(UnityEngine.Random.Range(0,0)));
+                    bool isHere = false;
+                    Artifact art = new Artifact(UnityEngine.Random.Range(0,0));
+                    foreach (Artifact arti in inventory.artifacts)
+                    {
+                        if (arti.name == art.name)
+                        {
+                            isHere = true;
+                            arti.count ++;
+                        }
+                    }
+                    if (isHere)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        inventory.artifacts.Add(art);
+                    }
                     //Debug.Log("New Artifact!");
                     break;
             }

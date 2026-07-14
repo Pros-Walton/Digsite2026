@@ -11,6 +11,14 @@ public class ReadLevel : MonoBehaviour
     public GameObject wallEast;
     public GameObject wallSouth;
     public GameObject wallWest;
+
+    public GameObject floors;
+    public GameObject norths;
+    public GameObject easts;
+    public GameObject souths;
+    public GameObject wests;
+    public GameObject items;
+    public GameObject entites;
     
     private ObjectLists entityListComp;
     private GameObject[] entityList;
@@ -66,7 +74,7 @@ public class ReadLevel : MonoBehaviour
 
             if (curTile.type != 0)
             {
-                Instantiate(
+                GameObject floorInstance = Instantiate(
                     floor, 
                     new Vector3 
                     (
@@ -76,6 +84,8 @@ public class ReadLevel : MonoBehaviour
                     ), 
                     Quaternion.identity
                 );
+
+                floorInstance.transform.parent = floors.transform;
 
                 
             }
@@ -102,7 +112,7 @@ public class ReadLevel : MonoBehaviour
                 {
                     int real_posX = curTile.posX - levelData.radX;
                     int real_posY = curTile.posY - levelData.radY;
-                    Instantiate(
+                    GameObject northInstance = Instantiate(
                         wallNorth, 
                         new Vector3 
                         (
@@ -112,6 +122,7 @@ public class ReadLevel : MonoBehaviour
                         ),
                         Quaternion.Euler(90.0f, 180.0f, 0.0f)
                     );
+                    northInstance.transform.parent = norths.transform;
 
                 }
             }
@@ -130,7 +141,7 @@ public class ReadLevel : MonoBehaviour
                 {
                     int real_posX = curTile.posX - levelData.radX;
                     int real_posY = curTile.posY - levelData.radY;
-                    Instantiate(
+                    GameObject eastInstance = Instantiate(
                         wallEast, 
                         new Vector3 
                         (
@@ -140,6 +151,7 @@ public class ReadLevel : MonoBehaviour
                         ),
                         Quaternion.Euler(90.0f, 270.0f, 0.0f)
                     );
+                    eastInstance.transform.parent = easts.transform;
 
 
                 }
@@ -159,7 +171,7 @@ public class ReadLevel : MonoBehaviour
                 {
                     int real_posX = curTile.posX - levelData.radX;
                     int real_posY = curTile.posY - levelData.radY;
-                    Instantiate(
+                    GameObject southInstance = Instantiate(
                         wallSouth, 
                         new Vector3 
                         (
@@ -169,6 +181,7 @@ public class ReadLevel : MonoBehaviour
                         ),
                         Quaternion.Euler(90.0f, 0.0f, 0.0f)
                     );
+                    southInstance.transform.parent = souths.transform;
 
                 }
             }
@@ -189,7 +202,7 @@ public class ReadLevel : MonoBehaviour
                 {
                     int real_posX = curTile.posX - levelData.radX;
                     int real_posY = curTile.posY - levelData.radY;
-                    Instantiate(
+                    GameObject westInstance = Instantiate(
                         wallWest, 
                         new Vector3 
                         (
@@ -199,6 +212,7 @@ public class ReadLevel : MonoBehaviour
                         ),
                         Quaternion.Euler(90.0f, 90.0f, 0.0f)
                     );
+                    westInstance.transform.parent = wests.transform;
 
                 }
 
@@ -221,7 +235,7 @@ public class ReadLevel : MonoBehaviour
             {
                 int real_posX = curTile.posX - levelData.radX;
                 int real_posY = curTile.posY - levelData.radY;
-                Instantiate(
+                GameObject enemy = Instantiate(
                     entityList[curTile.ent - 1], 
                     new Vector3 
                     (
@@ -231,6 +245,7 @@ public class ReadLevel : MonoBehaviour
                     ), 
                     Quaternion.identity
                 );
+                enemy.transform.parent = entites.transform;
 
             }
         }
@@ -244,7 +259,7 @@ public class ReadLevel : MonoBehaviour
             {
                 int real_posX = curTile.posX - levelData.radX;
                 int real_posY = curTile.posY - levelData.radY;
-                Instantiate(
+                GameObject itemInstance = Instantiate(
                     objList[curTile.obj - 1], 
                     new Vector3 
                     (
@@ -254,6 +269,7 @@ public class ReadLevel : MonoBehaviour
                     ), 
                     Quaternion.identity
                 );
+                itemInstance.transform.parent = items.transform;
 
             }
         }

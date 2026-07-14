@@ -4,7 +4,8 @@ public class Item
 {
     public string name;
     public string desc;
-    public string icon;
+    public int count;
+    public Sprite icon;
 
 
     public Item(int itemID)
@@ -14,7 +15,8 @@ public class Item
             case 0:
                 name = "Item 0";
                 desc = "Have you ever heard about Five Nights at Freddy's 2?";
-                icon = "item_0";
+                count = 1;
+                icon = Resources.Load<Sprite>("Textures/Items/item_0") as Sprite;
                 break;
         }
 

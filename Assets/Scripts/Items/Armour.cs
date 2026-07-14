@@ -7,7 +7,8 @@ public class Armour
     public int durability;
     public float used;
     public float damageRate;
-    public string icon;
+    public string desc;
+    public Sprite icon;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
     
@@ -32,7 +33,8 @@ public class Armour
                 durability = 0;
                 used = -1.0f;
                 damageRate = 0.0f;
-                icon = "amr_cloth";
+                desc = "Have you ever heard of Five Nights at Freddy's Sister Location?";
+                icon = Resources.Load<Sprite>("Textures/Items/amr_cloth") as Sprite;
                 break;
         }
 

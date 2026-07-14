@@ -7,7 +7,8 @@ public class Weapon
     public int durability;
     public float used;
     public float damageRate;
-    public string icon;
+    public string desc;
+    public Sprite icon;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public void use()
@@ -30,7 +31,8 @@ public class Weapon
                 durability = 0;
                 used = -1.0f;
                 damageRate = 0.0f;
-                icon = "wep_trowel";
+                desc = "Have you ever heard of Five Nights at Freddy's 4?";
+                icon = Resources.Load<Sprite>("Textures/Items/wep_trowel") as Sprite;
                 break;
         }
 

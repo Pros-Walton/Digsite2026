@@ -4,7 +4,8 @@ public class Artifact
 {
     public string name;
     public string desc;
-    public string icon;
+    public int count;
+    public Sprite icon;
 
 
     public Artifact(int itemID)
@@ -14,7 +15,8 @@ public class Artifact
             case 0:
                 name = "Artifact 0";
                 desc = "Have you ever heard about Five Nights at Freddy's?";
-                icon = "art_0";
+                count = 1;
+                icon = Resources.Load<Sprite>("Textures/Items/art_0") as Sprite;
                 break;
         }
 

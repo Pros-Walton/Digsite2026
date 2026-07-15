@@ -20,15 +20,20 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Am I even here?");
-        weapon = new Weapon(0);
-        armour = new Armour(0);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void PopulateNew()
+    {
+        Debug.Log("Am I even here?");
+        weapon = new Weapon(0);
+        armour = new Armour(0);
     }
 
     public void GameOver()

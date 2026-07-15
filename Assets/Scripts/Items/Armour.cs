@@ -11,7 +11,6 @@ public class Armour
     public Sprite icon;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
-    
     public void use()
     {
         used += damageRate;
@@ -21,7 +20,6 @@ public class Armour
     {
         return used >= durability;
     }
-
 
     public Armour(int itemID)
     {

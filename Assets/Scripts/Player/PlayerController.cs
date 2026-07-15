@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private float playerSpeed;
     private bool playerIsWalk;
 
-    private int hungerOdds = 1000;
+    private int hungerOdds = 100;
 
     private Vector3 playerWalk;
 
@@ -43,22 +43,20 @@ public class PlayerController : MonoBehaviour
          Debug.Log(stats.stamina);
         InputActions.FindActionMap("Player").Enable();
 
-        bool load = false;
-
-        if (load)
+        if (SceneStates.LoadData)
         {
             Load();
         }
         else
         {
             Debug.Log("New data!");
-            stats = new PlayerStats();
+            stats.PopulateNew();
             inventory = new Inventory();
         }
 
         inventoryScreen = GameObject.Find("InventoryScreen");
         inventoryCanvas = inventoryScreen.GetComponent<Canvas>();
-        uiManager = GameObject.Find("UI").GetComponent<Manager>();
+        uiManager = GameObject.Find("EventSystem").GetComponent<Manager>();
         uiManager.giveInventory(inventory);
 
 
@@ -159,6 +157,7 @@ public class PlayerController : MonoBehaviour
     {
         if (actionAttack.WasPressedThisFrame())
         {
+
             Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f);
 
             if (UnityEngine.Random.Range(0,(hungerOdds/50)) == 0)
@@ -257,7 +256,7 @@ public class PlayerController : MonoBehaviour
         {
             File.Create(statPath);
             File.WriteAllText(statPath,"");
-            stats = new PlayerStats();
+            stats.PopulateNew();
         }
         if (File.Exists(invenPath))
         {

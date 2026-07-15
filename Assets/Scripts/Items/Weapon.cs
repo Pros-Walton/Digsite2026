@@ -26,6 +26,7 @@ public class Weapon
         switch(itemID)
         {
             case 0:
+                Debug.Log("Try to set weapon!");
                 name = "Trowel";
                 attack = 1;
                 durability = 0;

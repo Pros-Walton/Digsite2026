@@ -125,8 +125,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aef8d2b4fbbb061759e1f3477755474e
-      internalID: -1630195765
+      spriteID: baccde0a166335cdf882875fbf887d7a
+      internalID: -1892016546
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc4c103c05228c7ba8f498b31aa701d7
-      internalID: -1820998721
+      spriteID: e3081996353543c2a8e3838162df3b30
+      internalID: -1629179367
       vertices: []
       indices: 
       edges: []
@@ -169,8 +169,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b66faf0b68896d6498c7457303dcf69c
-      internalID: -731608420
+      spriteID: e1d16c6ee5466e866abc3f1b37a453d2
+      internalID: 865222069
       vertices: []
       indices: 
       edges: []
@@ -191,8 +191,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d3314eae3c91ac57971188caf5403f7
-      internalID: -1686030913
+      spriteID: 62c8dcbf593c250a28283df899722380
+      internalID: -2009473024
       vertices: []
       indices: 
       edges: []
@@ -213,8 +213,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7366848dc6158588f92d5a844215745b
-      internalID: -256944976
+      spriteID: 506390f9a100179a4a247aab644b0332
+      internalID: 694701369
       vertices: []
       indices: 
       edges: []
@@ -235,8 +235,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 560e5ae2ce70c346e961d620609ac2d8
-      internalID: 938292749
+      spriteID: b371f55fa58af04dd946b3458987f02f
+      internalID: 850333012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2f44eff3f5600652aef299d07690d05
+      internalID: 1078967904
       vertices: []
       indices: 
       edges: []
@@ -257,12 +279,13 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      HUD_0: -1630195765
-      HUD_1: -1820998721
-      HUD_2: -731608420
-      HUD_3: -1686030913
-      HUD_4: -256944976
-      HUD_5: 938292749
+      HUD_0: -1892016546
+      HUD_1: -1629179367
+      HUD_2: 865222069
+      HUD_3: -2009473024
+      HUD_4: 694701369
+      HUD_5: 850333012
+      HUD_6: 1078967904
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

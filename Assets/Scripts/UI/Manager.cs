@@ -26,14 +26,19 @@ public class Manager : MonoBehaviour
     private Vector3 gridMount; 
 
     private Inventory inventory;
+
+    private float resMult;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        resMult = (Screen.height/1080.0f) * 1.25f;
+        Debug.Log(Screen.height);
+        Debug.Log(resMult);
         stats = player.GetComponent<PlayerStats>();
         ui_depth.text = stats.depth.ToString();
         btn_armour.Select();
 
-        gridMount = new Vector3 (Screen.width/8.5f, Screen.height/1.57f, 0);
+        gridMount = new Vector3 (Screen.width/10.5f, Screen.height/1.57f, 0);
     }
 
     // Update is called once per frame
@@ -62,13 +67,15 @@ public class Manager : MonoBehaviour
         {
             width = current % 5;
             height = (int)(current / 5);
-            Vector3 offset = new Vector3(150*width, -150*height, 0);
+            Vector3 offset = new Vector3((150*width)*resMult, (-150*height)*resMult, 0);
 
             Button btn = Instantiate(
                 inventoryButton,
                 (gridMount + offset), 
                 Quaternion.identity);
             btn.transform.parent = inventoryGrid.transform;
+            btn.transform.localScale = new Vector3(resMult*1.25f,resMult*1.25f,1);
+
             GameObject image = btn.transform.GetChild(0).gameObject;
             Image imageProper = image.GetComponent<Image>();
             imageProper.sprite = arm.icon;
@@ -86,12 +93,14 @@ public class Manager : MonoBehaviour
         {
             width = current % 5;
             height = (int)(current / 5);
-            Vector3 offset = new Vector3(150*width, -150*height, 0);
+            Vector3 offset = new Vector3((150*width)*resMult, (-150*height)*resMult, 0);
             Button btn = Instantiate(
                 inventoryButton,
                 (gridMount + offset), 
                 Quaternion.identity);
             btn.transform.parent = inventoryGrid.transform;
+            btn.transform.localScale = new Vector3(resMult*1.25f,resMult*1.25f,1);
+
             GameObject image = btn.transform.GetChild(0).gameObject;
             Image imageProper = image.GetComponent<Image>();
             imageProper.sprite = wep.icon;
@@ -109,12 +118,14 @@ public class Manager : MonoBehaviour
         {
             width = current % 5;
             height = (int)(current / 5);
-            Vector3 offset = new Vector3(150*width, -150*height, 0);
+            Vector3 offset = new Vector3((150*width)*resMult, (-150*height)*resMult, 0);
             Button btn = Instantiate(
                 inventoryButton,
                 (gridMount + offset), 
                 Quaternion.identity);
             btn.transform.parent = inventoryGrid.transform;
+            btn.transform.localScale = new Vector3(resMult*1.25f,resMult*1.25f,1);
+
             GameObject image = btn.transform.GetChild(0).gameObject;
             Image imageProper = image.GetComponent<Image>();
             imageProper.sprite = item.icon;
@@ -132,12 +143,15 @@ public class Manager : MonoBehaviour
         {
             width = current % 5;
             height = (int)(current / 5);
-            Vector3 offset = new Vector3(150*width, -150*height, 0);
+            Vector3 offset = new Vector3((150*width)*resMult, (-150*height)*resMult, 0);
             Button btn = Instantiate(
                 inventoryButton,
                 (gridMount + offset), 
                 Quaternion.identity);
             btn.transform.parent = inventoryGrid.transform;
+            btn.transform.localScale = new Vector3(resMult*1.25f,resMult*1.25f,1);
+            
+            
             GameObject image = btn.transform.GetChild(0).gameObject;
             Image imageProper = image.GetComponent<Image>();
             imageProper.sprite = key.icon;
@@ -155,12 +169,14 @@ public class Manager : MonoBehaviour
         {
             width = current % 5;
             height = (int)(current / 5);
-            Vector3 offset = new Vector3(150*width, -150*height, 0);
+           Vector3 offset = new Vector3((150*width)*resMult, (-150*height)*resMult, 0);
             Button btn = Instantiate(
                 inventoryButton,
                 (gridMount + offset), 
                 Quaternion.identity);
             btn.transform.parent = inventoryGrid.transform;
+            btn.transform.localScale = new Vector3(resMult*1.25f,resMult*1.25f,1);
+
             GameObject image = btn.transform.GetChild(0).gameObject;
             Image imageProper = image.GetComponent<Image>();
             imageProper.sprite = art.icon;

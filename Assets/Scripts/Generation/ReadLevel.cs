@@ -39,8 +39,11 @@ public class ReadLevel : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        agent = this.GetComponent<DiggerAgent>();
-        agent.runDig();
+        if (!SceneStates.LoadData)
+        {
+            agent = this.GetComponent<DiggerAgent>();
+            agent.runDig();
+        }
         //Debug.Log(path);
 
         readFiles();
@@ -50,7 +53,7 @@ public class ReadLevel : MonoBehaviour
         entityListComp = GetComponentInParent<ObjectLists>();
         entityList = entityListComp.entities;
         objList = entityListComp.items;
-        //spawnEnemies();
+        spawnEnemies();
         spawnObjects();
         //Debug.Log(parsedLevel);
     }

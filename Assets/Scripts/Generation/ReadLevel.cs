@@ -39,7 +39,7 @@ public class ReadLevel : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (!SceneStates.LoadData)
+        if (!States.LoadData)
         {
             agent = this.GetComponent<DiggerAgent>();
             agent.runDig();

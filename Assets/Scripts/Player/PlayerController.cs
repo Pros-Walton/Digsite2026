@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private GameObject inventoryScreen;
     private Canvas inventoryCanvas;
     private Manager uiManager;
+    private ReadoutPanel readout;
 
     private void OnEnable()
     {
@@ -43,7 +44,7 @@ public class PlayerController : MonoBehaviour
          Debug.Log(stats.stamina);
         InputActions.FindActionMap("Player").Enable();
 
-        if (SceneStates.LoadData)
+        if (States.LoadData)
         {
             Load();
         }
@@ -57,6 +58,8 @@ public class PlayerController : MonoBehaviour
         inventoryScreen = GameObject.Find("InventoryScreen");
         inventoryCanvas = inventoryScreen.GetComponent<Canvas>();
         uiManager = GameObject.Find("EventSystem").GetComponent<Manager>();
+        readout = GameObject.Find("Inventory Readout").GetComponent<ReadoutPanel>();
+
         uiManager.giveInventory(inventory);
 
 
@@ -155,7 +158,7 @@ public class PlayerController : MonoBehaviour
 
     private void interact()
     {
-        if (actionAttack.WasPressedThisFrame())
+        if (actionAttack.WasPressedThisFrame() && Time.timeScale == 1)
         {
 
             Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f);
@@ -211,12 +214,16 @@ public class PlayerController : MonoBehaviour
         {
             if (Time.timeScale == 1)
             {
+                readout.clearDetails();
+                uiManager.clearButtons();
                 uiManager.doArmour();
                 inventoryCanvas.enabled = true;
                 Time.timeScale = 0;
             }
             else if (Time.timeScale == 0)
             {
+                readout.clearDetails();
+                uiManager.clearButtons();
                 inventoryCanvas.enabled = false;
                 Time.timeScale = 1;
             }
@@ -293,23 +300,50 @@ public class PlayerController : MonoBehaviour
                     //Debug.Log("New Armour!");
                     break;
                 default:
-                    bool isHere = false;
-                    Artifact art = new Artifact(UnityEngine.Random.Range(0,0));
-                    foreach (Artifact arti in inventory.artifacts)
-                    {
-                        if (arti.name == art.name)
-                        {
-                            isHere = true;
-                            arti.count ++;
-                        }
-                    }
-                    if (isHere)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        inventory.artifacts.Add(art);
+                    int itemType = UnityEngine.Random.Range(0,3);
+                     bool isHere = false;
+                    switch(itemType)
+                    {    
+                        case 0:
+                            Artifact art = new Artifact(UnityEngine.Random.Range(0,0));
+                            stats.score += art.score;
+                            foreach (Artifact arti in inventory.artifacts)
+                            {
+                                if (arti.name == art.name)
+                                {
+                                    isHere = true;
+                                    arti.count ++;
+                                }
+                            }
+                            if (isHere)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                inventory.artifacts.Add(art);
+                            }
+                            break;
+                        case 1:
+                            Item item = new Item(UnityEngine.Random.Range(0,2));
+                            foreach (Item items in inventory.items)
+                            {
+                                Debug.Log(items.name + ", " + item.name);
+                                if (items.name == item.name)
+                                {
+                                    isHere = true;
+                                    items.count ++;
+                                }
+                            }
+                            if (isHere)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                inventory.items.Add(item);
+                            }
+                            break;
                     }
                     //Debug.Log("New Artifact!");
                     break;

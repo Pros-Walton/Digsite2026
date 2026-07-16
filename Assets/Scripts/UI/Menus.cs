@@ -35,13 +35,13 @@ public class Menus : MonoBehaviour
 
     public void New()
     {
-        SceneStates.LoadData = false;
+        States.LoadData = false;
         SceneManager.LoadScene("Scenes/Loading");
     }
 
     public void Load()
     {
-        SceneStates.LoadData = true;
+        States.LoadData = true;
         SceneManager.LoadScene("Scenes/Loading");
     }
 }

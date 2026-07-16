@@ -17,7 +17,7 @@ public class Manager : MonoBehaviour
 
     public Button btn_armour;
 
-    public Button inventoryButton;
+    public Button[] inventoryButtons;
 
     private List<Button> buttonList = new List<Button>();
 
@@ -26,6 +26,7 @@ public class Manager : MonoBehaviour
     private Vector3 gridMount; 
 
     private Inventory inventory;
+
 
     private float resMult;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -39,6 +40,7 @@ public class Manager : MonoBehaviour
         btn_armour.Select();
 
         gridMount = new Vector3 (Screen.width/10.5f, Screen.height/1.57f, 0);
+
     }
 
     // Update is called once per frame
@@ -63,6 +65,7 @@ public class Manager : MonoBehaviour
         int width = 0;
         int height = 0;
         int current = 0;
+
         foreach (Armour arm in inventory.armours)
         {
             width = current % 5;
@@ -70,7 +73,7 @@ public class Manager : MonoBehaviour
             Vector3 offset = new Vector3((150*width)*resMult, (-150*height)*resMult, 0);
 
             Button btn = Instantiate(
-                inventoryButton,
+                inventoryButtons[0],
                 (gridMount + offset), 
                 Quaternion.identity);
             btn.transform.parent = inventoryGrid.transform;
@@ -79,6 +82,11 @@ public class Manager : MonoBehaviour
             GameObject image = btn.transform.GetChild(0).gameObject;
             Image imageProper = image.GetComponent<Image>();
             imageProper.sprite = arm.icon;
+
+            ArmourBtn amrBtn = btn.GetComponent<ArmourBtn>();
+
+            amrBtn.setArmour(arm);
+
             current ++;
         }
     }
@@ -89,13 +97,14 @@ public class Manager : MonoBehaviour
         int width = 0;
         int height = 0;
         int current = 0;
+
         foreach (Weapon wep in inventory.weapons)
         {
             width = current % 5;
             height = (int)(current / 5);
             Vector3 offset = new Vector3((150*width)*resMult, (-150*height)*resMult, 0);
             Button btn = Instantiate(
-                inventoryButton,
+                inventoryButtons[1],
                 (gridMount + offset), 
                 Quaternion.identity);
             btn.transform.parent = inventoryGrid.transform;
@@ -104,6 +113,11 @@ public class Manager : MonoBehaviour
             GameObject image = btn.transform.GetChild(0).gameObject;
             Image imageProper = image.GetComponent<Image>();
             imageProper.sprite = wep.icon;
+
+            WeaponBtn wepBtn = btn.GetComponent<WeaponBtn>();
+            
+            wepBtn.setWeapon(wep);
+
             current ++;
         }
     }
@@ -114,13 +128,14 @@ public class Manager : MonoBehaviour
         int width = 0;
         int height = 0;
         int current = 0;
+
         foreach (Item item in inventory.items)
         {
             width = current % 5;
             height = (int)(current / 5);
             Vector3 offset = new Vector3((150*width)*resMult, (-150*height)*resMult, 0);
             Button btn = Instantiate(
-                inventoryButton,
+                inventoryButtons[2],
                 (gridMount + offset), 
                 Quaternion.identity);
             btn.transform.parent = inventoryGrid.transform;
@@ -129,6 +144,10 @@ public class Manager : MonoBehaviour
             GameObject image = btn.transform.GetChild(0).gameObject;
             Image imageProper = image.GetComponent<Image>();
             imageProper.sprite = item.icon;
+
+            ItemBtn itemBtn = btn.GetComponent<ItemBtn>();
+            
+            itemBtn.setItem(item);
             current ++;
         }
     }
@@ -139,13 +158,14 @@ public class Manager : MonoBehaviour
         int width = 0;
         int height = 0;
         int current = 0;
-        foreach (KeyItems key in inventory.keys)
+
+        foreach (Key key in inventory.keys)
         {
             width = current % 5;
             height = (int)(current / 5);
             Vector3 offset = new Vector3((150*width)*resMult, (-150*height)*resMult, 0);
             Button btn = Instantiate(
-                inventoryButton,
+                inventoryButtons[3],
                 (gridMount + offset), 
                 Quaternion.identity);
             btn.transform.parent = inventoryGrid.transform;
@@ -155,6 +175,11 @@ public class Manager : MonoBehaviour
             GameObject image = btn.transform.GetChild(0).gameObject;
             Image imageProper = image.GetComponent<Image>();
             imageProper.sprite = key.icon;
+
+            KeyBtn keyBtn = btn.GetComponent<KeyBtn>();
+            
+            keyBtn.setKey(key);
+
             current ++;
         }
     }
@@ -171,7 +196,7 @@ public class Manager : MonoBehaviour
             height = (int)(current / 5);
            Vector3 offset = new Vector3((150*width)*resMult, (-150*height)*resMult, 0);
             Button btn = Instantiate(
-                inventoryButton,
+                inventoryButtons[4],
                 (gridMount + offset), 
                 Quaternion.identity);
             btn.transform.parent = inventoryGrid.transform;
@@ -180,6 +205,11 @@ public class Manager : MonoBehaviour
             GameObject image = btn.transform.GetChild(0).gameObject;
             Image imageProper = image.GetComponent<Image>();
             imageProper.sprite = art.icon;
+
+            ArtifactBtn artBtn = btn.GetComponent<ArtifactBtn>();
+            
+            artBtn.setArtifact(art);
+
             current ++;
         }
     }

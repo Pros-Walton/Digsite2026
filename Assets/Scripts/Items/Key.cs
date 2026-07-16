@@ -1,15 +1,17 @@
 using UnityEngine;
 
-public class KeyItems
+public class Key
 {
     public string name;
     public string desc;
+    private int id;
     public Sprite icon;
 
 
-    public KeyItems(int itemID)
+    public Key(int itemID)
     {
-        switch(itemID)
+        id = itemID;
+        switch(id)
         {
             case 0:
                 name = "Key 0";
@@ -17,6 +19,15 @@ public class KeyItems
                 icon = Resources.Load<Sprite>("Textures/Items/key_0") as Sprite;
                 break;
         }
+    }
 
+    public void use()
+    {
+        switch(id)
+        {
+            case 0:
+                Debug.Log("Case 0");
+                break;
+        }
     }
 }

@@ -7,7 +7,7 @@ public class Inventory
     public List<Weapon> weapons;
     public List<Armour> armours;
     public List<Artifact> artifacts;
-    public List<KeyItems> keys;
+    public List<Key> keys;
     public List<Item> items;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -16,7 +16,7 @@ public class Inventory
         armours = new List<Armour>();
         weapons = new List<Weapon>();
         artifacts = new List<Artifact>();
-        keys = new List<KeyItems>();
+        keys = new List<Key>();
         items = new List<Item>();
     }
 

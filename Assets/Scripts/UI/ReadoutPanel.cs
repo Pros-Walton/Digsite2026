@@ -62,7 +62,7 @@ public class ReadoutPanel : MonoBehaviour
         }
         else
         {
-            armDur.text = ("DURABILITY: " + States.armCurUse + "/" + States.armDur);
+            armDur.text = ("DURABILITY: " + (States.armDur - States.armCurUse) + "/" + States.armDur);
         }
         
         wepDef.text = ("ATTACK: " + States.wepAtk);
@@ -72,7 +72,7 @@ public class ReadoutPanel : MonoBehaviour
         }
         else
         {
-            wepDur.text = ("DURABILITY: " + States.wepCurUse + "/" + States.wepDur);
+            wepDur.text = ("DURABILITY: " + (States.wepDur - States.wepCurUse) + "/" + States.wepDur);
         }
 
         itemAffect.text = States.itemAffect;

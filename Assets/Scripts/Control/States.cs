@@ -1,8 +1,11 @@
 using UnityEngine;
+using static Inventory;
 
 public static class States
 {
     public static bool LoadData {get; set;}
+
+    public static Inventory inventory {get; set;}
 
     public static string itemName {get; set;}
     public static string itemDesc {get; set;}

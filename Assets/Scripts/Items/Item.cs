@@ -35,21 +35,18 @@ public class Item
 
     public void use()
     {
-        if (count > 0)
+        PlayerStats stats = GameObject.Find("Player Temp").GetComponent<PlayerStats>();
+        switch(id)
         {
-            PlayerStats stats = GameObject.Find("Player Temp").GetComponent<PlayerStats>();
-            switch(id)
-            {
-                case 0:
-                    stats.health = Mathf.Min((stats.health + 10), stats.health_max);
-                    break;
-                case 1:
-                    stats.stamina = Mathf.Min((stats.stamina + 10), stats.stamina_max);
-                    break;
+            case 0:
+                stats.health = Mathf.Min((stats.health + 10), stats.health_max);
+                break;
+            case 1:
+                stats.stamina = Mathf.Min((stats.stamina + 10), stats.stamina_max);
+                break;
 
-            }
-            count -= 1;
-            States.itemCount = count;
         }
+        count -= 1;
+        States.itemCount = count;
     }
 }

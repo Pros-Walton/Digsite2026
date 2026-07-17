@@ -14,6 +14,8 @@ public class Manager : MonoBehaviour
     public TMP_Text ui_score;
     public TMP_Text ui_gold;
     public TMP_Text ui_depth;
+    public TMP_Text ui_armour;
+    public TMP_Text ui_weapon;
 
     public Button btn_armour;
 
@@ -24,9 +26,6 @@ public class Manager : MonoBehaviour
     public GameObject inventoryGrid;
 
     private Vector3 gridMount; 
-
-    private Inventory inventory;
-
 
     private float resMult;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -51,12 +50,33 @@ public class Manager : MonoBehaviour
         ui_gold.text = stats.gold.ToString();
         ui_score.text = stats.score.ToString();
 
+        if (stats.armour.durability == 0)
+        {
+            ui_armour.text = (stats.armour.defense + ",INF");
+        }
+        else
+        {
+            ui_armour.text = (stats.armour.defense + 
+            "," + 
+            (stats.armour.durability - stats.armour.used) + 
+            "/" + 
+            stats.armour.durability);
+        }
 
-    }
 
-    public void giveInventory(Inventory inventoryGive)
-    {
-        inventory = inventoryGive;
+        if (stats.weapon.durability == 0)
+        {
+            ui_weapon.text = (stats.weapon.attack + ",INF");
+        }
+        else
+        {
+            ui_weapon.text = (stats.weapon.attack + 
+            "," + 
+            (stats.weapon.durability - stats.weapon.used) + 
+            "/" + 
+            stats.weapon.durability);
+        }
+
     }
 
     public void doArmour()
@@ -66,7 +86,7 @@ public class Manager : MonoBehaviour
         int height = 0;
         int current = 0;
 
-        foreach (Armour arm in inventory.armours)
+        foreach (Armour arm in States.inventory.armours)
         {
             width = current % 5;
             height = (int)(current / 5);
@@ -85,7 +105,7 @@ public class Manager : MonoBehaviour
 
             ArmourBtn amrBtn = btn.GetComponent<ArmourBtn>();
 
-            amrBtn.setArmour(arm);
+            amrBtn.setArmour(arm, current);
 
             current ++;
         }
@@ -98,7 +118,7 @@ public class Manager : MonoBehaviour
         int height = 0;
         int current = 0;
 
-        foreach (Weapon wep in inventory.weapons)
+        foreach (Weapon wep in States.inventory.weapons)
         {
             width = current % 5;
             height = (int)(current / 5);
@@ -116,7 +136,7 @@ public class Manager : MonoBehaviour
 
             WeaponBtn wepBtn = btn.GetComponent<WeaponBtn>();
             
-            wepBtn.setWeapon(wep);
+            wepBtn.setWeapon(wep, current);
 
             current ++;
         }
@@ -129,7 +149,7 @@ public class Manager : MonoBehaviour
         int height = 0;
         int current = 0;
 
-        foreach (Item item in inventory.items)
+        foreach (Item item in States.inventory.items)
         {
             width = current % 5;
             height = (int)(current / 5);
@@ -147,7 +167,7 @@ public class Manager : MonoBehaviour
 
             ItemBtn itemBtn = btn.GetComponent<ItemBtn>();
             
-            itemBtn.setItem(item);
+            itemBtn.setItem(item, current);
             current ++;
         }
     }
@@ -159,7 +179,7 @@ public class Manager : MonoBehaviour
         int height = 0;
         int current = 0;
 
-        foreach (Key key in inventory.keys)
+        foreach (Key key in States.inventory.keys)
         {
             width = current % 5;
             height = (int)(current / 5);
@@ -190,7 +210,7 @@ public class Manager : MonoBehaviour
         int width = 0;
         int height = 0;
         int current = 0;
-        foreach (Artifact art in inventory.artifacts)
+        foreach (Artifact art in States.inventory.artifacts)
         {
             width = current % 5;
             height = (int)(current / 5);

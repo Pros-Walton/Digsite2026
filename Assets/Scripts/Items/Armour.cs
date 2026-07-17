@@ -34,6 +34,15 @@ public class Armour
                 desc = "Have you ever heard of Five Nights at Freddy's Sister Location?";
                 icon = Resources.Load<Sprite>("Textures/Items/amr_cloth") as Sprite;
                 break;
+            case 1:
+                name = "Chain";
+                defense = 2;
+                durability = 64;
+                used = 0.0f;
+                damageRate = 1.0f;
+                desc = "Chain.";
+                icon = Resources.Load<Sprite>("Textures/Items/amr_chain") as Sprite;
+                break;
         }
 
     }

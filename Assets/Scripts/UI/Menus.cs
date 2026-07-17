@@ -18,14 +18,11 @@ public class Menus : MonoBehaviour
 
     public void Quit()
     {
-        if(Application.isEditor)
-        {
-            //UnityEditor.EditorApplication.ExitPlaymode();
-        }
-        else
-        {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.ExitPlaymode();
+        #endif
             Application.Quit();
-        }
+
     }
 
     public void Menu()

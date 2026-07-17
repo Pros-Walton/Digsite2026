@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private InputAction actionAttack;
     private InputAction actionUse;
     private InputAction actionInventory;
+    private InputAction actionPause;
 
     public float walkSpeed = 3.0f;
     private float playerSpeed;
@@ -31,12 +32,10 @@ public class PlayerController : MonoBehaviour
 
     private LayerMask targetMask;
 
-    private Inventory inventory;
-
-    private GameObject inventoryScreen;
     private Canvas inventoryCanvas;
     private Manager uiManager;
     private ReadoutPanel readout;
+    private Canvas pauseMenu;
 
     private void OnEnable()
     {
@@ -52,15 +51,13 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("New data!");
             stats.PopulateNew();
-            inventory = new Inventory();
+            States.inventory = new Inventory();
         }
 
-        inventoryScreen = GameObject.Find("InventoryScreen");
-        inventoryCanvas = inventoryScreen.GetComponent<Canvas>();
+        inventoryCanvas = GameObject.Find("InventoryScreen").GetComponent<Canvas>();
+        pauseMenu = GameObject.Find("PauseMenu").GetComponent<Canvas>();
         uiManager = GameObject.Find("EventSystem").GetComponent<Manager>();
         readout = GameObject.Find("Inventory Readout").GetComponent<ReadoutPanel>();
-
-        uiManager.giveInventory(inventory);
 
 
     }
@@ -80,6 +77,7 @@ public class PlayerController : MonoBehaviour
         actionAttack = InputSystem.actions.FindAction("Attack");
         actionUse = InputSystem.actions.FindAction("Use");
         actionInventory = InputSystem.actions.FindAction("Inventory");
+        actionPause = InputSystem.actions.FindAction("Pause");
 
     }
 
@@ -158,75 +156,13 @@ public class PlayerController : MonoBehaviour
 
     private void interact()
     {
-        if (actionAttack.WasPressedThisFrame() && Time.timeScale == 1)
+        attack();
+        use();
+        inventoryCheck();
+
+        if (actionPause.WasPressedThisFrame())
         {
-
-            Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f);
-
-            if (UnityEngine.Random.Range(0,(hungerOdds/50)) == 0)
-            {
-                stats.stamina -= 0.3f;
-            }
-
-            foreach (Collider target in targets)
-            {
-                Vector3 targetAngle = (target.transform.position - transform.position).normalized;
-                if (Vector3.Angle(transform.forward, targetAngle) < 60)
-                {
-                    if (target.gameObject.name.Contains("Enemy"))
-                    {
-                        EnemyPoilot enemy = target.gameObject.GetComponent<EnemyPoilot>();
-                        enemy.HP -= (stats.weapon.attack * (3.0f) / enemy.defense);
-                        stats.weapon.use();
-                        target.gameObject.transform.position -= target.gameObject.transform.forward;
-                        if (enemy.HP <= 0)
-                        {
-                            Destroy(target.gameObject);
-                            stats.score += 10;
-                        }
-                    }
-
-                }
-            }
-        }
-
-        if (actionUse.WasPressedThisFrame())
-        {
-            Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f);
-
-
-            foreach (Collider target in targets)
-            {
-                Vector3 targetAngle = (target.transform.position - transform.position).normalized;
-                if (Vector3.Angle(transform.forward, targetAngle) < 60)
-                {
-                    if (target.gameObject.name.Contains("Item"))
-                    {
-                        collectToInventory();
-                        Destroy(target.gameObject);
-                    }
-
-                }
-            }           
-        }
-
-        if (actionInventory.WasPressedThisFrame())
-        {
-            if (Time.timeScale == 1)
-            {
-                readout.clearDetails();
-                uiManager.clearButtons();
-                uiManager.doArmour();
-                inventoryCanvas.enabled = true;
-                Time.timeScale = 0;
-            }
-            else if (Time.timeScale == 0)
-            {
-                readout.clearDetails();
-                uiManager.clearButtons();
-                inventoryCanvas.enabled = false;
-                Time.timeScale = 1;
-            }
+            pause();
         }
 
     }
@@ -267,13 +203,13 @@ public class PlayerController : MonoBehaviour
         }
         if (File.Exists(invenPath))
         {
-            inventory = JsonUtility.FromJson<Inventory>(File.ReadAllText(invenPath));   
+            States.inventory = JsonUtility.FromJson<Inventory>(File.ReadAllText(invenPath));   
         }
         else
         {
             File.Create(invenPath);
             File.WriteAllText(invenPath,"");
-            inventory = new Inventory();
+            States.inventory = new Inventory();
         }
     }
 
@@ -281,76 +217,174 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < UnityEngine.Random.Range(5,10); i++)
         {
-            int typeSelector = UnityEngine.Random.Range(4,10);
+            int typeSelector = UnityEngine.Random.Range(0,10);
 
             switch(typeSelector)
             {
                 case 3:
-                    if (inventory.weapons.Count < 15)
+                    if (States.inventory.weapons.Count < 15)
                     {
-                        inventory.weapons.Add(new Weapon(UnityEngine.Random.Range(0,0)));
+                        States.inventory.weapons.Add(new Weapon(UnityEngine.Random.Range(1,2)));
                     }
                     //Debug.Log("New Weapon!");
                     break;
                 case 4:
-                    if (inventory.armours.Count < 15)
+                    if (States.inventory.armours.Count < 15)
                     {
-                        inventory.armours.Add(new Armour(UnityEngine.Random.Range(0,0)));
+                        States.inventory.armours.Add(new Armour(UnityEngine.Random.Range(1,2)));
                     }
                     //Debug.Log("New Armour!");
                     break;
                 default:
-                    int itemType = UnityEngine.Random.Range(0,3);
-                     bool isHere = false;
-                    switch(itemType)
-                    {    
-                        case 0:
-                            Artifact art = new Artifact(UnityEngine.Random.Range(0,0));
-                            stats.score += art.score;
-                            foreach (Artifact arti in inventory.artifacts)
-                            {
-                                if (arti.name == art.name)
-                                {
-                                    isHere = true;
-                                    arti.count ++;
-                                }
-                            }
-                            if (isHere)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                inventory.artifacts.Add(art);
-                            }
-                            break;
-                        case 1:
-                            Item item = new Item(UnityEngine.Random.Range(0,2));
-                            foreach (Item items in inventory.items)
-                            {
-                                Debug.Log(items.name + ", " + item.name);
-                                if (items.name == item.name)
-                                {
-                                    isHere = true;
-                                    items.count ++;
-                                }
-                            }
-                            if (isHere)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                inventory.items.Add(item);
-                            }
-                            break;
-                    }
+                    generateLoot();
                     //Debug.Log("New Artifact!");
                     break;
             }
             //Debug.Log("Add inventory lol");
             }
-            uiManager.giveInventory(inventory);
+    }
+
+    private void attack()
+    {
+        if (actionAttack.WasPressedThisFrame() && Time.timeScale == 1)
+        {
+
+            Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f);
+
+            if (UnityEngine.Random.Range(0,(hungerOdds/50)) == 0)
+            {
+                stats.stamina -= 0.3f;
+            }
+
+            foreach (Collider target in targets)
+            {
+                Vector3 targetAngle = (target.transform.position - transform.position).normalized;
+                if (Vector3.Angle(transform.forward, targetAngle) < 60)
+                {
+                    if (target.gameObject.name.Contains("Enemy"))
+                    {
+                        EnemyPoilot enemy = target.gameObject.GetComponent<EnemyPoilot>();
+                        enemy.HP -= ((float)stats.weapon.attack * (3.0f) / enemy.defense);
+                        stats.weapon.use();
+                        if (stats.weapon.shouldBreak())
+                            {
+                                stats.weapon = States.inventory.weapons[0];
+                                States.inventory.weapons.RemoveAt(0);
+                            }
+                        target.gameObject.transform.position -= target.gameObject.transform.forward;
+                        if (enemy.HP <= 0)
+                        {
+                            Destroy(target.gameObject);
+                            stats.score += 10;
+                        }
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    private void use()
+    {
+        if (actionUse.WasPressedThisFrame())
+        {
+            Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f);
+
+
+            foreach (Collider target in targets)
+            {
+                Vector3 targetAngle = (target.transform.position - transform.position).normalized;
+                if (Vector3.Angle(transform.forward, targetAngle) < 60)
+                {
+                    if (target.gameObject.name.Contains("Item"))
+                    {
+                        collectToInventory();
+                        Destroy(target.gameObject);
+                    }
+
+                }
+            }           
+        }
+
+    }
+
+    private void inventoryCheck()
+    {
+        if (actionInventory.WasPressedThisFrame())
+        {
+            if (Time.timeScale == 1)
+            {
+                readout.clearDetails();
+                uiManager.clearButtons();
+                uiManager.doArmour();
+                inventoryCanvas.enabled = true;
+                Time.timeScale = 0;
+            }
+            else if (Time.timeScale == 0)
+            {
+                readout.clearDetails();
+                uiManager.clearButtons();
+                inventoryCanvas.enabled = false;
+                Time.timeScale = 1;
+            }
+        }
+    }
+
+    private void generateLoot()
+    {
+        int itemType = UnityEngine.Random.Range(0,3);
+        bool isHere = false;
+        switch(itemType)
+        {    
+            case 0:
+                Artifact art = new Artifact(UnityEngine.Random.Range(0,0));
+                stats.score += art.score;
+                foreach (Artifact arti in States.inventory.artifacts)
+                {
+                    if (arti.name == art.name)
+                    {
+                        isHere = true;
+                        arti.count ++;
+                    }
+                }
+                if (!isHere)
+                {
+                    States.inventory.artifacts.Add(art);
+                }
+                break;
+            case 1:
+                Item item = new Item(UnityEngine.Random.Range(0,2));
+                foreach (Item items in States.inventory.items)
+                {
+                    Debug.Log(items.name + ", " + item.name);
+                    if (items.name == item.name)
+                    {
+                        isHere = true;
+                        items.count ++;
+                    }
+                }
+                if (!isHere)
+                {
+                    States.inventory.items.Add(item);
+                }
+                break;
+        }
+    }
+
+    public void pause()
+    {
+            if (Time.timeScale == 1)
+            {
+                pauseMenu.enabled = true;
+                Time.timeScale = 0;
+            }
+            else if (Time.timeScale == 0)
+            {
+                pauseMenu.enabled = false;
+                Time.timeScale = 1;
+            }
+
     }
     
 

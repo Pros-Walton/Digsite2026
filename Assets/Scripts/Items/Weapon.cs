@@ -26,7 +26,6 @@ public class Weapon
         switch(itemID)
         {
             case 0:
-                Debug.Log("Try to set weapon!");
                 name = "Trowel";
                 attack = 1;
                 durability = 0;
@@ -34,6 +33,15 @@ public class Weapon
                 damageRate = 0.0f;
                 desc = "Have you ever heard of Five Nights at Freddy's 4?";
                 icon = Resources.Load<Sprite>("Textures/Items/wep_trowel") as Sprite;
+                break;
+            case 1:
+                name = "Knife";
+                attack = 3;
+                durability = 64;
+                used = 0.0f;
+                damageRate = 1.0f;
+                desc = "Stabby stabby!";
+                icon = Resources.Load<Sprite>("Textures/Items/wep_knife") as Sprite;
                 break;
         }
 

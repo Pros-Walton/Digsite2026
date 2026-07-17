@@ -10,6 +10,10 @@ public class ItemBtn : MonoBehaviour
     private GameObject details;
     private Canvas canvas;
 
+    private Manager manager;
+
+    private int pointer;
+
 
     public void Start()
     {
@@ -17,13 +21,15 @@ public class ItemBtn : MonoBehaviour
         btn = btnObject.GetComponent<Button>();
         details = GameObject.Find("ItemDetails");
         canvas = details.GetComponent<Canvas>();
+        manager = GameObject.Find("EventSystem").GetComponent<Manager>();
         
 
     }
 
-    public void setItem(Item giveItem)
+    public void setItem(Item giveItem, int point)
     {
         item = giveItem;
+        pointer = point;
     }
 
     public void CurrentItem()
@@ -42,6 +48,16 @@ public class ItemBtn : MonoBehaviour
     public void use()
     {
         item.use();
+        if (States.inventory.items[pointer].count <= 0)
+        {
+            States.inventory.items.RemoveAt(pointer);
+            manager.clearButtons();
+            manager.doItem();
+            States.itemName = null;
+            States.itemDesc = null;
+            States.itemIcon = null;
+            canvas.enabled = false;
+        }
     }
 
 }

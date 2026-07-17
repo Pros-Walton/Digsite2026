@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponBtn : MonoBehaviour
 {
@@ -6,30 +7,57 @@ public class WeaponBtn : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private GameObject details;
     private Canvas canvas;
+    private Button button;
+
+    private int pointer;
+
+    private Manager manager;
 
 
     public void Start()
     {
         details = GameObject.Find("WeaponDetails");
         canvas = details.GetComponent<Canvas>();
+        button = GameObject.Find("WeaponDetailButton").GetComponent<Button>();
+        manager = GameObject.Find("EventSystem").GetComponent<Manager>();
 
     }
 
-    public void setWeapon(Weapon giveWeapon)
+    public void setWeapon(Weapon giveWeapon, int point)
     {
         weapon = giveWeapon;
+        pointer = point;
     }
 
     public void CurrentItem()
+    {
+        button.onClick.RemoveAllListeners();
+        setDetails();
+        button.onClick.AddListener(equipWeapon);
+
+        canvas.enabled = true;
+    }
+
+    public void equipWeapon()
+    {
+        PlayerStats stats = GameObject.Find("Player Temp").GetComponent<PlayerStats>();
+        Weapon current = stats.weapon;
+        stats.weapon = weapon;
+        weapon = current;
+        States.inventory.weapons[pointer] = weapon;
+        setDetails();
+        manager.clearButtons();
+        manager.doWeapon();
+    }
+
+    private void setDetails()
     {
         States.itemName = weapon.name;
         States.itemDesc = weapon.desc;
         States.itemIcon = weapon.icon;
         States.wepAtk = weapon.attack;
-        States.armCurUse = (int)weapon.used;
-        States.armDur = weapon.durability;
-
-        canvas.enabled = true;
+        States.wepCurUse = (int)weapon.used;
+        States.wepDur = weapon.durability;
     }
 
 }

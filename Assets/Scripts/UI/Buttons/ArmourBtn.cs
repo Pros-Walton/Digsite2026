@@ -39,9 +39,8 @@ public class ArmourBtn : MonoBehaviour
 
     public void equipArmour()
     {
-        PlayerStats stats = GameObject.Find("Player Temp").GetComponent<PlayerStats>();
-        Armour current = stats.armour;
-        stats.armour = armour;
+        Armour current = States.stats.armour;
+        States.stats.armour = armour;
         armour = current;
         States.inventory.armours[pointer] = armour;
         setDetails();

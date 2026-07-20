@@ -4,18 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class Menus : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Quit()
     {
         #if UNITY_EDITOR
@@ -32,12 +20,14 @@ public class Menus : MonoBehaviour
 
     public void New()
     {
+        Time.timeScale = 1;
         States.LoadData = false;
         SceneManager.LoadScene("Scenes/Loading");
     }
 
     public void Load()
     {
+        Time.timeScale = 1;
         States.LoadData = true;
         SceneManager.LoadScene("Scenes/Loading");
     }

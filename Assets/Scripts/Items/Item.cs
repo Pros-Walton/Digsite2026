@@ -35,14 +35,13 @@ public class Item
 
     public void use()
     {
-        PlayerStats stats = GameObject.Find("Player Temp").GetComponent<PlayerStats>();
         switch(id)
         {
             case 0:
-                stats.health = Mathf.Min((stats.health + 10), stats.health_max);
+                States.stats.health = Mathf.Min((States.stats.health + 10), States.stats.health_max);
                 break;
             case 1:
-                stats.stamina = Mathf.Min((stats.stamina + 10), stats.stamina_max);
+                States.stats.stamina = Mathf.Min((States.stats.stamina + 10), States.stats.stamina_max);
                 break;
 
         }

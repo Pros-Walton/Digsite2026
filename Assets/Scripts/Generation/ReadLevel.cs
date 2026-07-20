@@ -58,12 +58,6 @@ public class ReadLevel : MonoBehaviour
         //Debug.Log(parsedLevel);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void readTile()
     {
         foreach (string string_level in levelData.data)
@@ -232,6 +226,7 @@ public class ReadLevel : MonoBehaviour
 
     private void spawnEnemies()
     {
+        int current = 0;
         foreach (Tile curTile in tileSet)
         {
             if (curTile.ent != 0)
@@ -251,6 +246,7 @@ public class ReadLevel : MonoBehaviour
                 enemy.transform.parent = entites.transform;
 
             }
+            current ++;
         }
     }
 
@@ -280,18 +276,15 @@ public class ReadLevel : MonoBehaviour
 
     private void readFiles()
     {        
-        string levPath = Application.persistentDataPath + "/level.json";
+        string levPath = Application.persistentDataPath + "/Save/level.json";
 
-        if (File.Exists(levPath))
-        {
-            levelData = JsonUtility.FromJson<LevelData>(File.ReadAllText(levPath));
-        }
-        else
+        if (!File.Exists(levPath))
         {
             File.Create(levPath);
-            File.WriteAllText(levPath,"");
-            levelData = JsonUtility.FromJson<LevelData>(File.ReadAllText(levPath));
+            agent = this.GetComponent<DiggerAgent>();
+            agent.runDig();
         }
+        levelData = JsonUtility.FromJson<LevelData>(File.ReadAllText(levPath));
     }
 
 }

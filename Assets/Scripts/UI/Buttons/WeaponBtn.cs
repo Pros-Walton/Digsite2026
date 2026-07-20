@@ -40,9 +40,8 @@ public class WeaponBtn : MonoBehaviour
 
     public void equipWeapon()
     {
-        PlayerStats stats = GameObject.Find("Player Temp").GetComponent<PlayerStats>();
-        Weapon current = stats.weapon;
-        stats.weapon = weapon;
+        Weapon current = States.stats.weapon;
+        States.stats.weapon = weapon;
         weapon = current;
         States.inventory.weapons[pointer] = weapon;
         setDetails();

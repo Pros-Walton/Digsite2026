@@ -48,7 +48,7 @@ public class DiggerAgent : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void runDig()
     {
-        string path = (Application.persistentDataPath + "/level.json");
+        string path = (Application.persistentDataPath + "/Save/level.json");
         grid = new int[width,height];
         dungeonSize = height*width;
         if (File.Exists(path))

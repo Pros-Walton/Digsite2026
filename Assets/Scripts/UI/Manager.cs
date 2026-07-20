@@ -31,11 +31,10 @@ public class Manager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        resMult = (Screen.height/1080.0f) * 1.25f;
+        resMult = (Screen.height/1080.0f);
         Debug.Log(Screen.height);
         Debug.Log(resMult);
-        stats = player.GetComponent<PlayerStats>();
-        ui_depth.text = stats.depth.ToString();
+        ui_depth.text = States.stats.depth.ToString();
         btn_armour.Select();
 
         gridMount = new Vector3 (Screen.width/10.5f, Screen.height/1.57f, 0);
@@ -45,36 +44,36 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ui_health.text = (((int)stats.health).ToString() + "/" + stats.health_max.ToString());
-        ui_stamina.text = (((int)stats.stamina).ToString() + "/" + stats.stamina_max.ToString());
-        ui_gold.text = stats.gold.ToString();
-        ui_score.text = stats.score.ToString();
+        ui_health.text = (((int)States.stats.health).ToString() + "/" + States.stats.health_max.ToString());
+        ui_stamina.text = (((int)States.stats.stamina).ToString() + "/" + States.stats.stamina_max.ToString());
+        ui_gold.text = States.stats.gold.ToString();
+        ui_score.text = States.stats.score.ToString();
 
-        if (stats.armour.durability == 0)
+        if (States.stats.armour.durability == 0)
         {
-            ui_armour.text = (stats.armour.defense + ",INF");
+            ui_armour.text = (States.stats.armour.defense + ",INF");
         }
         else
         {
-            ui_armour.text = (stats.armour.defense + 
+            ui_armour.text = (States.stats.armour.defense + 
             "," + 
-            (stats.armour.durability - stats.armour.used) + 
+            (States.stats.armour.durability - States.stats.armour.used) + 
             "/" + 
-            stats.armour.durability);
+            States.stats.armour.durability);
         }
 
 
-        if (stats.weapon.durability == 0)
+        if (States.stats.weapon.durability == 0)
         {
-            ui_weapon.text = (stats.weapon.attack + ",INF");
+            ui_weapon.text = (States.stats.weapon.attack + ",INF");
         }
         else
         {
-            ui_weapon.text = (stats.weapon.attack + 
+            ui_weapon.text = (States.stats.weapon.attack + 
             "," + 
-            (stats.weapon.durability - stats.weapon.used) + 
+            (States.stats.weapon.durability - States.stats.weapon.used) + 
             "/" + 
-            stats.weapon.durability);
+            States.stats.weapon.durability);
         }
 
     }
@@ -86,6 +85,7 @@ public class Manager : MonoBehaviour
         int height = 0;
         int current = 0;
 
+        Debug.Log(States.inventory);
         foreach (Armour arm in States.inventory.armours)
         {
             width = current % 5;

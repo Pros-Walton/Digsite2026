@@ -12,7 +12,7 @@ namespace GyroVectors
     public class ArrayModifier : MonoBehaviour
     {
         [SerializeField][HideInInspector] private bool hasVisbleObject;
-        [SerializeField][HideInInspector] private bool dropDown1, dropDown2 = true;
+        //[SerializeField][HideInInspector] private bool dropDown1, dropDown2 = true;
         [SerializeField][HideInInspector] private HeirachySetting heirachyArrangement;
         [Tooltip("The object to copy as an array")]
         [SerializeField][HideInInspector] private GameObject ArrayObject;

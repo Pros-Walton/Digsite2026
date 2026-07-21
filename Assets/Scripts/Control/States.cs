@@ -1,8 +1,16 @@
 using UnityEngine;
 using static Inventory;
+using static LevelData;
+using System.Collections.Generic;
+
 
 public static class States
 {
+    public static LevelData leveldata {get; set;}
+    public static List<string> tileData {get; set;}
+    public static List<Tile> tiles {get; set;}
+
+
     public static bool LoadData {get; set;}
 
     public static Inventory inventory {get; set;}

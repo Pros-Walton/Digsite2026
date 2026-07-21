@@ -6270,8 +6270,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1558996863}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 1558996865}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
         m_MethodName: Save
         m_Mode: 1
         m_Arguments:
@@ -8158,16 +8158,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1558996858}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9156c40eacacd443b7ffb51289952ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c88aca05caffa461b4cf4765516900e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  health_max: 30
-  health: 30
-  stamina_max: 30
-  stamina: 30
-  gold: 0
-  score: 0
-  depth: 0
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerUI
+  InputActionGroups: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &1566925643
 GameObject:
   m_ObjectHideFlags: 0

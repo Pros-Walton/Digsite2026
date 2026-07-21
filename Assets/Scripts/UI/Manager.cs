@@ -32,8 +32,7 @@ public class Manager : MonoBehaviour
     void Start()
     {
         resMult = (Screen.height/1080.0f);
-        Debug.Log(Screen.height);
-        Debug.Log(resMult);
+
         ui_depth.text = States.stats.depth.ToString();
         btn_armour.Select();
 

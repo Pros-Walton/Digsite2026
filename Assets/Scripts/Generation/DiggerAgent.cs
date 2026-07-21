@@ -17,22 +17,12 @@ public class DiggerAgent : MonoBehaviour
 
     //parse variables
     private string[] lines;
-    // private string[] curLine;
-    // private string line;
-
-    //Level data parsing
-    // private List<int> lineTypes = new List<int>();
-    // private List<List<int>> full_level = new List<List<int>>();
 
     //Level gemometry plot
     private int levelRadWidth;
     private int levelRadHeight;
     private int directionChange = 5;
     private int roomSpawn = 5;
-
-    private LevelData levelData = new LevelData();
-    private List<string> tileData = new List<string>();
-    private List<Tile> tiles = new List<Tile>();
 
     private int dungeonSize;
     private int dungeonFill = 0;
@@ -48,6 +38,9 @@ public class DiggerAgent : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void runDig()
     {
+        States.leveldata = new LevelData();
+        States.tileData = new List<string>();
+        States.tiles = new List<Tile>();
         string path = (Application.persistentDataPath + "/Save/level.json");
         grid = new int[width,height];
         dungeonSize = height*width;
@@ -71,7 +64,7 @@ public class DiggerAgent : MonoBehaviour
         dedicateSpace();
         wirteData();
         //printData();
-        dataToSave = JsonUtility.ToJson(levelData);
+        dataToSave = JsonUtility.ToJson(States.leveldata);
         //Debug.Log(levelString);
         File.WriteAllText(path, dataToSave);
     }
@@ -181,7 +174,7 @@ public class DiggerAgent : MonoBehaviour
                     }
                 }
 
-                tiles.Add(curTile);
+                States.tiles.Add(curTile);
             }
         }
     }
@@ -204,10 +197,10 @@ public class DiggerAgent : MonoBehaviour
         levelRadHeight = (height - 1)/2;
         levelRadWidth = (width - 1)/2;
 
-        levelData.height = height;
-        levelData.width = width;
-        levelData.radX = levelRadWidth;
-        levelData.radY = levelRadHeight;
+        States.leveldata.height = height;
+        States.leveldata.width = width;
+        States.leveldata.radX = levelRadWidth;
+        States.leveldata.radY = levelRadHeight;
     }
 
     private void outOfBoundsCheck()
@@ -243,29 +236,39 @@ public class DiggerAgent : MonoBehaviour
 
     private void wirteData()
     {
-        foreach (Tile curTile in tiles)
+        foreach (Tile curTile in States.tiles)
         {
             string serial = JsonUtility.ToJson(curTile);
-            tileData.Add(serial);
+            States.tileData.Add(serial);
         }
-        levelData.data = tileData;
+        States.leveldata.data = States.tileData;
     }
 
     private void dedicateSpace()
     {
-        foreach (Tile curTile in tiles)
+        int counter = 0;
+        foreach (Tile curTile in States.tiles)
         {
             if (curTile.type == 2)
             {
                 if (UnityEngine.Random.Range(0,20) == 0)
-                    {
-                        curTile.obj = (int)UnityEngine.Random.Range(1,1);
-                    }
+                {
+                    Pickup drop = new Pickup();
+                    drop.populate(counter);
+                    drop.applyTo();
+                    string dropStr = JsonUtility.ToJson(drop);
+                    curTile.obj = dropStr;
+                }
                 else
                 {
-                    curTile.obj = 0;
+                    curTile.obj = "NULL";
                 }            
             }
+            else
+            {
+                curTile.obj = "NULL";
+            }
+            counter ++;  
         }
     }
 }

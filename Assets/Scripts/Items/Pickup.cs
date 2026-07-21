@@ -2,9 +2,11 @@ using UnityEngine;
 using System.Collections.Generic;
 
 
-public class Pickup : MonoBehaviour
+public class Pickup
 {
     int lootSize;
+
+    public int loc;
 
     List<Weapon> weapons = new List<Weapon>();
     List<Armour> armours = new List<Armour>();
@@ -12,9 +14,21 @@ public class Pickup : MonoBehaviour
     List<Key> keys = new List<Key>();
     List <Item> items = new List<Item>();
 
+    public List<string> weaponsStr = new List<string>();
+    public List<string> armoursStr = new List<string>();
+    public List<string> artifactsStr = new List<string>();
+    public List<string> keysStr = new List<string>();
+    public List<string> itemsStr = new List<string>();
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public Pickup()
     {
+    }
+
+    public void populate(int location)
+    {
+        loc = location;
         lootSize = UnityEngine.Random.Range(5,10);
 
         for (int i = 0; i < lootSize; i++)
@@ -30,25 +44,20 @@ public class Pickup : MonoBehaviour
                     armours.Add(new Armour(UnityEngine.Random.Range(1,2)));
                     break;
                 default:
-                    generateLoot();
+                    int itemType = UnityEngine.Random.Range(0,3);
+                    switch(itemType)
+                    {    
+                        case 0:
+                            Artifact art = new Artifact(UnityEngine.Random.Range(0,0));
+                            artifacts.Add(art);
+                            break;
+                        case 1:
+                            Item item = new Item(UnityEngine.Random.Range(0,2));
+                            items.Add(item);
+                            break;
+                    }
                     break;
             }
-        }
-    }
-
-    private void generateLoot()
-    {
-        int itemType = UnityEngine.Random.Range(0,3);
-        switch(itemType)
-        {    
-            case 0:
-                Artifact art = new Artifact(UnityEngine.Random.Range(0,0));
-                artifacts.Add(art);
-                break;
-            case 1:
-                Item item = new Item(UnityEngine.Random.Range(0,2));
-                items.Add(item);
-                break;
         }
     }
 
@@ -106,5 +115,70 @@ public class Pickup : MonoBehaviour
             }
         }
 
+    }
+
+        public void applyTo()
+    {
+        weaponsStr.Clear();
+        armoursStr.Clear();
+        artifactsStr.Clear();
+        keysStr.Clear();
+        itemsStr.Clear();
+
+        foreach (Weapon weapon in weapons)
+        {
+            string serialisedWep = JsonUtility.ToJson(weapon);
+            weaponsStr.Add(serialisedWep);
+        }
+        foreach (Armour armour in armours)
+        {
+            string serialisedArm = JsonUtility.ToJson(armour);
+            armoursStr.Add(serialisedArm);
+        }
+        foreach (Artifact artifact in artifacts)
+        {
+            string serialisedArt = JsonUtility.ToJson(artifact);
+            artifactsStr.Add(serialisedArt);
+        }
+        foreach (Key key in keys)
+        {
+            string serialisedKey = JsonUtility.ToJson(key);
+            keysStr.Add(serialisedKey);
+        }
+        foreach (Item item in items)
+        {
+            string serialisedItem = JsonUtility.ToJson(item);
+            itemsStr.Add(serialisedItem);
+        }
+    }
+
+    public void applyBack()
+    {
+        foreach (string strWeapon in weaponsStr)
+        {
+            weapons.Add(JsonUtility.FromJson<Weapon>(strWeapon));
+        }
+        foreach (string strArmour in armoursStr)
+        {
+            armours.Add(JsonUtility.FromJson<Armour>(strArmour));
+        }
+        foreach (string strArtifact in artifactsStr)
+        {
+            artifacts.Add(JsonUtility.FromJson<Artifact>(strArtifact));
+        }
+        foreach (string strKey in keysStr)
+        {
+            keys.Add(JsonUtility.FromJson<Key>(strKey));
+        }
+        foreach (string strItem in itemsStr)
+        {
+            items.Add(JsonUtility.FromJson<Item>(strItem));
+        }
+
+        weaponsStr.Clear();
+        armoursStr.Clear();
+        artifactsStr.Clear();
+        keysStr.Clear();
+        itemsStr.Clear();
     }
 }

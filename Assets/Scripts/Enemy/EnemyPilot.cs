@@ -4,7 +4,6 @@ public class EnemyPilot : MonoBehaviour
 {
 
     public GameObject playerTarget;
-    private float walk_Speed = 1.5f;
     private Rigidbody body;
 
     private float attackCooldown = 0.0f;

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1066573707009743787}
   - component: {fileID: 2877202367610420967}
   - component: {fileID: 5415513012002555304}
-  - component: {fileID: 322151996751260435}
+  - component: {fileID: 9013065785619406745}
   m_Layer: 0
   m_Name: Item Temp
   m_TagString: Untagged
@@ -113,7 +113,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &322151996751260435
+--- !u!114 &9013065785619406745
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,6 +122,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1148435917789890897}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 489bcce9356a196f6a6873ed54e57399, type: 3}
+  m_Script: {fileID: 11500000, guid: 07953a7374349344b91c1a7ac1c347a5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Pickup
+  m_EditorClassIdentifier: Assembly-CSharp::PickupMount

@@ -191,8 +191,9 @@ public class PlayerController : MonoBehaviour
                 {
                     if (targetObject.name.Contains("Item"))
                     {
-                        Pickup pickup = targetObject.GetComponent<Pickup>();
-                        pickup.GiveLoot();
+                        PickupMount mount = targetObject.GetComponent<PickupMount>();
+                        mount.pickup.GiveLoot();
+                        States.tiles[mount.pickup.loc].obj = "NULL";
                         Destroy(targetObject);
                     }
 

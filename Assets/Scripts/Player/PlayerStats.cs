@@ -28,7 +28,6 @@ public class PlayerStats
         health_max = 30;
         stamina = 30;
         stamina_max = 30;
-        Debug.Log("Am I even here?");
         weapon = new Weapon(0);
         armour = new Armour(0);
     }

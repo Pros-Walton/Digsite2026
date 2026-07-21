@@ -34,8 +34,6 @@ public class ReadLevel : MonoBehaviour
 
     public DiggerAgent agent;
 
-    public bool load;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,16 +42,16 @@ public class ReadLevel : MonoBehaviour
             agent = this.GetComponent<DiggerAgent>();
             agent.runDig();
         }
+        readFiles();
         //Debug.Log(path);
 
-        readFiles();
         tileSet = new Tile[levelData.width,levelData.height];
         readTile();
         buildWalls();
         entityListComp = GetComponentInParent<ObjectLists>();
         entityList = entityListComp.entities;
         objList = entityListComp.items;
-        spawnEnemies();
+        //spawnEnemies();
         spawnObjects();
         //Debug.Log(parsedLevel);
     }
@@ -245,6 +243,9 @@ public class ReadLevel : MonoBehaviour
                 );
                 enemy.transform.parent = entites.transform;
 
+                EnemyPilot pilot = enemy.GetComponent<EnemyPilot>();
+                pilot.locID = current;
+
             }
             current ++;
         }
@@ -252,14 +253,15 @@ public class ReadLevel : MonoBehaviour
 
     private void spawnObjects()
     {
+        int current = 0;
         foreach (Tile curTile in tileSet)
         {
-            if (curTile.obj != 0)
+            if (curTile.obj != "NULL")
             {
                 int real_posX = curTile.posX - levelData.radX;
                 int real_posY = curTile.posY - levelData.radY;
                 GameObject itemInstance = Instantiate(
-                    objList[curTile.obj - 1], 
+                    objList[0], 
                     new Vector3 
                     (
                         real_posX * 1.5f,
@@ -268,9 +270,12 @@ public class ReadLevel : MonoBehaviour
                     ), 
                     Quaternion.identity
                 );
+                PickupMount mount = itemInstance.GetComponent<PickupMount>();
+                mount.Mount(curTile.obj);
                 itemInstance.transform.parent = items.transform;
 
             }
+            current ++;
         }
     }
 
@@ -280,6 +285,7 @@ public class ReadLevel : MonoBehaviour
 
         if (!File.Exists(levPath))
         {
+            Debug.Log("FILE DOES NOT EXIST DESPITE LOAD, CREATING NOW!");
             File.Create(levPath);
             agent = this.GetComponent<DiggerAgent>();
             agent.runDig();

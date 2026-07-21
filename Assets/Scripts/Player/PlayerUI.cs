@@ -51,11 +51,21 @@ public class PlayerUI : MonoBehaviour
         States.inventory.applyTo();
         States.stats.pos = transform.position;
 
+        States.tileData.Clear();
+        foreach (Tile curTile in States.tiles)
+        {
+            string serial = JsonUtility.ToJson(curTile);
+            States.tileData.Add(serial);
+        }
+        States.leveldata.data = States.tileData;
+
         string statString = JsonUtility.ToJson(States.stats);
         string inventoryString = JsonUtility.ToJson(States.inventory);
+        string levelString = JsonUtility.ToJson(States.leveldata);
 
         string playerPath = Application.persistentDataPath + "/Save/player.json";
         string invenPath = Application.persistentDataPath + "/Save/inventory.json";
+        string levelPath = Application.persistentDataPath + "/Save/level.json";
 
         if(!File.Exists(playerPath))
         {
@@ -67,8 +77,14 @@ public class PlayerUI : MonoBehaviour
             File.Create(invenPath);
         }
 
+        if(!File.Exists(levelPath))
+        {
+            File.Create(levelPath);
+        }
+
         File.WriteAllText(playerPath,statString);
         File.WriteAllText(invenPath,inventoryString);
+        File.WriteAllText(levelPath,levelString);
 
     }
 

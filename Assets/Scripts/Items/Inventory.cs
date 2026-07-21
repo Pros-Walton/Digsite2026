@@ -85,8 +85,6 @@ public class Inventory
         {
             items.Add(JsonUtility.FromJson<Item>(strItem));
         }
-
-        Debug.Log(weapons);
     }
 
 }

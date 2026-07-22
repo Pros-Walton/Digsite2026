@@ -4,10 +4,9 @@ public class PickupMount : MonoBehaviour
 {
     public Pickup pickup = null;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public void Mount(string pickupStr)
+    public void Mount(Pickup pickUp)
     {
-        pickup = JsonUtility.FromJson<Pickup>(pickupStr);
+        pickup = pickUp;
         pickup.applyBack();
-        Debug.Log(pickup.loc);
     }
 }

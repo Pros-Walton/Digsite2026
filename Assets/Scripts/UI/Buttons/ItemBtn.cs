@@ -47,6 +47,7 @@ public class ItemBtn : MonoBehaviour
 
     public void use()
     {
+        Debug.Log(item.itemId);
         item.use();
         if (States.inventory.items[pointer].count <= 0)
         {

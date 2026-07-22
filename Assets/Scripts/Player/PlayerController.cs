@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.IO;
+using UnityEngine.SceneManagement;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -35,6 +37,10 @@ public class PlayerController : MonoBehaviour
         {
             Load();
         }
+        else if (States.NextLevel)
+        {
+            States.NextLevel = false;
+        }
         else
         {
             States.stats = new PlayerStats();
@@ -57,6 +63,12 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+
+        if (States.stats.health <= 0)
+        {
+            States.stats.GameOver();
+        }
+
         if (Time.timeScale == 1)
         {
             walk();
@@ -84,10 +96,7 @@ public class PlayerController : MonoBehaviour
             {
                 transform.position += new Vector3(0,0,walkSpeed) * Time.deltaTime;
             }
-            if (UnityEngine.Random.Range(0,hungerOdds) == 0)
-            {
-                States.stats.stamina -= 0.1f;
-            }
+           walkHunger();
         }
         else if (actionEast.IsPressed())
         {
@@ -96,10 +105,7 @@ public class PlayerController : MonoBehaviour
             {
                 transform.position += new Vector3(walkSpeed,0,0) * Time.deltaTime;
             }
-            if (UnityEngine.Random.Range(0,hungerOdds) == 0)
-            {
-                States.stats.stamina -= 0.1f;
-            }
+            walkHunger();
         }
         else if (actionSouth.IsPressed())
         {
@@ -108,10 +114,7 @@ public class PlayerController : MonoBehaviour
             {
                 transform.position += new Vector3(0,0,-walkSpeed) * Time.deltaTime;
             }
-            if (UnityEngine.Random.Range(0,hungerOdds) == 0)
-            {
-                States.stats.stamina -= 0.1f;
-            }
+            walkHunger();
         }
         else if (actionWest.IsPressed())
         {
@@ -120,12 +123,25 @@ public class PlayerController : MonoBehaviour
             {
                 transform.position += new Vector3(-walkSpeed,0,0) * Time.deltaTime;
             }
-            if (UnityEngine.Random.Range(0,hungerOdds) == 0)
+            walkHunger();
+        }
+         transform.position = new Vector3(transform.position.x,0.4f,transform.position.z);
+    }
+
+    private void walkHunger()
+    {
+        if (UnityEngine.Random.Range(0,hungerOdds) == 0)
+        {
+            if (States.stats.stamina > 0)
             {
                 States.stats.stamina -= 0.1f;
             }
+            else
+            {
+                States.stats.health -= 0.5f;
+            }
         }
-         transform.position = new Vector3(transform.position.x,0.4f,transform.position.z);
+
     }
 
     private void interact()
@@ -136,7 +152,7 @@ public class PlayerController : MonoBehaviour
 
     private void attack()
     {
-        if (actionAttack.WasPressedThisFrame() && Time.timeScale == 1)
+        if (actionAttack.WasPressedThisFrame() && Time.timeScale == 1 && States.stats.stamina > 0)
         {
 
             Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f);
@@ -154,7 +170,8 @@ public class PlayerController : MonoBehaviour
                 {
                     if (targetObject.name.Contains("Enemy"))
                     {
-                        EnemyPilot enemy = targetObject.GetComponent<EnemyPilot>();
+                        EnemyMount mount = targetObject.GetComponent<EnemyMount>();
+                        Enemy enemy = mount.enemy;
                         enemy.HP -= ((float)States.stats.weapon.attack * (3.0f) / enemy.defense);
                         States.stats.weapon.use();
                         if (States.stats.weapon.shouldBreak())
@@ -165,8 +182,13 @@ public class PlayerController : MonoBehaviour
                         targetObject.transform.position -= targetObject.transform.forward;
                         if (enemy.HP <= 0)
                         {
+                            States.tiles[enemy.locID].ent = "NULL";
                             Destroy(targetObject);
                             States.stats.score += 10;
+                        }
+                        else
+                        {
+                            States.tiles[enemy.locID].ent = JsonUtility.ToJson(enemy);
                         }
                     }
 
@@ -195,6 +217,15 @@ public class PlayerController : MonoBehaviour
                         mount.pickup.GiveLoot();
                         States.tiles[mount.pickup.loc].obj = "NULL";
                         Destroy(targetObject);
+                    }
+
+                    if (targetObject.name.Contains("Hole"))
+                    {
+                        Debug.Log("NEXT LEVEL!");
+                        States.stats.depth ++;
+                        Time.timeScale = 1;
+                        States.NextLevel = true;
+                        SceneManager.LoadScene("Scenes/Loading");
                     }
 
                 }

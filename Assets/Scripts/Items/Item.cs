@@ -3,7 +3,7 @@ using UnityEngine;
 public class Item
 {
     public string name;
-    private int id;
+    public int itemId;
     public string desc;
     public string affect;
     public int count;
@@ -12,8 +12,8 @@ public class Item
 
     public Item(int itemID)
     {
-        id = itemID;
-        switch(id)
+        itemId = itemID;
+        switch(itemId)
         {
             case 0:
                 name = "Item 0";
@@ -35,7 +35,7 @@ public class Item
 
     public void use()
     {
-        switch(id)
+        switch(itemId)
         {
             case 0:
                 States.stats.health = Mathf.Min((States.stats.health + 10), States.stats.health_max);

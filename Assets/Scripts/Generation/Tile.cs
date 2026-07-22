@@ -4,7 +4,7 @@ using UnityEngine;
 public class Tile
 {
     public int type = 0;
-    public int ent = 0;
+    public string ent;
     public string obj;
 
     public int posY = 0;

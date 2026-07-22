@@ -8,6 +8,10 @@ public class Pickup
 
     public int loc;
 
+    public int id;
+
+    public int gold;
+
     List<Weapon> weapons = new List<Weapon>();
     List<Armour> armours = new List<Armour>();
     List<Artifact> artifacts = new List<Artifact>();
@@ -26,43 +30,53 @@ public class Pickup
     {
     }
 
-    public void populate(int location)
+    public void populate(int location, int ID)
     {
         loc = location;
         lootSize = UnityEngine.Random.Range(5,10);
+        id = ID;
 
-        for (int i = 0; i < lootSize; i++)
+        gold = UnityEngine.Random.Range(5,100);
+
+        switch (id)
         {
-            int typeSelector = UnityEngine.Random.Range(0,10);
+            case 0:
+                for (int i = 0; i < lootSize; i++)
+                {
+                    int typeSelector = UnityEngine.Random.Range(0,10);
 
-            switch(typeSelector)
-            {
-                case 3:
-                    weapons.Add(new Weapon(UnityEngine.Random.Range(1,2)));
-                    break;
-                case 4:
-                    armours.Add(new Armour(UnityEngine.Random.Range(1,2)));
-                    break;
-                default:
-                    int itemType = UnityEngine.Random.Range(0,3);
-                    switch(itemType)
-                    {    
-                        case 0:
-                            Artifact art = new Artifact(UnityEngine.Random.Range(0,0));
-                            artifacts.Add(art);
+                    switch(typeSelector)
+                    {
+                        case 3:
+                            weapons.Add(new Weapon(UnityEngine.Random.Range(1,2)));
                             break;
-                        case 1:
-                            Item item = new Item(UnityEngine.Random.Range(0,2));
-                            items.Add(item);
+                        case 4:
+                            armours.Add(new Armour(UnityEngine.Random.Range(1,2)));
+                            break;
+                        default:
+                            int itemType = UnityEngine.Random.Range(0,3);
+                            switch(itemType)
+                            {    
+                                case 0:
+                                    Artifact art = new Artifact(UnityEngine.Random.Range(0,0));
+                                    artifacts.Add(art);
+                                    break;
+                                case 1:
+                                    Item item = new Item(UnityEngine.Random.Range(0,2));
+                                    items.Add(item);
+                                    break;
+                            }
                             break;
                     }
-                    break;
-            }
+                }
+                break;
         }
     }
 
     public void GiveLoot()
     {
+
+        States.stats.gold += gold;
 
         foreach (Weapon weapon in weapons)
         {

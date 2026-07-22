@@ -12,6 +12,7 @@ public static class States
 
 
     public static bool LoadData {get; set;}
+    public static bool NextLevel {get; set;}
 
     public static Inventory inventory {get; set;}
     public static PlayerStats stats {get; set;}

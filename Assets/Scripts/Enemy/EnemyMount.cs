@@ -1,0 +1,61 @@
+using UnityEngine;
+
+public class EnemyMount : MonoBehaviour
+{
+    public Enemy enemy = null;
+
+    public void Mount(Enemy Enemy, int loc)
+    {
+        enemy = Enemy;
+        enemy.enemyObj = this.gameObject;
+        enemy.playerTarget = GameObject.Find("Player Temp");
+        enemy.getBody();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        float dist = Vector3.Distance(enemy.playerTarget.transform.position, transform.position); 
+        if  ( (dist <  5))
+        {
+            transform.LookAt(enemy.playerTarget.transform);
+            Ray ray = new Ray(transform.position, transform.forward);
+            RaycastHit hit;
+            if (Physics.Raycast(ray,out hit))
+            {
+                if (hit.collider.gameObject.name == enemy.playerTarget.name)
+                {
+                    if (dist > 1)
+                    {
+                        transform.position += (transform.forward * Time.deltaTime);
+
+                        transform.position = new Vector3(transform.position.x,
+                        0.4f,
+                        transform.position.z);
+                    }
+                    else
+                    {
+                        if (enemy.attackCooldown <= 0.0f)
+                        {
+                            enemy.attackCooldown = enemy.cooldownMax;
+                            float damageDone = ((float)enemy.attack / States.stats.armour.defense);
+                            States.stats.health -= damageDone;
+                            States.stats.armour.use();
+                            if (States.stats.armour.shouldBreak())
+                            {
+                                States.stats.armour = States.inventory.armours[0];
+                                States.inventory.armours.RemoveAt(0);
+                            }
+                            enemy.playerTarget.transform.position += (transform.forward / 5);
+                        }
+                        else
+                        {
+                            //Debug.Log(Time.deltaTime * 2);
+                            enemy.attackCooldown -= Time.deltaTime * 2.0f;
+                        }
+                    }
+                }
+            }
+        }  
+    }
+}

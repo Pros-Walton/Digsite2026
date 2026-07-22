@@ -62,6 +62,7 @@ public class DiggerAgent : MonoBehaviour
         Digger();
         parseData();
         dedicateSpace();
+        placeHole();
         wirteData();
         //printData();
         dataToSave = JsonUtility.ToJson(States.leveldata);
@@ -156,6 +157,7 @@ public class DiggerAgent : MonoBehaviour
 
         private void parseData()
     {
+        int current = 0;
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -170,11 +172,24 @@ public class DiggerAgent : MonoBehaviour
                 {
                     if (UnityEngine.Random.Range(0,7) == 0)
                     {
-                        curTile.ent = (int)UnityEngine.Random.Range(1,1);
+                        Enemy enemy = new Enemy();
+                        enemy.populate(current, (int)UnityEngine.Random.Range(0,0));
+                        string enemyStr = JsonUtility.ToJson(enemy);
+                        curTile.ent = enemyStr;
+                        //curTile.ent = (int)UnityEngine.Random.Range(1,1);
                     }
+                    else
+                    {
+                        curTile.ent = "NULL";
+                    }
+                }
+                else
+                {
+                    curTile.ent = "NULL";
                 }
 
                 States.tiles.Add(curTile);
+                current++;
             }
         }
     }
@@ -254,7 +269,7 @@ public class DiggerAgent : MonoBehaviour
                 if (UnityEngine.Random.Range(0,20) == 0)
                 {
                     Pickup drop = new Pickup();
-                    drop.populate(counter);
+                    drop.populate(counter,(int)UnityEngine.Random.Range(0,0));
                     drop.applyTo();
                     string dropStr = JsonUtility.ToJson(drop);
                     curTile.obj = dropStr;
@@ -270,5 +285,16 @@ public class DiggerAgent : MonoBehaviour
             }
             counter ++;  
         }
+    }
+
+    private void placeHole()
+    {
+        int max = States.tiles.Count;
+        Tile curTile = States.tiles[0];
+        while (curTile.type != 2)
+        {
+            curTile = States.tiles[UnityEngine.Random.Range(0,max)];
+        }
+        curTile.obj = "HOLE";
     }
 }

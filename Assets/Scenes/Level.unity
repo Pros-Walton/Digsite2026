@@ -3181,6 +3181,7 @@ MonoBehaviour:
   - {fileID: 3174737501289481253, guid: 34730da578aa2340d954982ccaf36281, type: 3}
   items:
   - {fileID: 1148435917789890897, guid: b38aafcb65503fae686b4e5f1c21e1bb, type: 3}
+  - {fileID: 1148435917789890897, guid: f73ecd66979c53286a104241fa2490b8, type: 3}
 --- !u!1 &578733813
 GameObject:
   m_ObjectHideFlags: 0
@@ -5342,7 +5343,6 @@ MonoBehaviour:
     data: []
   playerTarget: {fileID: 1558996858}
   agent: {fileID: 0}
-  load: 0
 --- !u!114 &1027903009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10415,14 +10415,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Manager
   player: {fileID: 1558996858}
-  ui_health: {fileID: 408751730}
-  ui_stamina: {fileID: 936795178}
-  ui_score: {fileID: 673977975}
-  ui_gold: {fileID: 1110430255}
-  ui_depth: {fileID: 1950110596}
-  ui_armour: {fileID: 13759477}
-  ui_weapon: {fileID: 107358042}
-  btn_armour: {fileID: 1745108238}
+  uiHealth: {fileID: 408751730}
+  uiStamina: {fileID: 936795178}
+  uiScore: {fileID: 673977975}
+  uiGold: {fileID: 1110430255}
+  uiDepth: {fileID: 1950110596}
+  uiArmour: {fileID: 13759477}
+  uiWeapon: {fileID: 107358042}
+  btnArmour: {fileID: 1079698390}
   inventoryButtons:
   - {fileID: 5868850289724088123, guid: 3fafb6589576127da8934493c2386f2d, type: 3}
   - {fileID: 5868850289724088123, guid: 8bd03e0c4e9423e71aca3e9f66ad49ae, type: 3}

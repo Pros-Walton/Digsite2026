@@ -9,15 +9,15 @@ public class Manager : MonoBehaviour
     public GameObject player;
     private PlayerStats stats;
 
-    public TMP_Text ui_health;
-    public TMP_Text ui_stamina;
-    public TMP_Text ui_score;
-    public TMP_Text ui_gold;
-    public TMP_Text ui_depth;
-    public TMP_Text ui_armour;
-    public TMP_Text ui_weapon;
+    public TMP_Text uiHealth;
+    public TMP_Text uiStamina;
+    public TMP_Text uiScore;
+    public TMP_Text uiGold;
+    public TMP_Text uiDepth;
+    public TMP_Text uiArmour;
+    public TMP_Text uiWeapon;
 
-    public Button btn_armour;
+    public Button btnArmour;
 
     public Button[] inventoryButtons;
 
@@ -33,8 +33,8 @@ public class Manager : MonoBehaviour
     {
         resMult = (Screen.height/1080.0f);
 
-        ui_depth.text = States.stats.depth.ToString();
-        btn_armour.Select();
+        uiDepth.text = States.stats.depth.ToString();
+        btnArmour.Select();
 
         gridMount = new Vector3 (Screen.width/10.5f, Screen.height/1.57f, 0);
 
@@ -43,18 +43,18 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ui_health.text = (((int)States.stats.health).ToString() + "/" + States.stats.health_max.ToString());
-        ui_stamina.text = (((int)States.stats.stamina).ToString() + "/" + States.stats.stamina_max.ToString());
-        ui_gold.text = States.stats.gold.ToString();
-        ui_score.text = States.stats.score.ToString();
+        uiHealth.text = (((int)States.stats.health).ToString() + "/" + States.stats.health_max.ToString());
+        uiStamina.text = (((int)States.stats.stamina).ToString() + "/" + States.stats.stamina_max.ToString());
+        uiGold.text = States.stats.gold.ToString();
+        uiScore.text = States.stats.score.ToString();
 
         if (States.stats.armour.durability == 0)
         {
-            ui_armour.text = (States.stats.armour.defense + ",INF");
+            uiArmour.text = (States.stats.armour.defense + ",INF");
         }
         else
         {
-            ui_armour.text = (States.stats.armour.defense + 
+            uiArmour.text = (States.stats.armour.defense + 
             "," + 
             (States.stats.armour.durability - States.stats.armour.used) + 
             "/" + 
@@ -64,11 +64,11 @@ public class Manager : MonoBehaviour
 
         if (States.stats.weapon.durability == 0)
         {
-            ui_weapon.text = (States.stats.weapon.attack + ",INF");
+            uiWeapon.text = (States.stats.weapon.attack + ",INF");
         }
         else
         {
-            ui_weapon.text = (States.stats.weapon.attack + 
+            uiWeapon.text = (States.stats.weapon.attack + 
             "," + 
             (States.stats.weapon.durability - States.stats.weapon.used) + 
             "/" + 

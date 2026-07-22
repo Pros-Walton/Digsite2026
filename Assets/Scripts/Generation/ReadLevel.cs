@@ -37,7 +37,7 @@ public class ReadLevel : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (!States.LoadData)
+        if (!States.LoadData || States.NextLevel)
         {
             agent = this.GetComponent<DiggerAgent>();
             agent.runDig();
@@ -51,7 +51,7 @@ public class ReadLevel : MonoBehaviour
         entityListComp = GetComponentInParent<ObjectLists>();
         entityList = entityListComp.entities;
         objList = entityListComp.items;
-        //spawnEnemies();
+        spawnEnemies();
         spawnObjects();
         //Debug.Log(parsedLevel);
     }
@@ -227,12 +227,13 @@ public class ReadLevel : MonoBehaviour
         int current = 0;
         foreach (Tile curTile in tileSet)
         {
-            if (curTile.ent != 0)
+            if (curTile.ent != "NULL")
             {
+                Enemy enemy = JsonUtility.FromJson<Enemy>(curTile.ent);
                 int real_posX = curTile.posX - levelData.radX;
                 int real_posY = curTile.posY - levelData.radY;
-                GameObject enemy = Instantiate(
-                    entityList[curTile.ent - 1], 
+                GameObject enemyInstance = Instantiate(
+                    entityList[enemy.id], 
                     new Vector3 
                     (
                         real_posX * 1.5f,
@@ -241,10 +242,10 @@ public class ReadLevel : MonoBehaviour
                     ), 
                     Quaternion.identity
                 );
-                enemy.transform.parent = entites.transform;
 
-                EnemyPilot pilot = enemy.GetComponent<EnemyPilot>();
-                pilot.locID = current;
+                EnemyMount mount = enemyInstance.GetComponent<EnemyMount>();
+                mount.Mount(enemy, current); 
+                enemyInstance.transform.parent = entites.transform;
 
             }
             current ++;
@@ -260,19 +261,37 @@ public class ReadLevel : MonoBehaviour
             {
                 int real_posX = curTile.posX - levelData.radX;
                 int real_posY = curTile.posY - levelData.radY;
-                GameObject itemInstance = Instantiate(
-                    objList[0], 
-                    new Vector3 
-                    (
-                        real_posX * 1.5f,
-                        0.15f, 
-                        real_posY * 1.5f
-                    ), 
-                    Quaternion.identity
-                );
-                PickupMount mount = itemInstance.GetComponent<PickupMount>();
-                mount.Mount(curTile.obj);
-                itemInstance.transform.parent = items.transform;
+                if (curTile.obj == "HOLE")
+                {
+                    GameObject itemInstance = Instantiate(
+                        objList[1], 
+                        new Vector3 
+                        (
+                            real_posX * 1.5f,
+                            0.075f, 
+                            real_posY * 1.5f
+                        ), 
+                        Quaternion.identity
+                    );
+                    itemInstance.transform.parent = items.transform;
+                }
+                else
+                {
+                    Pickup pickup = JsonUtility.FromJson<Pickup>(curTile.obj);
+                    GameObject itemInstance = Instantiate(
+                        objList[0], 
+                        new Vector3 
+                        (
+                            real_posX * 1.5f,
+                            0.15f, 
+                            real_posY * 1.5f
+                        ), 
+                        Quaternion.identity
+                    );
+                    PickupMount mount = itemInstance.GetComponent<PickupMount>();
+                    mount.Mount(pickup);
+                    itemInstance.transform.parent = items.transform;
+                }
 
             }
             current ++;

@@ -42,7 +42,6 @@ public class Inventory
         foreach (Armour armour in armours)
         {
             string serialisedArm = JsonUtility.ToJson(armour);
-            Debug.Log(serialisedArm);
             armoursStr.Add(serialisedArm);
         }
         foreach (Artifact artifact in artifacts)

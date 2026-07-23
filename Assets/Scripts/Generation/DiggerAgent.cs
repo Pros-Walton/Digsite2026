@@ -44,17 +44,15 @@ public class DiggerAgent : MonoBehaviour
         string path = (Application.persistentDataPath + "/Save/level.json");
         grid = new int[width,height];
         dungeonSize = height*width;
-        if (File.Exists(path))
-        {
-            levelString = File.ReadAllText(path);
-        }
-        else
-        {
-            levelString = "";
-            File.Create(path);
-            File.WriteAllText(path,levelString);
-        }
-        //levelData = JsonUtility.FromJson<LevelData>(levelRead);
+        // if (File.Exists(path))
+        // {
+        //     levelString = File.ReadAllText(path);
+        // }
+        // else
+        // {
+        //     File.Create(path);
+        // }
+        //States.leveldata = JsonUtility.FromJson<LevelData>(levelRead);
         setupArray();
         x_coords = (width-1)/2;
         y_coords = (height-1)/2;
@@ -67,7 +65,7 @@ public class DiggerAgent : MonoBehaviour
         //printData();
         dataToSave = JsonUtility.ToJson(States.leveldata);
         //Debug.Log(levelString);
-        File.WriteAllText(path, dataToSave);
+        //File.WriteAllText(path, dataToSave);
     }
 
     void setupArray()
@@ -106,7 +104,7 @@ public class DiggerAgent : MonoBehaviour
 
             if (UnityEngine.Random.Range(0,100) < directionChange)
             {
-                direction = directions[UnityEngine.Random.Range(0,3)];
+                direction = directions[UnityEngine.Random.Range(0,4)];
                 directionChange = 0;
             }
             else
@@ -116,8 +114,8 @@ public class DiggerAgent : MonoBehaviour
 
             if (UnityEngine.Random.Range(0,250) < roomSpawn)
             {
-                int roomX = UnityEngine.Random.Range(2,3);
-                int roomY = UnityEngine.Random.Range(3,7);
+                int roomX = UnityEngine.Random.Range(1,2);
+                int roomY = UnityEngine.Random.Range(1,4);
                 //Debug.Log("Room start!");
                 for (int i = -roomX; i < roomX; i++)
                 {
@@ -262,11 +260,20 @@ public class DiggerAgent : MonoBehaviour
     private void dedicateSpace()
     {
         int counter = 0;
+        int chance = 0;
         foreach (Tile curTile in States.tiles)
         {
             if (curTile.type == 2)
             {
-                if (UnityEngine.Random.Range(0,20) == 0)
+                chance = 10;
+            }
+            else if (curTile.type == 1)
+            {
+                chance = 30;
+            }
+            if (curTile.type != 0)
+            {
+                if (UnityEngine.Random.Range(0,chance) == 0)
                 {
                     Pickup drop = new Pickup();
                     drop.populate(counter,(int)UnityEngine.Random.Range(0,0));

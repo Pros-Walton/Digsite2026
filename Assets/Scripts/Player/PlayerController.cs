@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
     private Weapon weapon;
     private Armour armour;
 
+    public LayerMask enemyMask;
+    public LayerMask objectMask;
+    public LayerMask worldMask;
+
     private void OnEnable()
     {
         InputActions.FindActionMap("Player").Enable();
@@ -63,7 +67,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-
+        States.allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+        States.allItems = GameObject.FindGameObjectsWithTag("Item");
         if (States.stats.health <= 0)
         {
             States.stats.GameOver();
@@ -74,6 +79,7 @@ public class PlayerController : MonoBehaviour
             walk();
         }
         interact();
+        FogOfWar();
     }
 
     private void walk()
@@ -155,7 +161,7 @@ public class PlayerController : MonoBehaviour
         if (actionAttack.WasPressedThisFrame() && Time.timeScale == 1 && States.stats.stamina > 0)
         {
 
-            Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f);
+            Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f, enemyMask);
 
             if (UnityEngine.Random.Range(0,(hungerOdds/50)) == 0)
             {
@@ -166,32 +172,30 @@ public class PlayerController : MonoBehaviour
             {
                 GameObject targetObject = target.gameObject;
                 Vector3 targetAngle = (target.transform.position - transform.position).normalized;
-                if (Vector3.Angle(transform.forward, targetAngle) < 60)
+                if ((Vector3.Angle(transform.forward, targetAngle) < 90) &&
+                !targetObject.name.Contains("Front"))
                 {
-                    if (targetObject.name.Contains("Enemy"))
+                    EnemyMount mount = targetObject.GetComponent<EnemyMount>();
+                    Debug.Log(mount);
+                    Enemy enemy = mount.enemy;
+                    enemy.HP -= ((float)States.stats.weapon.attack * (3.0f) / enemy.defense);
+                    States.stats.weapon.use();
+                    if (States.stats.weapon.shouldBreak())
+                        {
+                            States.stats.weapon = States.inventory.weapons[0];
+                            States.inventory.weapons.RemoveAt(0);
+                        }
+                    targetObject.transform.position -= targetObject.transform.forward;
+                    if (enemy.HP <= 0)
                     {
-                        EnemyMount mount = targetObject.GetComponent<EnemyMount>();
-                        Enemy enemy = mount.enemy;
-                        enemy.HP -= ((float)States.stats.weapon.attack * (3.0f) / enemy.defense);
-                        States.stats.weapon.use();
-                        if (States.stats.weapon.shouldBreak())
-                            {
-                                States.stats.weapon = States.inventory.weapons[0];
-                                States.inventory.weapons.RemoveAt(0);
-                            }
-                        targetObject.transform.position -= targetObject.transform.forward;
-                        if (enemy.HP <= 0)
-                        {
-                            States.tiles[enemy.locID].ent = "NULL";
-                            Destroy(targetObject);
-                            States.stats.score += 10;
-                        }
-                        else
-                        {
-                            States.tiles[enemy.locID].ent = JsonUtility.ToJson(enemy);
-                        }
+                        States.tiles[enemy.locID].ent = "NULL";
+                        Destroy(targetObject);
+                        States.stats.score += 10;
                     }
-
+                    else
+                    {
+                        States.tiles[enemy.locID].ent = JsonUtility.ToJson(enemy);
+                    }
                 }
             }
         }
@@ -202,7 +206,7 @@ public class PlayerController : MonoBehaviour
     {
         if (actionUse.WasPressedThisFrame())
         {
-            Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f);
+            Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f, objectMask);
 
 
             foreach (Collider target in targets)
@@ -265,5 +269,39 @@ public class PlayerController : MonoBehaviour
         }
         transform.position = States.stats.pos; 
         
+    }
+
+    private void FogOfWar()
+    {
+        foreach (GameObject enemy in States.allEnemies)
+        {
+            enemy.GetComponent<Renderer>().enabled = false;
+            enemy.transform.GetChild(0).GetComponent<Renderer>().enabled = false;
+        }
+        Collider[] targetsEnemy = Physics.OverlapSphere(transform.position, 10.0f, enemyMask);
+        foreach (Collider target in targetsEnemy)
+        {
+            GameObject enemy = target.gameObject;
+            if (!Physics.Linecast(transform.position, enemy.transform.position, worldMask))
+            {
+                enemy.GetComponent<Renderer>().enabled = true;
+                enemy.transform.GetChild(0).GetComponent<Renderer>().enabled = true;
+            }
+        }
+
+        foreach (GameObject item in States.allItems)
+        {
+            item.GetComponent<Renderer>().enabled = false;
+        }
+        Collider[] targetsItem = Physics.OverlapSphere(transform.position, 10.0f, objectMask);
+        foreach (Collider target in targetsItem)
+        {
+            GameObject item = target.gameObject;
+            if (!Physics.Linecast(transform.position, item.transform.position, worldMask))
+            {
+                item.GetComponent<Renderer>().enabled = true;
+            }
+        }
+
     }  
 }

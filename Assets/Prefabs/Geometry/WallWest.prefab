@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6290785709127598198}
   - component: {fileID: 8674228147003356207}
   - component: {fileID: 1713261511996091642}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WallWest
   m_TagString: Untagged
   m_Icon: {fileID: 0}

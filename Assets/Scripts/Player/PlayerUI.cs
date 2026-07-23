@@ -67,21 +67,6 @@ public class PlayerUI : MonoBehaviour
         string invenPath = Application.persistentDataPath + "/Save/inventory.json";
         string levelPath = Application.persistentDataPath + "/Save/level.json";
 
-        if(!File.Exists(playerPath))
-        {
-            File.Create(playerPath);
-        }
-
-        if(!File.Exists(invenPath))
-        {
-            File.Create(invenPath);
-        }
-
-        if(!File.Exists(levelPath))
-        {
-            File.Create(levelPath);
-        }
-
         File.WriteAllText(playerPath,statString);
         File.WriteAllText(invenPath,inventoryString);
         File.WriteAllText(levelPath,levelString);
@@ -108,6 +93,29 @@ public class PlayerUI : MonoBehaviour
                 Time.timeScale = 1;
             }
         }
+    }
+
+    public void fileCheck()
+    {
+        string playerPath = Application.persistentDataPath + "/Save/player.json";
+        string invenPath = Application.persistentDataPath + "/Save/inventory.json";
+        string levelPath = Application.persistentDataPath + "/Save/level.json";
+
+        if(!File.Exists(levelPath))
+        {
+            File.Create(levelPath).Close();
+        }
+
+        if(!File.Exists(playerPath))
+        {
+            File.Create(playerPath).Close();
+        }
+
+        if(!File.Exists(invenPath))
+        {
+            File.Create(invenPath).Close();
+        }
+
     }
 
     public void pause()

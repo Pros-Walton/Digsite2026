@@ -24,7 +24,6 @@ public class ReadLevel : MonoBehaviour
     private GameObject[] entityList;
     private GameObject[] objList;
 
-    public LevelData levelData = new LevelData();
     private Tile curTile = new Tile();
     private Tile checkTile;
     //private List<Tile> tileSet = new List<Tile>();
@@ -42,10 +41,13 @@ public class ReadLevel : MonoBehaviour
             agent = this.GetComponent<DiggerAgent>();
             agent.runDig();
         }
-        readFiles();
+        else if (States.LoadData)
+        {
+            readFiles();
+        }
         //Debug.Log(path);
 
-        tileSet = new Tile[levelData.width,levelData.height];
+        tileSet = new Tile[States.leveldata.width,States.leveldata.height];
         readTile();
         buildWalls();
         entityListComp = GetComponentInParent<ObjectLists>();
@@ -58,13 +60,13 @@ public class ReadLevel : MonoBehaviour
 
     private void readTile()
     {
-        foreach (string string_level in levelData.data)
+        foreach (string string_level in States.leveldata.data)
         {
             curTile = JsonUtility.FromJson<Tile>(string_level);
             tileSet[curTile.posX,curTile.posY] = curTile;
 
-            int real_posX = curTile.posX - levelData.radX;
-            int real_posY = curTile.posY - levelData.radY;
+            int real_posX = curTile.posX - States.leveldata.radX;
+            int real_posY = curTile.posY - States.leveldata.radY;
 
 
             if (curTile.type != 0)
@@ -93,9 +95,9 @@ public class ReadLevel : MonoBehaviour
     {
         foreach (Tile curTile in tileSet)
         {
-            if ((inRange(curTile.posY, 0, (levelData.height))) && (curTile.type != 0))
+            if ((inRange(curTile.posY, 0, (States.leveldata.height))) && (curTile.type != 0))
             {
-                if (curTile.posY < levelData.height-1)
+                if (curTile.posY < States.leveldata.height-1)
                 {
                     checkTile = tileSet[curTile.posX,curTile.posY + 1];
                 }
@@ -105,8 +107,8 @@ public class ReadLevel : MonoBehaviour
                 }
                 if (checkTile.type == 0)
                 {
-                    int real_posX = curTile.posX - levelData.radX;
-                    int real_posY = curTile.posY - levelData.radY;
+                    int real_posX = curTile.posX - States.leveldata.radX;
+                    int real_posY = curTile.posY - States.leveldata.radY;
                     GameObject northInstance = Instantiate(
                         wallNorth, 
                         new Vector3 
@@ -122,9 +124,9 @@ public class ReadLevel : MonoBehaviour
                 }
             }
 
-            if ((inRange(curTile.posX, 0, (levelData.width))) && (curTile.type != 0))
+            if ((inRange(curTile.posX, 0, (States.leveldata.width))) && (curTile.type != 0))
             {
-                if (curTile.posX < levelData.width-1)
+                if (curTile.posX < States.leveldata.width-1)
                 {
                     checkTile = tileSet[(curTile.posX + 1),curTile.posY];
                 }
@@ -134,8 +136,8 @@ public class ReadLevel : MonoBehaviour
                 }
                 if (checkTile.type == 0)
                 {
-                    int real_posX = curTile.posX - levelData.radX;
-                    int real_posY = curTile.posY - levelData.radY;
+                    int real_posX = curTile.posX - States.leveldata.radX;
+                    int real_posY = curTile.posY - States.leveldata.radY;
                     GameObject eastInstance = Instantiate(
                         wallEast, 
                         new Vector3 
@@ -152,7 +154,7 @@ public class ReadLevel : MonoBehaviour
                 }
             }
 
-            if ((inRange(curTile.posY, 0, (levelData.height))) && (curTile.type != 0))
+            if ((inRange(curTile.posY, 0, (States.leveldata.height))) && (curTile.type != 0))
             {
                 if (curTile.posY > 0)
                 {
@@ -164,8 +166,8 @@ public class ReadLevel : MonoBehaviour
                 } 
                 if (checkTile.type == 0)
                 {
-                    int real_posX = curTile.posX - levelData.radX;
-                    int real_posY = curTile.posY - levelData.radY;
+                    int real_posX = curTile.posX - States.leveldata.radX;
+                    int real_posY = curTile.posY - States.leveldata.radY;
                     GameObject southInstance = Instantiate(
                         wallSouth, 
                         new Vector3 
@@ -182,7 +184,7 @@ public class ReadLevel : MonoBehaviour
             }
 
 
-            if (inRange(curTile.posX, 0, (levelData.width)) && (curTile.type != 0))
+            if (inRange(curTile.posX, 0, (States.leveldata.width)) && (curTile.type != 0))
             {
                 if (curTile.posX > 0)
                 {
@@ -195,8 +197,8 @@ public class ReadLevel : MonoBehaviour
                 checkTile = tileSet[curTile.posX - 1,curTile.posY];
                 if (checkTile.type == 0)
                 {
-                    int real_posX = curTile.posX - levelData.radX;
-                    int real_posY = curTile.posY - levelData.radY;
+                    int real_posX = curTile.posX - States.leveldata.radX;
+                    int real_posY = curTile.posY - States.leveldata.radY;
                     GameObject westInstance = Instantiate(
                         wallWest, 
                         new Vector3 
@@ -230,8 +232,8 @@ public class ReadLevel : MonoBehaviour
             if (curTile.ent != "NULL")
             {
                 Enemy enemy = JsonUtility.FromJson<Enemy>(curTile.ent);
-                int real_posX = curTile.posX - levelData.radX;
-                int real_posY = curTile.posY - levelData.radY;
+                int real_posX = curTile.posX - States.leveldata.radX;
+                int real_posY = curTile.posY - States.leveldata.radY;
                 GameObject enemyInstance = Instantiate(
                     entityList[enemy.id], 
                     new Vector3 
@@ -259,8 +261,8 @@ public class ReadLevel : MonoBehaviour
         {
             if (curTile.obj != "NULL")
             {
-                int real_posX = curTile.posX - levelData.radX;
-                int real_posY = curTile.posY - levelData.radY;
+                int real_posX = curTile.posX - States.leveldata.radX;
+                int real_posY = curTile.posY - States.leveldata.radY;
                 if (curTile.obj == "HOLE")
                 {
                     GameObject itemInstance = Instantiate(
@@ -309,7 +311,10 @@ public class ReadLevel : MonoBehaviour
             agent = this.GetComponent<DiggerAgent>();
             agent.runDig();
         }
-        levelData = JsonUtility.FromJson<LevelData>(File.ReadAllText(levPath));
+        else 
+        {
+            States.leveldata = JsonUtility.FromJson<LevelData>(File.ReadAllText(levPath));
+        }
     }
 
 }

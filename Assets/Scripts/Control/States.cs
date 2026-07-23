@@ -34,4 +34,7 @@ public static class States
 
     public static string itemAffect {get; set;}
     public static int itemCount {get; set;}
+
+    public static GameObject[] allEnemies {get; set;}
+    public static GameObject[] allItems {get; set;}
 }

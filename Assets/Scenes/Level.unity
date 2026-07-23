@@ -1664,6 +1664,7 @@ GameObject:
   - component: {fileID: 198395450}
   - component: {fileID: 198395449}
   - component: {fileID: 198395448}
+  - component: {fileID: 198395451}
   m_Layer: 5
   m_Name: Load
   m_TagString: Untagged
@@ -1785,6 +1786,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 198395446}
   m_CullTransparentMesh: 1
+--- !u!114 &198395451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198395446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a81e156d79e8d1b5f9b10048e4571e5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoadToggle
+  btn: {fileID: 198395448}
+  text: {fileID: 197052467}
 --- !u!1 &238561097
 GameObject:
   m_ObjectHideFlags: 0
@@ -5335,12 +5350,6 @@ MonoBehaviour:
   wests: {fileID: 87294443}
   items: {fileID: 752529678}
   entites: {fileID: 945329186}
-  levelData:
-    width: 0
-    height: 0
-    radX: 0
-    radY: 0
-    data: []
   playerTarget: {fileID: 1558996858}
   agent: {fileID: 0}
 --- !u!114 &1027903009
@@ -5355,8 +5364,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf51858bd2530b7fb0dee21c3f83fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DiggerAgent
-  height: 41
-  width: 41
+  height: 75
+  width: 75
 --- !u!1 &1068897500
 GameObject:
   m_ObjectHideFlags: 0
@@ -6272,7 +6281,31 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1558996865}
         m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
+        m_MethodName: fileCheck
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1558996865}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
         m_MethodName: Save
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 198395451}
+        m_TargetAssemblyTypeName: LoadToggle, Assembly-CSharp
+        m_MethodName: Check
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8122,6 +8155,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   InputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   walkSpeed: 2.5
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 128
+  objectMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!54 &1558996864
 Rigidbody:
   m_ObjectHideFlags: 0

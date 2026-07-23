@@ -8157,10 +8157,13 @@ MonoBehaviour:
   walkSpeed: 2.5
   enemyMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 256
   objectMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 512
+  worldMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!54 &1558996864
 Rigidbody:
   m_ObjectHideFlags: 0

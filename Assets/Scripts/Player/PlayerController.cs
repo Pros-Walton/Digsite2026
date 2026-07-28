@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private float playerSpeed;
     private bool playerIsWalk;
 
+    private bool playSound;
+
     private int hungerOdds = 100;
 
     private Vector3 playerWalk;
@@ -32,6 +34,8 @@ public class PlayerController : MonoBehaviour
     public LayerMask enemyMask;
     public LayerMask objectMask;
     public LayerMask worldMask;
+
+    private AudioSource walkingSound;
 
     private void OnEnable()
     {
@@ -58,6 +62,8 @@ public class PlayerController : MonoBehaviour
         actionStand = InputSystem.actions.FindAction("Stand");
         actionAttack = InputSystem.actions.FindAction("Attack");
         actionUse = InputSystem.actions.FindAction("Use");
+
+        walkingSound = GetComponent<AudioSource>();
     }
 
     private void OnDisable()
@@ -101,6 +107,11 @@ public class PlayerController : MonoBehaviour
             if (playerIsWalk)
             {
                 transform.position += new Vector3(0,0,walkSpeed) * Time.deltaTime;
+                if (!playSound)
+                {
+                    playSound = true;
+                    walkingSound.Play();
+                }
             }
            walkHunger();
         }
@@ -110,6 +121,11 @@ public class PlayerController : MonoBehaviour
             if (playerIsWalk)
             {
                 transform.position += new Vector3(walkSpeed,0,0) * Time.deltaTime;
+                if (!playSound)
+                {
+                    playSound = true;
+                    walkingSound.Play();
+                }
             }
             walkHunger();
         }
@@ -119,6 +135,11 @@ public class PlayerController : MonoBehaviour
             if (playerIsWalk)
             {
                 transform.position += new Vector3(0,0,-walkSpeed) * Time.deltaTime;
+                if (!playSound)
+                {
+                    playSound = true;
+                    walkingSound.Play();
+                }
             }
             walkHunger();
         }
@@ -128,8 +149,19 @@ public class PlayerController : MonoBehaviour
             if (playerIsWalk)
             {
                 transform.position += new Vector3(-walkSpeed,0,0) * Time.deltaTime;
+                if (!playSound)
+                {
+                    playSound = true;
+                    walkingSound.Play();
+                }
             }
             walkHunger();
+        }
+
+        else
+        {
+            playSound = false;
+            walkingSound.Pause();
         }
          transform.position = new Vector3(transform.position.x,0.4f,transform.position.z);
     }
@@ -189,6 +221,7 @@ public class PlayerController : MonoBehaviour
                     if (enemy.HP <= 0)
                     {
                         States.tiles[enemy.locID].ent = "NULL";
+                        mount.sounds[0].Pause();
                         Destroy(targetObject);
                         States.stats.score += 10;
                     }

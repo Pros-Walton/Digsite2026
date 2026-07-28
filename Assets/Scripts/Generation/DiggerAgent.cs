@@ -156,6 +156,8 @@ public class DiggerAgent : MonoBehaviour
         private void parseData()
     {
         int current = 0;
+        int enemySelectorMax = Mathf.Min(2, States.stats.depth);
+        int enemySelectorMin = Mathf.Max(0, (States.stats.depth - 2));
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -171,7 +173,8 @@ public class DiggerAgent : MonoBehaviour
                     if (UnityEngine.Random.Range(0,7) == 0)
                     {
                         Enemy enemy = new Enemy();
-                        enemy.populate(current, (int)UnityEngine.Random.Range(0,0));
+                        int roll = UnityEngine.Random.Range(enemySelectorMin,enemySelectorMax);
+                        enemy.populate(current, roll);
                         string enemyStr = JsonUtility.ToJson(enemy);
                         curTile.ent = enemyStr;
                         //curTile.ent = (int)UnityEngine.Random.Range(1,1);

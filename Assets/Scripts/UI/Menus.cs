@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 
 public class Menus : MonoBehaviour
@@ -15,20 +16,25 @@ public class Menus : MonoBehaviour
 
     public void Menu()
     {
-        SceneManager.LoadScene("Scenes/Main Menu");
+        StartCoroutine(Hold("Main Menu"));
     }
 
     public void New()
     {
-        Time.timeScale = 1;
         States.LoadData = false;
-        SceneManager.LoadScene("Scenes/Loading");
+        StartCoroutine(Hold("Loading"));
     }
 
     public void Load()
     {
-        Time.timeScale = 1;
         States.LoadData = true;
-        SceneManager.LoadScene("Scenes/Loading");
+        StartCoroutine(Hold("Loading"));
+    }
+
+    IEnumerator Hold(string scene)
+    {
+        Time.timeScale = 1;
+        yield return new WaitForSeconds(0.25f);
+        SceneManager.LoadScene("Scenes/" + scene);
     }
 }

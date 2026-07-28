@@ -13,6 +13,8 @@ public class WeaponBtn : MonoBehaviour
 
     private Manager manager;
 
+    private UISounds audio;
+
 
     public void Start()
     {
@@ -20,6 +22,7 @@ public class WeaponBtn : MonoBehaviour
         canvas = details.GetComponent<Canvas>();
         button = GameObject.Find("WeaponDetailButton").GetComponent<Button>();
         manager = GameObject.Find("EventSystem").GetComponent<Manager>();
+        audio = GameObject.Find("UI Sounds").GetComponent<UISounds>();
 
     }
 
@@ -33,7 +36,9 @@ public class WeaponBtn : MonoBehaviour
     {
         button.onClick.RemoveAllListeners();
         setDetails();
+        audio.click();
         button.onClick.AddListener(equipWeapon);
+        button.onClick.AddListener(audio.click);
 
         canvas.enabled = true;
     }

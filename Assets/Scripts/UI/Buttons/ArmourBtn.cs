@@ -12,6 +12,8 @@ public class ArmourBtn : MonoBehaviour
 
     private Manager manager;
 
+    private UISounds audio;
+
 
     public void Start()
     {
@@ -19,6 +21,7 @@ public class ArmourBtn : MonoBehaviour
         button = GameObject.Find("ArmourDetailButton").GetComponent<Button>();
         canvas = details.GetComponent<Canvas>();
         manager = GameObject.Find("EventSystem").GetComponent<Manager>();
+        audio = GameObject.Find("UI Sounds").GetComponent<UISounds>();
 
     }
 
@@ -32,7 +35,9 @@ public class ArmourBtn : MonoBehaviour
     {
         button.onClick.RemoveAllListeners();
         setDetails();
+        audio.click();
         button.onClick.AddListener(equipArmour);
+        button.onClick.AddListener(audio.click);
 
         canvas.enabled = true;
     }

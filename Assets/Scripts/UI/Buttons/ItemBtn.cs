@@ -14,6 +14,8 @@ public class ItemBtn : MonoBehaviour
 
     private int pointer;
 
+    private UISounds audio;
+
 
     public void Start()
     {
@@ -22,6 +24,7 @@ public class ItemBtn : MonoBehaviour
         details = GameObject.Find("ItemDetails");
         canvas = details.GetComponent<Canvas>();
         manager = GameObject.Find("EventSystem").GetComponent<Manager>();
+        audio = GameObject.Find("UI Sounds").GetComponent<UISounds>();
         
 
     }
@@ -41,6 +44,8 @@ public class ItemBtn : MonoBehaviour
         States.itemAffect = item.affect;
         States.itemCount = item.count;
         btn.onClick.AddListener(this.use);
+        btn.onClick.AddListener(audio.click);
+        audio.click();
 
         canvas.enabled = true;
     }

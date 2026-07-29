@@ -75,7 +75,6 @@ public class Pickup
 
     public void GiveLoot()
     {
-
         States.stats.gold += gold;
 
         foreach (Weapon weapon in weapons)

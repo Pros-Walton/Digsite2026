@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask objectMask;
     public LayerMask worldMask;
 
-    private AudioSource walkingSound;
+    private AudioSource[] sounds;
 
     private void OnEnable()
     {
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         actionAttack = InputSystem.actions.FindAction("Attack");
         actionUse = InputSystem.actions.FindAction("Use");
 
-        walkingSound = GetComponent<AudioSource>();
+        sounds = GetComponents<AudioSource>();
     }
 
     private void OnDisable()
@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
                 if (!playSound)
                 {
                     playSound = true;
-                    walkingSound.Play();
+                    sounds[0].Play();
                 }
             }
            walkHunger();
@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
                 if (!playSound)
                 {
                     playSound = true;
-                    walkingSound.Play();
+                    sounds[0].Play();
                 }
             }
             walkHunger();
@@ -138,7 +138,7 @@ public class PlayerController : MonoBehaviour
                 if (!playSound)
                 {
                     playSound = true;
-                    walkingSound.Play();
+                    sounds[0].Play();
                 }
             }
             walkHunger();
@@ -152,7 +152,7 @@ public class PlayerController : MonoBehaviour
                 if (!playSound)
                 {
                     playSound = true;
-                    walkingSound.Play();
+                    sounds[0].Play();
                 }
             }
             walkHunger();
@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             playSound = false;
-            walkingSound.Pause();
+            sounds[0].Pause();
         }
          transform.position = new Vector3(transform.position.x,0.4f,transform.position.z);
     }
@@ -193,6 +193,7 @@ public class PlayerController : MonoBehaviour
         if (actionAttack.WasPressedThisFrame() && Time.timeScale == 1 && States.stats.stamina > 0)
         {
 
+            sounds[1].Play();
             Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f, enemyMask);
 
             if (UnityEngine.Random.Range(0,(hungerOdds/50)) == 0)
@@ -208,8 +209,8 @@ public class PlayerController : MonoBehaviour
                 !targetObject.name.Contains("Front"))
                 {
                     EnemyMount mount = targetObject.GetComponent<EnemyMount>();
-                    Debug.Log(mount);
                     Enemy enemy = mount.enemy;
+                    mount.sounds[2].Play();
                     enemy.HP -= ((float)States.stats.weapon.attack * (3.0f) / enemy.defense);
                     States.stats.weapon.use();
                     if (States.stats.weapon.shouldBreak())
@@ -221,7 +222,7 @@ public class PlayerController : MonoBehaviour
                     if (enemy.HP <= 0)
                     {
                         States.tiles[enemy.locID].ent = "NULL";
-                        mount.sounds[0].Pause();
+                        mount.sounds[0].Stop();
                         Destroy(targetObject);
                         States.stats.score += 10;
                     }
@@ -251,9 +252,10 @@ public class PlayerController : MonoBehaviour
                     if (targetObject.name.Contains("Item"))
                     {
                         PickupMount mount = targetObject.GetComponent<PickupMount>();
+                        mount.Sound();
                         mount.pickup.GiveLoot();
                         States.tiles[mount.pickup.loc].obj = "NULL";
-                        Destroy(targetObject);
+                        Destroy(targetObject, mount.sound.clip.length);
                     }
 
                     if (targetObject.name.Contains("Hole"))

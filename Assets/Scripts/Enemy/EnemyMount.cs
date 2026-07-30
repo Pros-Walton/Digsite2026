@@ -5,6 +5,7 @@ public class EnemyMount : MonoBehaviour
     public Enemy enemy = null;
     public LayerMask worldMask;
     public AudioSource[] sounds;
+    private Renderer render;
     private bool isWalk;
 
     public void Mount(Enemy Enemy, int loc)
@@ -13,12 +14,15 @@ public class EnemyMount : MonoBehaviour
         enemy.enemyObj = this.gameObject;
         enemy.playerTarget = GameObject.Find("Player Temp");
         sounds = GetComponents<AudioSource>();
+        render = GetComponent<Renderer>();
         enemy.getBody();
     }
 
     // Update is called once per frame
     void Update()
     {
+        sounds[0].mute = render.enabled;
+
         float dist = Vector3.Distance(enemy.playerTarget.transform.position, transform.position); 
         if  ( (dist <  5))
         {

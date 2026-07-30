@@ -16,6 +16,9 @@ public class PlayerUI : MonoBehaviour
     private ReadoutPanel readout;
     private Canvas pauseMenu;
 
+    private bool inPause;
+    private bool inInventory;
+
     private void OnEnable()
     {
         InputActionGroups.FindActionMap("Screens").Enable();
@@ -39,7 +42,7 @@ public class PlayerUI : MonoBehaviour
     {
         inventoryCheck();
 
-        if (actionPause.WasPressedThisFrame())
+        if (actionPause.WasPressedThisFrame() && !inInventory)
         {
             pause();
         }  
@@ -75,9 +78,9 @@ public class PlayerUI : MonoBehaviour
 
     private void inventoryCheck()
     {
-        if (actionInventory.WasPressedThisFrame())
+        if (actionInventory.WasPressedThisFrame() && !inPause)
         {
-            if (Time.timeScale == 1)
+            if (!inInventory)
             {
                 readout.clearDetails();
                 uiManager.clearButtons();
@@ -85,13 +88,14 @@ public class PlayerUI : MonoBehaviour
                 inventoryCanvas.enabled = true;
                 Time.timeScale = 0;
             }
-            else if (Time.timeScale == 0)
+            else
             {
                 readout.clearDetails();
                 uiManager.clearButtons();
                 inventoryCanvas.enabled = false;
                 Time.timeScale = 1;
             }
+            inInventory = !inInventory;
         }
     }
 
@@ -120,16 +124,17 @@ public class PlayerUI : MonoBehaviour
 
     public void pause()
     {
-            if (Time.timeScale == 1)
+            if (!inPause)
             {
                 pauseMenu.enabled = true;
                 Time.timeScale = 0;
             }
-            else if (Time.timeScale == 0)
+            else
             {
                 pauseMenu.enabled = false;
                 Time.timeScale = 1;
             }
+            inPause = !inPause;
 
     }
 }

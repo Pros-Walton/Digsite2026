@@ -156,7 +156,7 @@ public class DiggerAgent : MonoBehaviour
         private void parseData()
     {
         int current = 0;
-        int enemySelectorMax = Mathf.Min(2, States.stats.depth);
+        int enemySelectorMax = Mathf.Min(3, (int)((States.stats.depth + 1) /2));
         int enemySelectorMin = Mathf.Max(0, (States.stats.depth - 2));
         for (int i = 0; i < width; i++)
         {

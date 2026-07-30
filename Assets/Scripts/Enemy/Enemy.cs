@@ -41,6 +41,11 @@ public class Enemy
                 attack = 2;
                 defense = 1;
                 break;
+            case 2:
+                maxHP = 15;
+                attack = 3;
+                defense = 2;
+                break;
         }
 
         HP = maxHP;

@@ -21,7 +21,7 @@ public class EnemyMount : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        sounds[0].mute = render.enabled;
+        sounds[0].mute = !render.enabled;
 
         float dist = Vector3.Distance(enemy.playerTarget.transform.position, transform.position); 
         if  ( (dist <  5))

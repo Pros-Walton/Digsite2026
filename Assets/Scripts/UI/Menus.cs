@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-
+using UnityEngine.Audio;
 
 public class Menus : MonoBehaviour
 {
@@ -16,17 +16,20 @@ public class Menus : MonoBehaviour
 
     public void Menu()
     {
+        States.audioMixer.SetFloat("SFXVol", States.sfxVol);
         StartCoroutine(Hold("Main Menu"));
     }
 
     public void New()
     {
+        States.audioMixer.SetFloat("SFXVol", States.sfxVol);
         States.LoadData = false;
         StartCoroutine(Hold("Loading"));
     }
 
     public void Load()
     {
+        States.audioMixer.SetFloat("SFXVol", States.sfxVol);
         States.LoadData = true;
         StartCoroutine(Hold("Loading"));
     }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Audio;
 using System.IO;
 
 public class PlayerUI : MonoBehaviour
@@ -19,6 +20,9 @@ public class PlayerUI : MonoBehaviour
     private bool inPause;
     private bool inInventory;
 
+    public AudioMixer audioMixer;
+    public AudioMixerGroup sfx;
+
     private void OnEnable()
     {
         InputActionGroups.FindActionMap("Screens").Enable();
@@ -30,6 +34,12 @@ public class PlayerUI : MonoBehaviour
 
         actionInventory = InputSystem.actions.FindAction("Inventory");
         actionPause = InputSystem.actions.FindAction("Pause");
+        States.audioMixer = audioMixer;
+        float sfxVol = 0;
+        States.audioMixer.GetFloat("SFXVol", out sfxVol);
+        States.sfxVol = sfxVol;
+
+
     }
 
     private void OnDisable()
@@ -82,6 +92,7 @@ public class PlayerUI : MonoBehaviour
         {
             if (!inInventory)
             {
+                States.audioMixer.SetFloat("SFXVol", -80.0f);
                 readout.clearDetails();
                 uiManager.clearButtons();
                 uiManager.doArmour();
@@ -90,6 +101,7 @@ public class PlayerUI : MonoBehaviour
             }
             else
             {
+                States.audioMixer.SetFloat("SFXVol", States.sfxVol);
                 readout.clearDetails();
                 uiManager.clearButtons();
                 inventoryCanvas.enabled = false;
@@ -126,11 +138,13 @@ public class PlayerUI : MonoBehaviour
     {
             if (!inPause)
             {
+                States.audioMixer.SetFloat("SFXVol", -80.0f);
                 pauseMenu.enabled = true;
                 Time.timeScale = 0;
             }
             else
             {
+                States.audioMixer.SetFloat("SFXVol", States.sfxVol);
                 pauseMenu.enabled = false;
                 Time.timeScale = 1;
             }

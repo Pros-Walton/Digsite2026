@@ -2,6 +2,7 @@ using UnityEngine;
 using static Inventory;
 using static LevelData;
 using System.Collections.Generic;
+using UnityEngine.Audio;
 
 
 public static class States
@@ -37,4 +38,7 @@ public static class States
 
     public static GameObject[] allEnemies {get; set;}
     public static GameObject[] allItems {get; set;}
+
+    public static float sfxVol {get; set;}
+    public static AudioMixer audioMixer {get; set;}
 }

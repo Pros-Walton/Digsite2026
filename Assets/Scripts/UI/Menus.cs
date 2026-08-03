@@ -34,6 +34,16 @@ public class Menus : MonoBehaviour
         StartCoroutine(Hold("Loading"));
     }
 
+    public void OpenSettings()
+    {
+        SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
+    }
+
+    public void CloseSettings()
+    {
+        SceneManager.UnloadSceneAsync("Settings");
+    }
+
     IEnumerator Hold(string scene)
     {
         Time.timeScale = 1;

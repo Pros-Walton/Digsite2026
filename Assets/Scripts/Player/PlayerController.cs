@@ -26,10 +26,10 @@ public class PlayerController : MonoBehaviour
 
     private int hungerOdds = 100;
 
-    private Vector3 playerWalk;
-
     private Weapon weapon;
     private Armour armour;
+
+    public GameObject ammo;
 
     public LayerMask enemyMask;
     public LayerMask objectMask;
@@ -103,61 +103,20 @@ public class PlayerController : MonoBehaviour
 
         if (actionNorth.IsPressed())
         {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            if (playerIsWalk)
-            {
-                transform.position += new Vector3(0,0,walkSpeed) * Time.deltaTime;
-                if (!playSound)
-                {
-                    playSound = true;
-                    sounds[0].Play();
-                }
-            }
-           walkHunger();
+            playerWalking(Quaternion.Euler(0, 0, 0), new Vector3(0,0,walkSpeed));
         }
         else if (actionEast.IsPressed())
         {
-            transform.rotation = Quaternion.Euler(0, 90, 0);
-            if (playerIsWalk)
-            {
-                transform.position += new Vector3(walkSpeed,0,0) * Time.deltaTime;
-                if (!playSound)
-                {
-                    playSound = true;
-                    sounds[0].Play();
-                }
-            }
-            walkHunger();
+            playerWalking(Quaternion.Euler(0, 90, 0), new Vector3(walkSpeed,0,0));
         }
         else if (actionSouth.IsPressed())
         {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-            if (playerIsWalk)
-            {
-                transform.position += new Vector3(0,0,-walkSpeed) * Time.deltaTime;
-                if (!playSound)
-                {
-                    playSound = true;
-                    sounds[0].Play();
-                }
-            }
-            walkHunger();
+            playerWalking(Quaternion.Euler(0, 180, 0), new Vector3(0,0,-walkSpeed));
         }
         else if (actionWest.IsPressed())
         {
-            transform.rotation = Quaternion.Euler(0, 270, 0);
-            if (playerIsWalk)
-            {
-                transform.position += new Vector3(-walkSpeed,0,0) * Time.deltaTime;
-                if (!playSound)
-                {
-                    playSound = true;
-                    sounds[0].Play();
-                }
-            }
-            walkHunger();
+            playerWalking(Quaternion.Euler(0,270,0), new Vector3(-walkSpeed,0,0));
         }
-
         else
         {
             playSound = false;
@@ -166,20 +125,29 @@ public class PlayerController : MonoBehaviour
          transform.position = new Vector3(transform.position.x,0.4f,transform.position.z);
     }
 
-    private void walkHunger()
+    private void playerWalking(Quaternion rotation, Vector3 vector)
     {
-        if (UnityEngine.Random.Range(0,hungerOdds) == 0)
+        transform.rotation = rotation;
+        if (playerIsWalk)
         {
-            if (States.stats.stamina > 0)
+            transform.position += vector * Time.deltaTime;
+            if (!playSound)
             {
-                States.stats.stamina -= 0.1f;
+                playSound = true;
+                sounds[0].Play();
             }
-            else
+            if (UnityEngine.Random.Range(0,hungerOdds) == 0)
             {
-                States.stats.health -= 0.5f;
+                if (States.stats.stamina > 0)
+                {
+                    States.stats.stamina -= 0.1f;
+                }
+                else
+                {
+                    States.stats.health -= 0.5f;
+                }
             }
         }
-
     }
 
     private void interact()
@@ -193,46 +161,77 @@ public class PlayerController : MonoBehaviour
         if (actionAttack.WasPressedThisFrame() && Time.timeScale == 1 && States.stats.stamina > 0)
         {
 
-            sounds[1].Play();
-            Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f, enemyMask);
-
             if (UnityEngine.Random.Range(0,(hungerOdds/50)) == 0)
             {
                 States.stats.stamina -= 0.3f;
             }
 
-            foreach (Collider target in targets)
+            if (States.stats.weapon.type == Weapon.weaponType.meele)
             {
-                GameObject targetObject = target.gameObject;
-                Vector3 targetAngle = (target.transform.position - transform.position).normalized;
-                if ((Vector3.Angle(transform.forward, targetAngle) < 90) &&
-                !targetObject.name.Contains("Front"))
+                meele();
+            }
+            else 
+            {
+                ranged();
+            }
+        }
+
+    }
+
+    private void meele()
+    {
+        sounds[1].Play();
+        Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f, enemyMask);
+
+        foreach (Collider target in targets)
+        {
+            GameObject targetObject = target.gameObject;
+            Vector3 targetAngle = (target.transform.position - transform.position).normalized;
+            if ((Vector3.Angle(transform.forward, targetAngle) < 90) &&
+            !targetObject.name.Contains("Front"))
+            {
+                EnemyMount mount = targetObject.GetComponent<EnemyMount>();
+                Enemy enemy = mount.enemy;
+                mount.sounds[2].Play();
+                enemy.HP -= ((float)States.stats.weapon.attack * (3.0f) / enemy.defense);
+                States.stats.weapon.use();
+                if (States.stats.weapon.shouldBreak())
+                    {
+                        States.stats.weapon = States.inventory.weapons[0];
+                        States.inventory.weapons.RemoveAt(0);
+                    }
+                targetObject.transform.position -= targetObject.transform.forward;
+                if (enemy.HP <= 0)
                 {
-                    EnemyMount mount = targetObject.GetComponent<EnemyMount>();
-                    Enemy enemy = mount.enemy;
-                    mount.sounds[2].Play();
-                    enemy.HP -= ((float)States.stats.weapon.attack * (3.0f) / enemy.defense);
-                    States.stats.weapon.use();
-                    if (States.stats.weapon.shouldBreak())
-                        {
-                            States.stats.weapon = States.inventory.weapons[0];
-                            States.inventory.weapons.RemoveAt(0);
-                        }
-                    targetObject.transform.position -= targetObject.transform.forward;
-                    if (enemy.HP <= 0)
-                    {
-                        States.tiles[enemy.locID].ent = "NULL";
-                        mount.sounds[0].Stop();
-                        Destroy(targetObject);
-                        States.stats.score += 10;
-                    }
-                    else
-                    {
-                        States.tiles[enemy.locID].ent = JsonUtility.ToJson(enemy);
-                    }
+                    enemyKill(targetObject, enemy, mount);
+                }
+                else
+                {
+                    States.tiles[enemy.locID].ent = JsonUtility.ToJson(enemy);
                 }
             }
         }
+    }
+
+    private void ranged()
+    {
+        States.stats.weapon.use();
+        if (States.stats.weapon.shouldBreak())
+        {
+            States.stats.weapon = States.inventory.weapons[0];
+            States.inventory.weapons.RemoveAt(0);
+        }
+        Vector3 pos = transform.position + transform.forward;
+        GameObject ammunition = Instantiate(ammo, pos, Quaternion.identity);
+        ammunition.transform.forward = transform.forward;
+    }
+
+    private void enemyKill(GameObject target, Enemy enemy, EnemyMount mount)
+    {
+        States.tiles[enemy.locID].ent = "NULL";
+        mount.sounds[0].Stop();
+        Destroy(target);
+        States.stats.score += 10;
 
     }
 

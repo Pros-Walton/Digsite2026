@@ -36,13 +36,12 @@ public class Manager : MonoBehaviour
         uiDepth.text = States.stats.depth.ToString();
         btnArmour.Select();
 
-        gridMount = new Vector3 (Screen.width/10.5f, Screen.height/1.57f, 0);
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        gridMount = new Vector3 (Screen.width/10.5f, Screen.height/1.57f, 0);
         uiHealth.text = (((int)States.stats.health).ToString() + "/" + States.stats.health_max.ToString());
         uiStamina.text = (((int)States.stats.stamina).ToString() + "/" + States.stats.stamina_max.ToString());
         uiGold.text = States.stats.gold.ToString();

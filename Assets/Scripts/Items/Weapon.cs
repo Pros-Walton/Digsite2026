@@ -9,6 +9,8 @@ public class Weapon
     public float damageRate;
     public string desc;
     public Sprite icon;
+    public enum weaponType {meele, ranged};
+    public weaponType type;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public void use()
@@ -31,8 +33,9 @@ public class Weapon
                 durability = 0;
                 used = -1.0f;
                 damageRate = 0.0f;
-                desc = "Have you ever heard of Five Nights at Freddy's 4?";
+                desc = "Trusty old  trowel, used for digging holes. Typically.";
                 icon = Resources.Load<Sprite>("Textures/Items/wep_trowel") as Sprite;
+                type = weaponType.meele;
                 break;
             case 1:
                 name = "Knife";
@@ -42,6 +45,17 @@ public class Weapon
                 damageRate = 1.0f;
                 desc = "Stabby stabby!";
                 icon = Resources.Load<Sprite>("Textures/Items/wep_knife") as Sprite;
+                type = weaponType.meele;
+                break;
+            case 2:
+                name = "Bow";
+                attack = 1;
+                durability = 0;
+                used = -1.0f;
+                damageRate = 0.0f;
+                desc = "A basic bow, good for picking off enemies at a distance.";
+                icon = Resources.Load<Sprite>("Textures/Items/wep_bow") as Sprite;
+                type = weaponType.ranged;
                 break;
         }
 

@@ -8559,6 +8559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   InputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   walkSpeed: 2.5
+  ammo: {fileID: 2710281925021046873, guid: 7bf354a9aa02bbadcaae0bf73d1b5074, type: 3}
   enemyMask:
     serializedVersion: 2
     m_Bits: 256

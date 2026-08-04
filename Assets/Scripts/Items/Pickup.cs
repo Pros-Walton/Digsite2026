@@ -48,7 +48,7 @@ public class Pickup
                     switch(typeSelector)
                     {
                         case 3:
-                            weapons.Add(new Weapon(UnityEngine.Random.Range(1,2)));
+                            weapons.Add(new Weapon(UnityEngine.Random.Range(1,3)));
                             break;
                         case 4:
                             armours.Add(new Armour(UnityEngine.Random.Range(1,2)));

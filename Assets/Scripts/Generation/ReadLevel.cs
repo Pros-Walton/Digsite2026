@@ -314,6 +314,12 @@ public class ReadLevel : MonoBehaviour
         else 
         {
             States.leveldata = JsonUtility.FromJson<LevelData>(File.ReadAllText(levPath));
+            States.tileData = States.leveldata.data;
+            States.tiles = new List<Tile>();
+            foreach (string tileStr in States.tileData)
+            {
+                States.tiles.Add(JsonUtility.FromJson<Tile>(tileStr));
+            }
         }
     }
 

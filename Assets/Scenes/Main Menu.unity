@@ -2013,8 +2013,8 @@ MonoBehaviour:
 
     SHIFT + WASD - CHANGE DIRECTION
 
-    LEFT
-    CLICK - ATTACK
+    SPACE
+    - ATTACK
 
     E - INTERACT
 
@@ -2134,8 +2134,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 361, y: -212}
-  m_SizeDelta: {x: 125, y: 25}
+  m_AnchoredPosition: {x: 344.6, y: -212}
+  m_SizeDelta: {x: 62.5, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &874780433
 MonoBehaviour:
@@ -2157,7 +2157,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: V 2026-08-04
+  m_text: V 2026-08-06
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3dda4b3219b575190b41302acf986064, type: 2}
   m_sharedMaterial: {fileID: 6172690252726389087, guid: 3dda4b3219b575190b41302acf986064, type: 2}

@@ -12,6 +12,8 @@ public class PlayerStats
     public int stamina_max;
     public float stamina;
 
+    public int ammo;
+
     public int gold;
     public int score;
     public int depth;
@@ -28,6 +30,7 @@ public class PlayerStats
         health_max = 30;
         stamina = 30;
         stamina_max = 30;
+        ammo = 0;
         weapon = new Weapon(0);
         armour = new Armour(0);
     }

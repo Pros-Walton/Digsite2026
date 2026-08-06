@@ -20,7 +20,7 @@ public class Item
                 desc = "Have you ever heard about Five Nights at Freddy's 2?";
                 affect = "+ 10HP";
                 count = 1;
-                icon = Resources.Load<Sprite>("Textures/Items/item_0") as Sprite;
+                icon = Resources.Load<Sprite>("Textures/Items/item_heal_potion01") as Sprite;
                 break;
             case 1:
                 name = "Bread";

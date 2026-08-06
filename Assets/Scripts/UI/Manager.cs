@@ -16,6 +16,7 @@ public class Manager : MonoBehaviour
     public TMP_Text uiDepth;
     public TMP_Text uiArmour;
     public TMP_Text uiWeapon;
+    public TMP_Text uiAmmo;
 
     public Button btnArmour;
 
@@ -46,6 +47,7 @@ public class Manager : MonoBehaviour
         uiStamina.text = (((int)States.stats.stamina).ToString() + "/" + States.stats.stamina_max.ToString());
         uiGold.text = States.stats.gold.ToString();
         uiScore.text = States.stats.score.ToString();
+        uiAmmo.text = States.stats.ammo.ToString();
 
         if (States.stats.armour.durability == 0)
         {

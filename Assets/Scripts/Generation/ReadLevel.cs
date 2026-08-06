@@ -307,7 +307,7 @@ public class ReadLevel : MonoBehaviour
         if (!File.Exists(levPath))
         {
             Debug.Log("FILE DOES NOT EXIST DESPITE LOAD, CREATING NOW!");
-            File.Create(levPath);
+            File.Create(levPath).Close();
             agent = this.GetComponent<DiggerAgent>();
             agent.runDig();
         }

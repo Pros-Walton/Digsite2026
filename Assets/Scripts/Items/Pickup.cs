@@ -12,6 +12,8 @@ public class Pickup
 
     public int gold;
 
+    public int ammo;
+
     List<Weapon> weapons = new List<Weapon>();
     List<Armour> armours = new List<Armour>();
     List<Artifact> artifacts = new List<Artifact>();
@@ -38,6 +40,8 @@ public class Pickup
 
         gold = UnityEngine.Random.Range(5,100);
 
+        ammo = UnityEngine.Random.Range(5,30);
+
         switch (id)
         {
             case 0:
@@ -54,7 +58,7 @@ public class Pickup
                             armours.Add(new Armour(UnityEngine.Random.Range(1,2)));
                             break;
                         default:
-                            int itemType = UnityEngine.Random.Range(0,3);
+                            int itemType = UnityEngine.Random.Range(0,2);
                             switch(itemType)
                             {    
                                 case 0:
@@ -76,6 +80,7 @@ public class Pickup
     public void GiveLoot()
     {
         States.stats.gold += gold;
+        States.stats.ammo += ammo;
 
         foreach (Weapon weapon in weapons)
         {

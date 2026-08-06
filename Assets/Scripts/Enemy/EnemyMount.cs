@@ -29,7 +29,7 @@ public class EnemyMount : MonoBehaviour
             if (!Physics.Linecast(transform.position, enemy.playerTarget.transform.position, worldMask))
             {
                 transform.LookAt(enemy.playerTarget.transform);
-                if (dist > 1)
+                if (dist > 0.75f)
                 {
                     if (!isWalk)
                     {

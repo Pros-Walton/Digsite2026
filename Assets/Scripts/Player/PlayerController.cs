@@ -172,7 +172,10 @@ public class PlayerController : MonoBehaviour
             }
             else 
             {
-                ranged();
+                if (States.stats.ammo > 0)
+                {
+                    ranged();
+                }
             }
         }
 
@@ -216,6 +219,7 @@ public class PlayerController : MonoBehaviour
     private void ranged()
     {
         States.stats.weapon.use();
+        States.stats.ammo -= 1;
         if (States.stats.weapon.shouldBreak())
         {
             States.stats.weapon = States.inventory.weapons[0];

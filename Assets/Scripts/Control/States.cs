@@ -41,4 +41,6 @@ public static class States
 
     public static float sfxVol {get; set;}
     public static AudioMixer audioMixer {get; set;}
+
+    public static float diffMult {get; set;}
 }

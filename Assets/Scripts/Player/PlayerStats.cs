@@ -21,6 +21,8 @@ public class PlayerStats
     public string armour_str;
     public Weapon weapon;
     public Armour armour;
+
+    public float diffMult;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public PlayerStats()
@@ -33,6 +35,7 @@ public class PlayerStats
         ammo = 0;
         weapon = new Weapon(0);
         armour = new Armour(0);
+        diffMult = States.diffMult;
     }
 
     public void GameOver()

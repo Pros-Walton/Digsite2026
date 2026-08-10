@@ -170,7 +170,7 @@ public class DiggerAgent : MonoBehaviour
 
                 if (curTile.type != 0)
                 {
-                    if (UnityEngine.Random.Range(0,7) == 0)
+                    if (UnityEngine.Random.Range(0,(int)(7 / States.diffMult)) == 0)
                     {
                         Enemy enemy = new Enemy();
                         int roll = UnityEngine.Random.Range(enemySelectorMin,enemySelectorMax);
@@ -276,7 +276,7 @@ public class DiggerAgent : MonoBehaviour
             }
             if (curTile.type != 0)
             {
-                if (UnityEngine.Random.Range(0,chance) == 0)
+                if (UnityEngine.Random.Range(0,(int)(chance * States.diffMult)) == 0)
                 {
                     Pickup drop = new Pickup();
                     drop.populate(counter,(int)UnityEngine.Random.Range(0,0));

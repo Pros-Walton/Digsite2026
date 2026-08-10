@@ -50,7 +50,7 @@ public class EnemyMount : MonoBehaviour
                     {
                         sounds[1].Play();
                         enemy.attackCooldown = enemy.cooldownMax;
-                        float damageDone = ((float)enemy.attack / States.stats.armour.defense);
+                        float damageDone = ((float)(enemy.attack * States.diffMult) / (States.stats.armour.defense / States.diffMult));
                         States.stats.health -= damageDone;
                         States.stats.armour.use();
                         if (States.stats.armour.shouldBreak())

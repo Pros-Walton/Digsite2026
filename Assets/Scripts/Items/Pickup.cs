@@ -40,7 +40,7 @@ public class Pickup
 
         gold = UnityEngine.Random.Range(5,100);
 
-        ammo = UnityEngine.Random.Range(5,30);
+        ammo = UnityEngine.Random.Range(5,15);
 
         switch (id)
         {
@@ -62,7 +62,7 @@ public class Pickup
                             switch(itemType)
                             {    
                                 case 0:
-                                    Artifact art = new Artifact(UnityEngine.Random.Range(0,0));
+                                    Artifact art = new Artifact(UnityEngine.Random.Range(0,2));
                                     artifacts.Add(art);
                                     break;
                                 case 1:

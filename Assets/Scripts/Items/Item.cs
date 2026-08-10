@@ -12,22 +12,23 @@ public class Item
 
     public Item(int itemID)
     {
+        string dir = "Textures/Items/item/";
         itemId = itemID;
         switch(itemId)
         {
             case 0:
-                name = "Item 0";
-                desc = "Have you ever heard about Five Nights at Freddy's 2?";
+                name = "Healing potion";
+                desc = "A green potion of some kind. It appears to be health related.";
                 affect = "+ 10HP";
                 count = 1;
-                icon = Resources.Load<Sprite>("Textures/Items/item_heal_potion01") as Sprite;
+                icon = Resources.Load<Sprite>(dir + "heal_potion01") as Sprite;
                 break;
             case 1:
-                name = "Bread";
-                desc = "Basic Bread";
+                name = "Bread loaf";
+                desc = "A basic loaf of Bread. Its surface is crunchy.";
                 affect = "+ 10 Stamina";
                 count = 1;
-                icon = Resources.Load<Sprite>("Textures/Items/item_bread") as Sprite;
+                icon = Resources.Load<Sprite>(dir + "bread") as Sprite;
                 break;
         }
 

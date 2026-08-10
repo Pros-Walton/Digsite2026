@@ -196,13 +196,9 @@ public class PlayerController : MonoBehaviour
                 EnemyMount mount = targetObject.GetComponent<EnemyMount>();
                 Enemy enemy = mount.enemy;
                 mount.sounds[2].Play();
-                enemy.HP -= ((float)States.stats.weapon.attack * (3.0f) / enemy.defense);
+                enemy.HP -= ((float)(States.stats.weapon.attack / States.diffMult) * (3.0f) / (enemy.defense * States.diffMult));
                 States.stats.weapon.use();
-                if (States.stats.weapon.shouldBreak())
-                    {
-                        States.stats.weapon = States.inventory.weapons[0];
-                        States.inventory.weapons.RemoveAt(0);
-                    }
+                breakCheck();
                 targetObject.transform.position -= targetObject.transform.forward;
                 if (enemy.HP <= 0)
                 {
@@ -220,11 +216,7 @@ public class PlayerController : MonoBehaviour
     {
         States.stats.weapon.use();
         States.stats.ammo -= 1;
-        if (States.stats.weapon.shouldBreak())
-        {
-            States.stats.weapon = States.inventory.weapons[0];
-            States.inventory.weapons.RemoveAt(0);
-        }
+        breakCheck();
         Vector3 pos = transform.position + transform.forward;
         GameObject ammunition = Instantiate(ammo, pos, Quaternion.identity);
         ammunition.transform.forward = transform.forward;
@@ -237,6 +229,15 @@ public class PlayerController : MonoBehaviour
         Destroy(target);
         States.stats.score += 10;
 
+    }
+
+    private void breakCheck()
+    {
+        if (States.stats.weapon.shouldBreak())
+        {
+            States.stats.weapon = States.inventory.weapons[0];
+            States.inventory.weapons.RemoveAt(0);
+        }       
     }
 
     private void use()
@@ -305,6 +306,7 @@ public class PlayerController : MonoBehaviour
             File.Create(invenPath);
             States.inventory = new Inventory();
         }
+        States.diffMult = States.stats.diffMult;
         transform.position = States.stats.pos; 
         
     }

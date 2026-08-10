@@ -11,12 +11,13 @@ public class Key
     public Key(int itemID)
     {
         id = itemID;
+        string dir = "Textures/Items/key/";
         switch(id)
         {
             case 0:
                 name = "Key 0";
                 desc = "Have you ever heard about Five Nights at Freddy's 3?";
-                icon = Resources.Load<Sprite>("Textures/Items/key_0") as Sprite;
+                icon = Resources.Load<Sprite>(dir + "0") as Sprite;
                 break;
         }
     }

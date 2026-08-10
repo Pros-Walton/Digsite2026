@@ -12,15 +12,24 @@ public class Artifact
 
     public Artifact(int itemID)
     {
+        string dir = "Textures/Items/art/";
         switch(itemID)
         {
             case 0:
-                name = "Artifact 0";
-                desc = "Have you ever heard about Five Nights at Freddy's?";
-                lore = "It was a favourite of mine growing up.";
+                name = "Pottery shard";
+                desc = "A shard of a piece of pottery. It's surface implies a wide and shallow shape.";
+                lore = "It seems it was part of a bowel, likely used for eating.";
                 score = 100;
                 count = 1;
-                icon = Resources.Load<Sprite>("Textures/Items/art_0") as Sprite;
+                icon = Resources.Load<Sprite>(dir + "shard") as Sprite;
+                break;
+            case 1:
+                name = "Strange coin";
+                desc = "A strange, metallic, branded coin of some kind.";
+                lore = "For some reason, you are reminded of a puzzle.";
+                score = 150;
+                count = 1;
+                icon = Resources.Load<Sprite>(dir + "hintCoin") as Sprite;
                 break;
         }
 

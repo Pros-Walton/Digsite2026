@@ -25,6 +25,7 @@ public class Weapon
 
     public Weapon(int itemID)
     {
+        string dir = "Textures/Items/wep/";
         switch(itemID)
         {
             case 0:
@@ -34,7 +35,7 @@ public class Weapon
                 used = -1.0f;
                 damageRate = 0.0f;
                 desc = "Trusty old  trowel, used for digging holes. Typically.";
-                icon = Resources.Load<Sprite>("Textures/Items/wep_trowel") as Sprite;
+                icon = Resources.Load<Sprite>(dir + "trowel") as Sprite;
                 type = weaponType.meele;
                 break;
             case 1:
@@ -43,8 +44,8 @@ public class Weapon
                 durability = 64;
                 used = 0.0f;
                 damageRate = 1.0f;
-                desc = "Stabby stabby!";
-                icon = Resources.Load<Sprite>("Textures/Items/wep_knife") as Sprite;
+                desc = "A small metal knife, possibly a dagger of some kind.";
+                icon = Resources.Load<Sprite>(dir + "knife") as Sprite;
                 type = weaponType.meele;
                 break;
             case 2:
@@ -54,7 +55,7 @@ public class Weapon
                 used = -1.0f;
                 damageRate = 0.0f;
                 desc = "A basic bow, good for picking off enemies at a distance.";
-                icon = Resources.Load<Sprite>("Textures/Items/wep_bow") as Sprite;
+                icon = Resources.Load<Sprite>(dir + "bow") as Sprite;
                 type = weaponType.ranged;
                 break;
         }

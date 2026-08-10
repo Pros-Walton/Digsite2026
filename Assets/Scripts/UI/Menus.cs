@@ -20,8 +20,9 @@ public class Menus : MonoBehaviour
         StartCoroutine(Hold("Main Menu"));
     }
 
-    public void New()
+    public void New(float diffMult)
     {
+        States.diffMult = diffMult;
         States.audioMixer.SetFloat("SFXVol", States.sfxVol);
         States.LoadData = false;
         StartCoroutine(Hold("Loading"));

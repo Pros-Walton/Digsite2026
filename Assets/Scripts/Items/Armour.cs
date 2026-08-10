@@ -23,6 +23,7 @@ public class Armour
 
     public Armour(int itemID)
     {
+        string dir = "Textures/Items/amr/";
         switch(itemID)
         {
             case 0:
@@ -31,8 +32,8 @@ public class Armour
                 durability = 0;
                 used = -1.0f;
                 damageRate = 0.0f;
-                desc = "Have you ever heard of Five Nights at Freddy's Sister Location?";
-                icon = Resources.Load<Sprite>("Textures/Items/amr_cloth") as Sprite;
+                desc = "Regular, every day work clothes.";
+                icon = Resources.Load<Sprite>(dir + "cloth") as Sprite;
                 break;
             case 1:
                 name = "Chain";
@@ -40,8 +41,8 @@ public class Armour
                 durability = 64;
                 used = 0.0f;
                 damageRate = 1.0f;
-                desc = "Chain.";
-                icon = Resources.Load<Sprite>("Textures/Items/amr_chain") as Sprite;
+                desc = "Chain armour. Historically focused on preventing slashing attacks.";
+                icon = Resources.Load<Sprite>(dir + "chain") as Sprite;
                 break;
         }
 

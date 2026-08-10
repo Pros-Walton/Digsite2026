@@ -40,7 +40,7 @@ public class ammo : MonoBehaviour
         GameObject targetObject = hitInfo.transform.gameObject;
         EnemyMount mount = targetObject.GetComponent<EnemyMount>();
         Enemy enemy = mount.enemy;
-        enemy.HP -= ((float)States.stats.weapon.attack * (3.0f) / enemy.defense);
+        enemy.HP -= ((float)(States.stats.weapon.attack / States.diffMult) * (3.0f) / (enemy.defense * States.diffMult));
         targetObject.transform.position += playerTarget.transform.forward;
         if (enemy.HP <= 0)
         {

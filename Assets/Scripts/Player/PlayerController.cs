@@ -332,6 +332,7 @@ public class PlayerController : MonoBehaviour
         foreach (GameObject item in States.allItems)
         {
             item.GetComponent<Renderer>().enabled = false;
+            item.transform.GetChild(0).GetComponent<Renderer>().enabled = false;
         }
         Collider[] targetsItem = Physics.OverlapSphere(transform.position, 10.0f, objectMask);
         foreach (Collider target in targetsItem)
@@ -340,6 +341,7 @@ public class PlayerController : MonoBehaviour
             if (!Physics.Linecast(transform.position, item.transform.position, worldMask))
             {
                 item.GetComponent<Renderer>().enabled = true;
+                item.transform.GetChild(0).GetComponent<Renderer>().enabled = true;
             }
         }
 

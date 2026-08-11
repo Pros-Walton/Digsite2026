@@ -270,7 +270,7 @@ public class ReadLevel : MonoBehaviour
                         new Vector3 
                         (
                             real_posX * 1.5f,
-                            0.075f, 
+                            0.1875f, 
                             real_posY * 1.5f
                         ), 
                         Quaternion.identity

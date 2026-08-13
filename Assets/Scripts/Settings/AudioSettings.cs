@@ -12,24 +12,28 @@ public class AudioSettings : MonoBehaviour
     public AudioMixerGroup MasterGroup;
     private Slider MasterSlider;
     private TMP_InputField MasterInput;
+    private AudioSource MasterBlip;
     private int MasterVal;
 
     public GameObject Music;
     public AudioMixerGroup MusicGroup;
     private Slider MusicSlider;
     private TMP_InputField MusicInput;
+    private AudioSource MusicBlip;
     private int MusicVal;
 
     public GameObject SFX;
     public AudioMixerGroup SFXGroup;
     private Slider SFXSlider;
     private TMP_InputField SFXInput;
+    private AudioSource SFXBlip;
     private int SFXVal;
 
     public GameObject UI;
     public AudioMixerGroup UIGroup;
     private Slider UISlider;
     private TMP_InputField UIInput;
+    private AudioSource UIBlip;
     private int UIVal;
 
 
@@ -39,15 +43,19 @@ public class AudioSettings : MonoBehaviour
         States.audioMixer = mixer;
         MasterSlider = Master.transform.GetChild(0).gameObject.GetComponent<Slider>();
         MasterInput = Master.transform.GetChild(1).gameObject.GetComponent<TMP_InputField>();
+        MasterBlip = Master.GetComponent<AudioSource>();
         
         MusicSlider = Music.transform.GetChild(0).gameObject.GetComponent<Slider>();
         MusicInput = Music.transform.GetChild(1).gameObject.GetComponent<TMP_InputField>();
+        MusicBlip = Music.GetComponent<AudioSource>();
 
         SFXSlider = SFX.transform.GetChild(0).gameObject.GetComponent<Slider>();
         SFXInput = SFX.transform.GetChild(1).gameObject.GetComponent<TMP_InputField>();
+        SFXBlip = SFX.GetComponent<AudioSource>();
 
         UISlider = UI.transform.GetChild(0).gameObject.GetComponent<Slider>();
-        UIInput = UI.transform.GetChild(1).gameObject.GetComponent<TMP_InputField>();     
+        UIInput = UI.transform.GetChild(1).gameObject.GetComponent<TMP_InputField>();   
+        UIBlip = UI.GetComponent<AudioSource>();  
 
         Load();   
     }
@@ -60,17 +68,24 @@ public class AudioSettings : MonoBehaviour
 
     public void SliderChangeMstr()
     {
+        MasterBlip.Play();
         SliderChange(MasterSlider,MasterInput);
+        MapValues();
+        Apply();
     }
 
     public void InputChangeMstr()
     {
         InputChange(MasterSlider,MasterInput);
+        
     }
 
     public void SliderChangeMus()
     {
+        MusicBlip.Play();
         SliderChange(MusicSlider,MusicInput);
+        MapValues();
+        Apply();
     }
 
     public void InputChangeMus()
@@ -80,7 +95,10 @@ public class AudioSettings : MonoBehaviour
 
     public void SliderChangeSFX()
     {
+        SFXBlip.Play();
         SliderChange(SFXSlider,SFXInput);
+        MapValues();
+        Apply();
     }
 
     public void InputChangeSFX()
@@ -90,7 +108,10 @@ public class AudioSettings : MonoBehaviour
 
     public void SliderChangeUI()
     {
+        UIBlip.Play();
         SliderChange(UISlider,UIInput);
+        MapValues();
+        Apply();
     }
 
     public void InputChangeUI()

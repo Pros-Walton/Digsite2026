@@ -623,8 +623,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 23618063}
-        m_TargetAssemblyTypeName: Tutorial, Assembly-CSharp
+      - m_Target: {fileID: 23618065}
+        m_TargetAssemblyTypeName: Difficulty, Assembly-CSharp
         m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:
@@ -2969,7 +2969,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: V 2026-08-10
+  m_text: V 2026-08-13
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3dda4b3219b575190b41302acf986064, type: 2}
   m_sharedMaterial: {fileID: 6172690252726389087, guid: 3dda4b3219b575190b41302acf986064, type: 2}
@@ -3429,8 +3429,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 23618065}
-        m_TargetAssemblyTypeName: Difficulty, Assembly-CSharp
+      - m_Target: {fileID: 23618063}
+        m_TargetAssemblyTypeName: Tutorial, Assembly-CSharp
         m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:

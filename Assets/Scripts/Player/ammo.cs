@@ -17,9 +17,9 @@ public class ammo : MonoBehaviour
     void Update()
     {
         lifetime -= Time.deltaTime;
-        transform.position += transform.forward * 5;
-        Debug.Log(playerTarget.transform.position);
-        if (Physics.Linecast(transform.position, playerTarget.transform.position, out RaycastHit hitInfo, enemyMask, QueryTriggerInteraction.Ignore))
+        transform.position += transform.forward * 1.5f;
+        if (Physics.Linecast(transform.position, playerTarget.transform.position, 
+        out RaycastHit hitInfo, enemyMask, QueryTriggerInteraction.Ignore))
         {
             Destroy(this.gameObject);
             enemyHit(hitInfo);
@@ -31,8 +31,7 @@ public class ammo : MonoBehaviour
         else if (lifetime <= 0.0f)
         {
             Destroy(this.gameObject);
-        }
-        
+        }  
     }
 
     private void enemyHit(RaycastHit hitInfo)

@@ -1,37 +1,46 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
+
 
 public class VideoSettings : MonoBehaviour
 {
     public Toggle toggle;
     public TMP_Dropdown dropdown;
+    private List<Resolution> ResSet = new List<Resolution>();
+    private List<string> ResStr = new List<string>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        int value = 0;
         toggle.isOn =  Screen.fullScreen;
-        dropdown.value = PlayerPrefs.GetInt("ResID", 0);
+        Resolution[] resolutions = Screen.resolutions;
+        foreach (Resolution res in resolutions)
+        {
+            float aspect = (float)res.width/(float)res.height;
+            if ((aspect >= 1.77f) && (aspect <= 1.78f))
+            {
+                if (res.width == Screen.width)
+                {
+                   value = ResSet.Count; 
+                }
+                ResSet.Add(res);
+                ResStr.Add(res.width.ToString() + "x" + res.height.ToString());
+            }
+        }
+
+        dropdown.ClearOptions();
+        dropdown.AddOptions(ResStr);
+        dropdown.value = value;
         
     }
 
     public void Apply()
     {
-        Screen.fullScreen = toggle.isOn;
-        switch (dropdown.value)
-        {
-            case 0:
-                Screen.SetResolution(1920,1080, toggle.isOn);
-                PlayerPrefs.SetInt("ResID", 0);
-                break;
-            case 1:
-                Screen.SetResolution(2560,1440, toggle.isOn);
-                PlayerPrefs.SetInt("ResID", 1);
-                break;
-            case 2:
-                Screen.SetResolution(3840,2160, toggle.isOn);
-                PlayerPrefs.SetInt("ResID", 2);
-                break;
-                
-        }
+        int target = dropdown.value;
+
+        Screen.SetResolution(ResSet[target].width, ResSet[target].height, toggle.isOn);
+        PlayerPrefs.SetInt("ResID", target);
     }
 }

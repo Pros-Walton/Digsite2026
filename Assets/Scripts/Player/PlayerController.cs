@@ -136,8 +136,9 @@ public class PlayerController : MonoBehaviour
                 playSound = true;
                 sounds[0].Play();
             }
-            if (UnityEngine.Random.Range(0,hungerOdds) == 0)
+            if (UnityEngine.Random.Range(0,(int)(hungerOdds / States.diffMult)) == 0)
             {
+                Debug.Log("Food Decay");
                 if (States.stats.stamina > 0)
                 {
                     States.stats.stamina -= 0.1f;

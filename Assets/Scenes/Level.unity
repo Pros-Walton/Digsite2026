@@ -5633,7 +5633,7 @@ MonoBehaviour:
   items: {fileID: 752529678}
   entites: {fileID: 945329186}
   playerTarget: {fileID: 1558996858}
-  agent: {fileID: 0}
+  agent: {fileID: 1027903009}
 --- !u!114 &1027903009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8651,8 +8651,8 @@ GameObject:
   - component: {fileID: 1558996861}
   - component: {fileID: 1558996860}
   - component: {fileID: 1558996859}
-  - component: {fileID: 1558996863}
   - component: {fileID: 1558996864}
+  - component: {fileID: 1558996863}
   - component: {fileID: 1558996865}
   - component: {fileID: 1558996866}
   - component: {fileID: 1558996867}

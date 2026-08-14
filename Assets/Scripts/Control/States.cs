@@ -1,6 +1,7 @@
 using UnityEngine;
 using static Inventory;
 using static LevelData;
+using static SaveMetaList;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 
@@ -10,7 +11,6 @@ public static class States
     public static LevelData leveldata {get; set;}
     public static List<string> tileData {get; set;}
     public static List<Tile> tiles {get; set;}
-
 
     public static bool LoadData {get; set;}
     public static bool NextLevel {get; set;}
@@ -43,4 +43,9 @@ public static class States
     public static AudioMixer audioMixer {get; set;}
 
     public static float diffMult {get; set;}
+
+    public static string saveName {get; set;}
+    public static bool toggleSaveMenu {get; set;}
+
+    public static SaveMetaList saveList {get; set;}
 }

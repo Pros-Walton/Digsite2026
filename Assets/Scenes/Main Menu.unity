@@ -579,6 +579,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LoadToggle
   btn: {fileID: 127038939}
   text: {fileID: 1974358647}
+  check: 0
 --- !u!114 &127038939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -739,6 +740,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LoadToggle
   btn: {fileID: 211229183}
   text: {fileID: 449298056}
+  check: 0
 --- !u!114 &211229183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1588,6 +1590,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LoadToggle
   btn: {fileID: 586193281}
   text: {fileID: 1852988977}
+  check: 0
 --- !u!114 &586193281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2553,7 +2556,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 23618062}
         m_TargetAssemblyTypeName: Menus, Assembly-CSharp
-        m_MethodName: Load
+        m_MethodName: OpenSaves
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2627,6 +2630,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LoadToggle
   btn: {fileID: 815928926}
   text: {fileID: 103493104}
+  check: 1
 --- !u!1 &848956970
 GameObject:
   m_ObjectHideFlags: 0
@@ -2969,7 +2973,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: V 2026-08-13
+  m_text: V 2026-08-14
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3dda4b3219b575190b41302acf986064, type: 2}
   m_sharedMaterial: {fileID: 6172690252726389087, guid: 3dda4b3219b575190b41302acf986064, type: 2}
@@ -3385,6 +3389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LoadToggle
   btn: {fileID: 976145422}
   text: {fileID: 572761779}
+  check: 0
 --- !u!114 &976145422
 MonoBehaviour:
   m_ObjectHideFlags: 0

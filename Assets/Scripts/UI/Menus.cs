@@ -42,7 +42,7 @@ public class Menus : MonoBehaviour
 
     public void CloseSettings()
     {
-        SceneManager.UnloadSceneAsync("Settings");
+        SceneManager.UnloadSceneAsync("Scenes/Settings");
     }
 
     IEnumerator Hold(string scene)
@@ -50,5 +50,16 @@ public class Menus : MonoBehaviour
         Time.timeScale = 1;
         yield return new WaitForSeconds(0.25f);
         SceneManager.LoadScene("Scenes/" + scene);
+    }
+
+    public void OpenSaves()
+    {
+        SceneManager.LoadScene("Saves", LoadSceneMode.Additive);
+    }
+
+    public void CloseSaves()
+    {
+        SceneManager.UnloadSceneAsync("Scenes/Saves");
+
     }
 }

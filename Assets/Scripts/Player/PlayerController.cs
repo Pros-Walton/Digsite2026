@@ -138,7 +138,6 @@ public class PlayerController : MonoBehaviour
             }
             if (UnityEngine.Random.Range(0,(int)(hungerOdds / States.diffMult)) == 0)
             {
-                Debug.Log("Food Decay");
                 if (States.stats.stamina > 0)
                 {
                     States.stats.stamina -= 0.1f;
@@ -281,8 +280,8 @@ public class PlayerController : MonoBehaviour
     private void Load()
     {
         Time.timeScale = 1;
-        string statPath = Application.persistentDataPath + "/Save/player.json";
-        string invenPath = Application.persistentDataPath + "/Save/inventory.json";
+        string statPath = Application.persistentDataPath + "/Save/" + States.saveName + "/player.json";
+        string invenPath = Application.persistentDataPath + "/Save/" + States.saveName + "/inventory.json";
 
         if (File.Exists(statPath))
         {

@@ -96,7 +96,7 @@ public class Manager : MonoBehaviour
                 inventoryButtons[0],
                 (gridMount + offset), 
                 Quaternion.identity);
-            btn.transform.parent = inventoryGrid.transform;
+            btn.transform.SetParent(inventoryGrid.transform);
             btn.transform.localScale = new Vector3(resMult*1.25f,resMult*1.25f,1);
 
             GameObject image = btn.transform.GetChild(0).gameObject;

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Audio;
 using System.IO;
+using System;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -60,6 +61,7 @@ public class PlayerUI : MonoBehaviour
 
     public void Save()
     {
+        string masterPath = Application.persistentDataPath + "/Save/";
         States.stats.applyTo();
         States.inventory.applyTo();
         States.stats.pos = transform.position;
@@ -76,14 +78,13 @@ public class PlayerUI : MonoBehaviour
         string inventoryString = JsonUtility.ToJson(States.inventory);
         string levelString = JsonUtility.ToJson(States.leveldata);
 
-        string playerPath = Application.persistentDataPath + "/Save/player.json";
-        string invenPath = Application.persistentDataPath + "/Save/inventory.json";
-        string levelPath = Application.persistentDataPath + "/Save/level.json";
+        string playerPath = masterPath + States.saveName + "/player.json";
+        string invenPath = masterPath + States.saveName + "/inventory.json";
+        string levelPath = masterPath + States.saveName + "/level.json";
 
         File.WriteAllText(playerPath,statString);
         File.WriteAllText(invenPath,inventoryString);
         File.WriteAllText(levelPath,levelString);
-
     }
 
     private void inventoryCheck()
@@ -113,9 +114,16 @@ public class PlayerUI : MonoBehaviour
 
     public void fileCheck()
     {
-        string playerPath = Application.persistentDataPath + "/Save/player.json";
-        string invenPath = Application.persistentDataPath + "/Save/inventory.json";
-        string levelPath = Application.persistentDataPath + "/Save/level.json";
+
+        string saveMaster = Application.persistentDataPath + "/Save/" + States.saveName;
+        if(!Directory.Exists(saveMaster))
+        {
+            Directory.CreateDirectory(saveMaster);
+        }
+
+        string playerPath = saveMaster + "/player.json";
+        string invenPath = saveMaster + "/inventory.json";
+        string levelPath = saveMaster + "/level.json";
 
         if(!File.Exists(levelPath))
         {

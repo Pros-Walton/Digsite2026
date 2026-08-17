@@ -86,6 +86,8 @@ public class PlayerController : MonoBehaviour
         }
         interact();
         FogOfWar();
+
+        States.stats.pos = transform.position;
     }
 
     private void walk()
@@ -280,8 +282,8 @@ public class PlayerController : MonoBehaviour
     private void Load()
     {
         Time.timeScale = 1;
-        string statPath = Application.persistentDataPath + "/Save/" + States.saveName + "/player.json";
-        string invenPath = Application.persistentDataPath + "/Save/" + States.saveName + "/inventory.json";
+        string statPath = Application.persistentDataPath + "/" + States.saveName + "_player.json";
+        string invenPath = Application.persistentDataPath + "/" + States.saveName + "_inventory.json";
 
         if (File.Exists(statPath))
         {

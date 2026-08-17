@@ -28,6 +28,7 @@ public class SaveButton : MonoBehaviour
     public void setSave()
     {
         States.saveName = name;
+        Debug.Log(States.saveName);
     }
 
     public void click()

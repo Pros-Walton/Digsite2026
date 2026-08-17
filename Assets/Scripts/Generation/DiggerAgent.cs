@@ -41,7 +41,7 @@ public class DiggerAgent : MonoBehaviour
         States.leveldata = new LevelData();
         States.tileData = new List<string>();
         States.tiles = new List<Tile>();
-        string path = (Application.persistentDataPath + "/Save/level.json");
+        string path = (Application.persistentDataPath + "/Save/default_level.json");
         grid = new int[width,height];
         dungeonSize = height*width;
         // if (File.Exists(path))

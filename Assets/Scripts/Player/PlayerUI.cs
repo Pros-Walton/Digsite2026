@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Audio;
-using System.IO;
-using System;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -59,34 +57,6 @@ public class PlayerUI : MonoBehaviour
         }  
     }
 
-    public void Save()
-    {
-        string masterPath = Application.persistentDataPath + "/Save/";
-        States.stats.applyTo();
-        States.inventory.applyTo();
-        States.stats.pos = transform.position;
-
-        States.tileData.Clear();
-        foreach (Tile curTile in States.tiles)
-        {
-            string serial = JsonUtility.ToJson(curTile);
-            States.tileData.Add(serial);
-        }
-        States.leveldata.data = States.tileData;
-
-        string statString = JsonUtility.ToJson(States.stats);
-        string inventoryString = JsonUtility.ToJson(States.inventory);
-        string levelString = JsonUtility.ToJson(States.leveldata);
-
-        string playerPath = masterPath + States.saveName + "/player.json";
-        string invenPath = masterPath + States.saveName + "/inventory.json";
-        string levelPath = masterPath + States.saveName + "/level.json";
-
-        File.WriteAllText(playerPath,statString);
-        File.WriteAllText(invenPath,inventoryString);
-        File.WriteAllText(levelPath,levelString);
-    }
-
     private void inventoryCheck()
     {
         if (actionInventory.WasPressedThisFrame() && !inPause)
@@ -110,36 +80,6 @@ public class PlayerUI : MonoBehaviour
             }
             inInventory = !inInventory;
         }
-    }
-
-    public void fileCheck()
-    {
-
-        string saveMaster = Application.persistentDataPath + "/Save/" + States.saveName;
-        if(!Directory.Exists(saveMaster))
-        {
-            Directory.CreateDirectory(saveMaster);
-        }
-
-        string playerPath = saveMaster + "/player.json";
-        string invenPath = saveMaster + "/inventory.json";
-        string levelPath = saveMaster + "/level.json";
-
-        if(!File.Exists(levelPath))
-        {
-            File.Create(levelPath).Close();
-        }
-
-        if(!File.Exists(playerPath))
-        {
-            File.Create(playerPath).Close();
-        }
-
-        if(!File.Exists(invenPath))
-        {
-            File.Create(invenPath).Close();
-        }
-
     }
 
     public void pause()

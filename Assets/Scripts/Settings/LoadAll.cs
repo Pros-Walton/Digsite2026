@@ -16,9 +16,9 @@ public class LoadAll : MonoBehaviour
         States.audioMixer.SetFloat("SFXVol", PlayerPrefs.GetInt("SFXVol", 0));
         States.audioMixer.SetFloat("UIVol", PlayerPrefs.GetInt("UIVol", 0));
     
-        States.saveName = "Default";
+        States.saveName = null;
 
-        string path = Application.persistentDataPath + "/Save/meta.json";
+        string path = Application.persistentDataPath + "/meta.json";
 
         if (!File.Exists(path))
         {
@@ -30,8 +30,6 @@ public class LoadAll : MonoBehaviour
         string text = File.ReadAllText(path);
         Debug.Log(text);
         States.saveList = JsonUtility.FromJson<SaveMetaList>(text);
-
-        States.saveList.convert();
     }
 
     // Update is called once per frame

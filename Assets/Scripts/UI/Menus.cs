@@ -30,9 +30,12 @@ public class Menus : MonoBehaviour
 
     public void Load()
     {
-        States.audioMixer.SetFloat("SFXVol", States.sfxVol);
-        States.LoadData = true;
-        StartCoroutine(Hold("Loading"));
+        if (States. saveName != null)
+        {
+            States.audioMixer.SetFloat("SFXVol", States.sfxVol);
+            States.LoadData = true;
+            StartCoroutine(Hold("Loading"));
+        }
     }
 
     public void OpenSettings()
@@ -52,8 +55,10 @@ public class Menus : MonoBehaviour
         SceneManager.LoadScene("Scenes/" + scene);
     }
 
-    public void OpenSaves()
+    public void OpenSaves(bool canSave)
     {
+        States.toggleSaveMenu = canSave;
+        Debug.Log(States.toggleSaveMenu);
         SceneManager.LoadScene("Saves", LoadSceneMode.Additive);
     }
 

@@ -1,12 +1,13 @@
 using UnityEngine;
 
-public class Difficulty : MonoBehaviour
+public class CanvasToggle : MonoBehaviour
 {
+    public GameObject toggle;
     private Canvas canvas;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        canvas = GameObject.Find("DifficultySelector").GetComponent<Canvas>();
+        canvas = toggle.GetComponent<Canvas>();
     }
     public void Toggle()
     {

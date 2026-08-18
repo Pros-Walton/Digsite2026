@@ -23,29 +23,29 @@ public class makeSave : MonoBehaviour
 
     public void Save(bool isNew)
     {
-        if (States.saveName != null)
+        if (isNew)
         {
-            string masterPath = Application.persistentDataPath + "/";
-            if (isNew)
+            States.saveName = newSaveName.text;
+            DateTime now = DateTime.Now;
+            SaveMeta newSave = new SaveMeta();
+            newSave.name = States.saveName;
+            newSave.date = now.ToString("yyyy-MM-dd hh:mm");
+            States.saveList.saveMeta.Add(newSave);
+        }
+        else
+        {
+            foreach (SaveMeta meta in States.saveList.saveMeta)
             {
-                States.saveName = newSaveName.text;
-                DateTime now = DateTime.Now;
-                SaveMeta newSave = new SaveMeta();
-                newSave.name = States.saveName;
-                newSave.date = now.ToString("yyyy-MM-dd hh:mm");
-                States.saveList.saveMeta.Add(newSave);
-            }
-            else
-            {
-                foreach (SaveMeta meta in States.saveList.saveMeta)
+                if (meta.name == States.saveName)
                 {
-                    if (meta.name == States.saveName)
-                    {
-                        DateTime now = DateTime.Now;
-                        meta.date = now.ToString("yyyy-MM-dd hh:mm");
-                    }
+                    DateTime now = DateTime.Now;
+                    meta.date = now.ToString("yyyy-MM-dd HH:mm");
                 }
             }
+        }
+
+        if (States.saveName != null)
+        {        
 
             States.stats.applyTo();
             States.inventory.applyTo();
@@ -62,27 +62,39 @@ public class makeSave : MonoBehaviour
             string inventoryString = JsonUtility.ToJson(States.inventory);
             string levelString = JsonUtility.ToJson(States.leveldata);
 
-            string playerPath = masterPath + States.saveName + "_player.json";
-            string invenPath = masterPath + States.saveName + "_inventory.json";
-            string levelPath = masterPath + States.saveName + "_level.json";
+            fileCheck(isNew);
+
+            string masterPath = Application.persistentDataPath + "/Save/" + States.saveName;
+
+            string playerPath = masterPath + "/player.json";
+            string invenPath = masterPath +  "/inventory.json";
+            string levelPath = masterPath +  "/level.json";
 
             File.WriteAllText(playerPath,statString);
             File.WriteAllText(invenPath,inventoryString);
             File.WriteAllText(levelPath,levelString);
 
             string metaString = JsonUtility.ToJson(States.saveList);
-            File.WriteAllText((masterPath + "meta.json"), metaString);
+            File.WriteAllText((Application.persistentDataPath + "/Save/meta.json"), metaString);
         }
     }
 
     public void fileCheck(bool isNew)
     {
+        Debug.Log("Start File Check.");
+        string saveMaster = Application.persistentDataPath + "/Save/" + States.saveName;
 
-        string saveMaster = Application.persistentDataPath + "/" + States.saveName;
 
-        string playerPath = saveMaster + "_player.json";
-        string invenPath = saveMaster + "_inventory.json";
-        string levelPath = saveMaster + "_level.json";
+        if (!Directory.Exists(saveMaster))
+        {
+            var dir = Directory.CreateDirectory(saveMaster);
+            Debug.Log("Creating folder!");
+
+        }
+
+        string playerPath = saveMaster + "/player.json";
+        string invenPath = saveMaster + "/inventory.json";
+        string levelPath = saveMaster + "/level.json";
 
         if(!File.Exists(levelPath))
         {
@@ -107,13 +119,15 @@ public class makeSave : MonoBehaviour
     {
         States.saveList.saveMeta.RemoveAll(static meta => meta.name == States.saveName);
         string metaString = JsonUtility.ToJson(States.saveList);
-        File.WriteAllText((Application.persistentDataPath + "/meta.json"), metaString);
+        File.WriteAllText((Application.persistentDataPath + "/Save/meta.json"), metaString);
 
         string path = Application.persistentDataPath + "/" + States.saveName;
 
-        File.Delete(path + "_player.json");
-        File.Delete(path + "_inventory.json");
-        File.Delete(path + "_level.json");
+        File.Delete(path + "/player.json");
+        File.Delete(path + "/inventory.json");
+        File.Delete(path + "/level.json");
+
+        Directory.Delete(path);
 
         States.saveName = null;
     }

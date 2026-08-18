@@ -302,7 +302,7 @@ public class ReadLevel : MonoBehaviour
 
     private void readFiles()
     {        
-        string levPath = Application.persistentDataPath + "/" + States.saveName + "_level.json";
+        string levPath = Application.persistentDataPath + "/Save/" + States.saveName + "/level.json";
 
         Debug.Log(levPath);
 

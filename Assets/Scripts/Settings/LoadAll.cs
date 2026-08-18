@@ -18,7 +18,13 @@ public class LoadAll : MonoBehaviour
     
         States.saveName = null;
 
-        string path = Application.persistentDataPath + "/meta.json";
+        if(!Directory.Exists(Application.persistentDataPath + "/Save"))
+        {
+            var folder = Directory.CreateDirectory(Application.persistentDataPath + "/Save");
+        }
+
+
+        string path = Application.persistentDataPath + "/Save/meta.json";
 
         if (!File.Exists(path))
         {
@@ -26,9 +32,7 @@ public class LoadAll : MonoBehaviour
             File.Create(path).Close();
         }
 
-
         string text = File.ReadAllText(path);
-        Debug.Log(text);
         States.saveList = JsonUtility.FromJson<SaveMetaList>(text);
     }
 

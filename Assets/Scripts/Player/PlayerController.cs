@@ -168,9 +168,9 @@ public class PlayerController : MonoBehaviour
                 States.stats.stamina -= 0.3f;
             }
 
-            if (States.stats.weapon.type == Weapon.weaponType.meele)
+            if (States.stats.weapon.type == Weapon.weaponType.melee)
             {
-                meele();
+                melee();
             }
             else 
             {
@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void meele()
+    private void melee()
     {
         sounds[1].Play();
         Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f, enemyMask);
@@ -221,7 +221,8 @@ public class PlayerController : MonoBehaviour
         breakCheck();
         Vector3 pos = transform.position + transform.forward;
         GameObject ammunition = Instantiate(ammo, pos, Quaternion.identity);
-        ammunition.transform.forward = transform.forward;
+        float offset = UnityEngine.Random.Range(-0.2f,0.2f);
+        ammunition.transform.forward = transform.forward + new Vector3(0.0f, 0.0f, offset);
     }
 
     private void enemyKill(GameObject target, Enemy enemy, EnemyMount mount)

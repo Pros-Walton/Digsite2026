@@ -17,7 +17,7 @@ public class ammo : MonoBehaviour
     void Update()
     {
         lifetime -= Time.deltaTime;
-        transform.position += transform.forward * 1.5f;
+        transform.position += transform.forward * 0.5f;
         if (Physics.Linecast(transform.position, playerTarget.transform.position, 
         out RaycastHit hitInfo, enemyMask, QueryTriggerInteraction.Ignore))
         {

@@ -35,7 +35,7 @@ public class Pickup
     public void populate(int location, int ID)
     {
         loc = location;
-        lootSize = UnityEngine.Random.Range(5,10);
+        lootSize = UnityEngine.Random.Range(1,4);
         id = ID;
 
         gold = UnityEngine.Random.Range(5,100);
@@ -45,9 +45,9 @@ public class Pickup
         switch (id)
         {
             case 0:
-                for (int i = 0; i < lootSize; i++)
+                for (int i = 0; i <= lootSize; i++)
                 {
-                    int typeSelector = UnityEngine.Random.Range(0,10);
+                    int typeSelector = UnityEngine.Random.Range(0,6);
 
                     switch(typeSelector)
                     {

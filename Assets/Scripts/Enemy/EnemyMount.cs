@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyMount : MonoBehaviour
 {
     public Enemy enemy = null;
+    public GameObject ammo;
     public LayerMask worldMask;
     public AudioSource[] sounds;
     private Renderer render;
@@ -48,17 +49,14 @@ public class EnemyMount : MonoBehaviour
                     sounds[0].Pause();
                     if (enemy.attackCooldown <= 0.0f)
                     {
-                        sounds[1].Play();
-                        enemy.attackCooldown = enemy.cooldownMax;
-                        float damageDone = ((float)(enemy.attack * States.diffMult) / (States.stats.armour.defense / States.diffMult));
-                        States.stats.health -= damageDone;
-                        States.stats.armour.use();
-                        if (States.stats.armour.shouldBreak())
+                        if (enemy.type == Enemy.weaponType.melee)
                         {
-                            States.stats.armour = States.inventory.armours[0];
-                            States.inventory.armours.RemoveAt(0);
+                            melee();
                         }
-                        enemy.playerTarget.transform.position += (transform.forward / 5);
+                        else
+                        {
+                            ranged();
+                        }
                     }
                     else
                     {
@@ -70,5 +68,27 @@ public class EnemyMount : MonoBehaviour
                 }
             }
         }  
+    }
+
+    void melee()
+    {
+        sounds[1].Play();
+        enemy.attackCooldown = enemy.cooldownMax;
+        float damageDone = ((float)(enemy.attack * States.diffMult) / (States.stats.armour.defense / States.diffMult));
+        States.stats.health -= damageDone;
+        States.stats.armour.use();
+        if (States.stats.armour.shouldBreak())
+        {
+            States.stats.armour = States.inventory.armours[0];
+            States.inventory.armours.RemoveAt(0);
+        }
+        enemy.playerTarget.transform.position += (transform.forward / 5);
+    }
+
+    void ranged()
+    {
+        Vector3 pos = transform.position + transform.forward;
+        GameObject ammunition = Instantiate(ammo, pos, Quaternion.identity);
+        ammunition.transform.forward = transform.forward + new Vector3(0.0f, (float)UnityEngine.Random.Range(-0.01f,0.01f),0.0f);
     }
 }

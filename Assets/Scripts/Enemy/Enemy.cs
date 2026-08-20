@@ -19,6 +19,8 @@ public class Enemy
     public int locID;
     public int id;
 
+    public enum weaponType {melee, ranged};
+    public weaponType type;
 
     public Enemy()
     {
@@ -35,16 +37,19 @@ public class Enemy
                 maxHP = 10;
                 attack = 1;
                 defense = 1;
+                type = weaponType.melee;
                 break;
             case 1:
                 maxHP = 15;
                 attack = 2;
                 defense = 1;
+                type = weaponType.ranged;
                 break;
             case 2:
                 maxHP = 15;
                 attack = 3;
                 defense = 2;
+                type = weaponType.melee;
                 break;
         }
 

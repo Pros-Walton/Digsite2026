@@ -14,11 +14,11 @@ public class Pickup
 
     public int ammo;
 
-    List<Weapon> weapons = new List<Weapon>();
-    List<Armour> armours = new List<Armour>();
+    public List<Weapon> weapons = new List<Weapon>();
+    public List<Armour> armours = new List<Armour>();
     List<Artifact> artifacts = new List<Artifact>();
     List<Key> keys = new List<Key>();
-    List <Item> items = new List<Item>();
+    public List <Item> items = new List<Item>();
 
     public List<string> weaponsStr = new List<string>();
     public List<string> armoursStr = new List<string>();

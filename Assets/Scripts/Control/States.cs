@@ -21,6 +21,7 @@ public static class States
     public static string itemName {get; set;}
     public static string itemDesc {get; set;}
     public static Sprite itemIcon {get; set;}
+    public static int itemPoint {get; set;}
 
     public static int armDef {get; set;}
     public static int armCurUse {get; set;}

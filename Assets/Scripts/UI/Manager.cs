@@ -80,12 +80,10 @@ public class Manager : MonoBehaviour
 
     public void doArmour()
     {
-        Debug.Log("now show armour!");
         int width = 0;
         int height = 0;
         int current = 0;
 
-        Debug.Log(States.inventory);
         foreach (Armour arm in States.inventory.armours)
         {
             width = current % 5;
@@ -113,7 +111,6 @@ public class Manager : MonoBehaviour
 
     public void doWeapon()
     {
-        Debug.Log("now show weapon!");
         int width = 0;
         int height = 0;
         int current = 0;
@@ -144,7 +141,6 @@ public class Manager : MonoBehaviour
 
     public void doItem()
     {
-        Debug.Log("now show item!");
         int width = 0;
         int height = 0;
         int current = 0;
@@ -174,7 +170,6 @@ public class Manager : MonoBehaviour
 
     public void doKey()
     {
-        Debug.Log("now show key!");
         int width = 0;
         int height = 0;
         int current = 0;
@@ -206,7 +201,6 @@ public class Manager : MonoBehaviour
 
     public void doArtifact()
     {
-        Debug.Log("now show artifcat!");
         int width = 0;
         int height = 0;
         int current = 0;

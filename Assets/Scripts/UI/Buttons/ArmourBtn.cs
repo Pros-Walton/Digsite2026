@@ -63,4 +63,14 @@ public class ArmourBtn : MonoBehaviour
         States.armDur = armour.durability;
     }
 
+    public void discard()
+    {
+            manager.clearButtons();
+            manager.doArmour();
+            States.itemName = null;
+            States.itemDesc = null;
+            States.itemIcon = null;
+            canvas.enabled = false;
+    }
+
 }

@@ -43,6 +43,7 @@ public class ItemBtn : MonoBehaviour
         States.itemIcon = item.icon;
         States.itemAffect = item.affect;
         States.itemCount = item.count;
+        States.itemPoint = pointer;
         btn.onClick.AddListener(this.use);
         btn.onClick.AddListener(audio.click);
         audio.click();
@@ -54,16 +55,21 @@ public class ItemBtn : MonoBehaviour
     {
         Debug.Log(item.itemId);
         item.use();
-        if (States.inventory.items[pointer].count <= 0)
+        depleatCheck();
+    }
+
+    public void depleatCheck()
+    {
+        manager.clearButtons();
+        manager.doItem();
+        if (States.inventory.items[States.itemPoint].count <= 0)
         {
-            States.inventory.items.RemoveAt(pointer);
-            manager.clearButtons();
-            manager.doItem();
             States.itemName = null;
             States.itemDesc = null;
             States.itemIcon = null;
             canvas.enabled = false;
-        }
+            States.inventory.items.RemoveAt(pointer);
+        }  
     }
 
 }

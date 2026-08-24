@@ -23,15 +23,6 @@ public class SettingsTabs : MonoBehaviour
 
     public void doVideo()
     {
-        Resolution[] resolutions = Screen.resolutions;
-        foreach (var res in resolutions)
-        {
-            float aspect = (float)res.width/(float)res.height;
-            if ((aspect >= 1.77f) && (aspect <= 1.78f))
-            {
-                Debug.Log(res.width + "x" + res.height);
-            }
-        }
         audioCanvas.enabled = false;
         videoCanvas.enabled = true;
     }

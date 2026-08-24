@@ -62,6 +62,17 @@ public class WeaponBtn : MonoBehaviour
         States.wepAtk = weapon.attack;
         States.wepCurUse = (int)weapon.used;
         States.wepDur = weapon.durability;
+        States.itemPoint = pointer;
+    }
+
+    public void discard()
+    {
+            manager.clearButtons();
+            manager.doWeapon();
+            States.itemName = null;
+            States.itemDesc = null;
+            States.itemIcon = null;
+            canvas.enabled = false;
     }
 
 }

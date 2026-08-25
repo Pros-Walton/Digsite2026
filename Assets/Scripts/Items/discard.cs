@@ -4,7 +4,15 @@ public class discard : MonoBehaviour
 {
     public LayerMask objectMask;
     public GameObject pickupObj;
+    private GameObject itemHolder;
+    private Manager manager;
 
+
+    void Start()
+    {
+        manager = GameObject.Find("EventSystem").GetComponent<Manager>();
+        itemHolder = GameObject.Find("Items");
+    }
 
     public void discardWeapon()
     {
@@ -18,7 +26,7 @@ public class discard : MonoBehaviour
         int indX = (int)(States.leveldata.radX + (x / 1.5f));
         int indZ = (int)(States.leveldata.radY + (z / 1.5f));
 
-        int finalIndex = (indX * States.leveldata.width) + indZ;
+        int finalIndex = (indZ * States.leveldata.width) + indX;
         
         Tile curTile = States.tiles[finalIndex];
 
@@ -27,12 +35,12 @@ public class discard : MonoBehaviour
 
         if (target == null)
         {
-            Vector3 spawn = new Vector3(x,0.1875f,z);
-            Debug.Log(spawn);
-            obj = Instantiate(pickupObj, spawn, Quaternion.identity);
+            obj = Instantiate(pickupObj, new Vector3(x,0.1875f,z), Quaternion.identity);
             PickupMount pickupMount = obj.GetComponent<PickupMount>();
             pickup = new Pickup();
+            pickup.loc = finalIndex;
             pickupMount.Mount(pickup);
+            obj.transform.parent = itemHolder.transform;
         }
         else
         {
@@ -43,8 +51,9 @@ public class discard : MonoBehaviour
         pickup.weapons.Add(wep);
         States.inventory.weapons.RemoveAt(States.itemPoint);
 
-        pickup.applyBack();
-        curTile.obj = JsonUtility.ToJson(pickup);
+        pickup.applyTo();
+        string dropStr = JsonUtility.ToJson(pickup);
+        curTile.obj = dropStr;
     }
 
     public void discardArmour()
@@ -59,7 +68,7 @@ public class discard : MonoBehaviour
         int indX = (int)(States.leveldata.radX + (x / 1.5f));
         int indZ = (int)(States.leveldata.radY + (z / 1.5f));
 
-        int finalIndex = (indX * States.leveldata.width) + indZ;
+        int finalIndex = (indZ * States.leveldata.width) + indX;
         
         Tile curTile = States.tiles[finalIndex];
 
@@ -68,12 +77,12 @@ public class discard : MonoBehaviour
 
         if (target == null)
         {
-            Vector3 spawn = new Vector3(x,0.1875f,z);
-            Debug.Log(spawn);
-            obj = Instantiate(pickupObj, spawn, Quaternion.identity);
+            obj = Instantiate(pickupObj, new Vector3(x,0.1875f,z), Quaternion.identity);
             PickupMount pickupMount = obj.GetComponent<PickupMount>();
             pickup = new Pickup();
+            pickup.loc = finalIndex;
             pickupMount.Mount(pickup);
+            obj.transform.parent = itemHolder.transform;
         }
         else
         {
@@ -84,16 +93,17 @@ public class discard : MonoBehaviour
         pickup.armours.Add(arm);
         States.inventory.armours.RemoveAt(States.itemPoint);
 
-        pickup.applyBack();
+        pickup.applyTo();
         curTile.obj = JsonUtility.ToJson(pickup);
     }
 
     public void discardItem()
     {
-        Item item = States.inventory.items[States.itemPoint];
-        States.itemCount--;
+        States.itemCount --;
+        Item item = new Item(States.inventory.items[States.itemPoint].itemId);
         States.inventory.items[States.itemPoint].count = States.itemCount;
-        Debug.Log(States.inventory.items[States.itemPoint].count);
+        int counter = States.inventory.items[States.itemPoint].count;
+        Debug.Log(counter);
 
         Collider target = detect();
 
@@ -103,7 +113,7 @@ public class discard : MonoBehaviour
         int indX = (int)(States.leveldata.radX + (x / 1.5f));
         int indZ = (int)(States.leveldata.radY + (z / 1.5f));
 
-        int finalIndex = (indX * States.leveldata.width) + indZ;
+        int finalIndex = (indZ * States.leveldata.width) + indX;
         
         Tile curTile = States.tiles[finalIndex];
 
@@ -112,12 +122,12 @@ public class discard : MonoBehaviour
 
         if (target == null)
         {
-            Vector3 spawn = new Vector3(x,0.1875f,z);
-            Debug.Log(spawn);
-            obj = Instantiate(pickupObj, spawn, Quaternion.identity);
+            obj = Instantiate(pickupObj, new Vector3(x,0.1875f,z), Quaternion.identity);
             PickupMount pickupMount = obj.GetComponent<PickupMount>();
             pickup = new Pickup();
+            pickup.loc = finalIndex;
             pickupMount.Mount(pickup);
+            obj.transform.parent = itemHolder.transform;
         }
         else
         {
@@ -130,27 +140,31 @@ public class discard : MonoBehaviour
             {
                 if (item.name == tem.name)
                 {
-                    Debug.Log("IS HERE");
                     isHere = true;
                     tem.count ++;
                 }
             }
-            if (!isHere)
+            if (isHere == false)
             {
-                item.count ++;
                 pickup.items.Add(item);
+                
             }
 
-        pickup.applyBack();
-        curTile.obj = JsonUtility.ToJson(pickup);
-
-        if (States.inventory.items[States.itemPoint].count < 1)
+        pickup.applyTo();
+        string pickupStr = JsonUtility.ToJson(pickup);
+        Debug.Log(indX + ", " + indZ);
+        curTile.obj = pickupStr;
+    
+        if (counter <= 0)
         {
             States.itemName = null;
             States.itemDesc = null;
             States.itemIcon = null;
+            States.hideCanvas = true;
             States.inventory.items.RemoveAt(States.itemPoint);
-        }  
+        }
+        manager.clearButtons();
+        manager.doItem();
     }
 
 
@@ -194,17 +208,5 @@ public class discard : MonoBehaviour
                 return (((int) division) * round) * -1;
             } 
         }
-
-        // float mod = val % round;
-        // Debug.Log("VALUE: " + val + ", ROUND: " + round + ", MOD: " + mod);
-
-        // if (mod < (round/2))
-        // {
-        //     return val-mod;
-        // }
-        // else
-        // {
-        //     return val + (round-mod);
-        // }
     }
 }

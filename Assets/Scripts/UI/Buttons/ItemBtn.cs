@@ -72,4 +72,15 @@ public class ItemBtn : MonoBehaviour
         }  
     }
 
+    public void hide()
+    {
+        //int count = States.inventory.items[States.itemPoint].count;
+        //Debug.Log("COUNT: " + count);
+        if (States.hideCanvas == true)
+        {
+            canvas.enabled = false;
+            States.hideCanvas = false;
+        }
+    }
+
 }

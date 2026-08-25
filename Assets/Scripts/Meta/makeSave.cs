@@ -29,7 +29,7 @@ public class makeSave : MonoBehaviour
             DateTime now = DateTime.Now;
             SaveMeta newSave = new SaveMeta();
             newSave.name = States.saveName;
-            newSave.date = now.ToString("yyyy-MM-dd hh:mm");
+            newSave.date = now.ToString("yyyy-MM-dd HH:mm");
             States.saveList.saveMeta.Add(newSave);
         }
         else

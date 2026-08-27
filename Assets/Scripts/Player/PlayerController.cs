@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.IO;
+using System.Collections;
 using UnityEngine.SceneManagement;
 
 
@@ -37,9 +38,13 @@ public class PlayerController : MonoBehaviour
 
     private AudioSource[] sounds;
 
+    public GameObject mdl;
+    private Animator animator;
+
     private void OnEnable()
     {
         InputActions.FindActionMap("Player").Enable();
+        animator = mdl.GetComponent<Animator>();
 
         if (States.LoadData)
         {
@@ -96,11 +101,13 @@ public class PlayerController : MonoBehaviour
         {
             playerSpeed = 0;
             playerIsWalk = false;
+            animator.SetBool("Walking", false);
         }
         else
         {
             playerSpeed = walkSpeed;
             playerIsWalk = true;
+            
         }
 
         if (actionNorth.IsPressed())
@@ -123,12 +130,19 @@ public class PlayerController : MonoBehaviour
         {
             playSound = false;
             sounds[0].Pause();
+            animator.SetBool("Walking", false);
+        }
+        if (animator.GetBool("Walking") == true && playerIsWalk == false)
+        {
+            animator.SetBool("Walking", false);
         }
          transform.position = new Vector3(transform.position.x,0.4f,transform.position.z);
+         
     }
 
     private void playerWalking(Quaternion rotation, Vector3 vector)
     {
+        animator.SetBool("Walking", true);
         transform.rotation = rotation;
         if (playerIsWalk)
         {
@@ -154,6 +168,9 @@ public class PlayerController : MonoBehaviour
 
     private void interact()
     {
+        animator.SetBool("Strike", false);
+        animator.SetBool("Shoot", false);
+        animator.SetBool("Grab", false);
         attack();
         use();
     }
@@ -185,6 +202,7 @@ public class PlayerController : MonoBehaviour
 
     private void melee()
     {
+        animator.SetBool("Strike", true);
         sounds[1].Play();
         Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f, enemyMask);
 
@@ -216,6 +234,7 @@ public class PlayerController : MonoBehaviour
 
     private void ranged()
     {
+        animator.SetBool("Shoot", true);
         States.stats.weapon.use();
         States.stats.ammo -= 1;
         breakCheck();
@@ -249,6 +268,10 @@ public class PlayerController : MonoBehaviour
         {
             Collider[] targets = Physics.OverlapSphere(transform.position, 0.75f, objectMask);
 
+            if (targets.Length > 0)
+            {
+                animator.SetBool("Grab", true);
+            }
 
             foreach (Collider target in targets)
             {

@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eab6e2f6ba6d850f98bfbba8201bc91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMount
-  ammo: {fileID: 2710281925021046873, guid: 7bf354a9aa02bbadcaae0bf73d1b5074, type: 3}
+  ammo: {fileID: 2710281925021046873, guid: ca2e64b31e0adb51cb89de6cf0766f2a, type: 3}
   worldMask:
     serializedVersion: 2
     m_Bits: 64

@@ -8,12 +8,15 @@ public class EnemyMount : MonoBehaviour
     public AudioSource[] sounds;
     private Renderer render;
     private bool isWalk;
+    private bool hasAttacked = false;
+    private Animator animator;
 
     public void Mount(Enemy Enemy, int loc)
     {
         enemy = Enemy;
         enemy.enemyObj = this.gameObject;
         enemy.playerTarget = GameObject.Find("Player Temp");
+        animator = enemy.playerTarget.transform.GetChild(0).GetComponent<Animator>();
         sounds = GetComponents<AudioSource>();
         render = GetComponent<Renderer>();
         enemy.getBody();
@@ -22,6 +25,12 @@ public class EnemyMount : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (hasAttacked && States.playerEnemyHit)
+        {
+            animator.SetBool("Hit", false);
+            hasAttacked = false;
+            States.playerEnemyHit = false;
+        }
         sounds[0].mute = !render.enabled;
 
         float dist = Vector3.Distance(enemy.playerTarget.transform.position, transform.position); 
@@ -49,8 +58,10 @@ public class EnemyMount : MonoBehaviour
                     sounds[0].Pause();
                     if (enemy.attackCooldown <= 0.0f)
                     {
+                        hasAttacked = true;
                         if (enemy.type == Enemy.weaponType.melee)
                         {
+                            States.playerEnemyHit = true;
                             melee();
                         }
                         else
@@ -72,6 +83,7 @@ public class EnemyMount : MonoBehaviour
 
     void melee()
     {
+        animator.SetBool("Hit", true);
         sounds[1].Play();
         enemy.attackCooldown = enemy.cooldownMax;
         float damageDone = ((float)(enemy.attack * States.diffMult) / (States.stats.armour.defense / States.diffMult));
@@ -83,6 +95,7 @@ public class EnemyMount : MonoBehaviour
             States.inventory.armours.RemoveAt(0);
         }
         enemy.playerTarget.transform.position += (transform.forward / 5);
+        enemy.playerTarget.transform.forward = -transform.forward;
     }
 
     void ranged()
@@ -90,5 +103,9 @@ public class EnemyMount : MonoBehaviour
         Vector3 pos = transform.position + transform.forward;
         GameObject ammunition = Instantiate(ammo, pos, Quaternion.identity);
         ammunition.transform.forward = transform.forward + new Vector3(0.0f, (float)UnityEngine.Random.Range(-0.01f,0.01f),0.0f);
+        enemyAmmo ammoLink = ammunition.GetComponent<enemyAmmo>();
+        ammoLink.enemyObject = this.gameObject;
+        ammoLink.animator = animator;
+        ammoLink.enemy = enemy;
     }
 }

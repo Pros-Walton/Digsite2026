@@ -51,4 +51,6 @@ public static class States
     public static bool toggleSaveMenu {get; set;}
 
     public static SaveMetaList saveList {get; set;}
+
+    public static bool playerEnemyHit {get; set;}
 }

@@ -144,6 +144,7 @@ MonoBehaviour:
     m_Bits: 1024
   enemyObject: {fileID: 0}
   animator: {fileID: 0}
+  hasHit: 0
 --- !u!1 &7926321560652123729
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,7 +213,7 @@ MeshRenderer:
   m_Materials:
   - {fileID: -876546973899608171, guid: 0ff6581cf8f1a8684af7b1e58b7f2d10, type: 3}
   - {fileID: -3846018093981099296, guid: 0ff6581cf8f1a8684af7b1e58b7f2d10, type: 3}
-  - {fileID: 2100000, guid: 04a0f015e9bd907a3b7230a157ab164a, type: 2}
+  - {fileID: 2100000, guid: bc31d125d4b1742598619955fd232d28, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

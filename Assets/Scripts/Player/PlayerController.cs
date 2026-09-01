@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     public GameObject mdl;
     private Animator animator;
 
+
     private void OnEnable()
     {
         InputActions.FindActionMap("Player").Enable();
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (States.NextLevel)
         {
+            States.stats.pos = new Vector3 ( 0.0f,0.4f, 0.0f);
             States.NextLevel = false;
         }
         else
@@ -78,6 +80,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        animator.SetBool("Hit", false);
         States.allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
         States.allItems = GameObject.FindGameObjectsWithTag("Item");
         if (States.stats.health <= 0)
@@ -219,7 +222,11 @@ public class PlayerController : MonoBehaviour
                 enemy.HP -= ((float)(States.stats.weapon.attack / States.diffMult) * (3.0f) / (enemy.defense * States.diffMult));
                 States.stats.weapon.use();
                 breakCheck();
-                targetObject.transform.position -= targetObject.transform.forward;
+                if (mount.hasAnimator)
+                {
+                    mount.animator.SetBool("Hit", true);
+                }
+                damageOffset(targetObject);
                 if (enemy.HP <= 0)
                 {
                     enemyKill(targetObject, enemy, mount);
@@ -230,6 +237,17 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    void damageOffset(GameObject targetObject)
+    {
+        Vector3 movedPos = (targetObject.transform.position + transform.forward);
+        if (Physics.Linecast(targetObject.transform.position, movedPos, 
+        out RaycastHit hitInfo, worldMask, QueryTriggerInteraction.Ignore))
+        {
+            movedPos = hitInfo.point -(transform.forward / 10);
+        }
+        targetObject.transform.position = movedPos;
     }
 
     private void ranged()
@@ -341,8 +359,16 @@ public class PlayerController : MonoBehaviour
     {
         foreach (GameObject enemy in States.allEnemies)
         {
+
             enemy.GetComponent<Renderer>().enabled = false;
             enemy.transform.GetChild(0).GetComponent<Renderer>().enabled = false;
+            if (enemy.name.Contains("Zombie"))
+            {
+                for(int i = 0; i <=5; i++)
+                {
+                    enemy.transform.GetChild(0).GetChild(i).GetComponent<Renderer>().enabled = false;
+                }
+            }
         }
         Collider[] targetsEnemy = Physics.OverlapSphere(transform.position, 10.0f, enemyMask);
         foreach (Collider target in targetsEnemy)
@@ -352,6 +378,13 @@ public class PlayerController : MonoBehaviour
             {
                 enemy.GetComponent<Renderer>().enabled = true;
                 enemy.transform.GetChild(0).GetComponent<Renderer>().enabled = true;
+                if (enemy.name.Contains("Zombie"))
+                {
+                    for(int i = 0; i <=5; i++)
+                    {
+                        enemy.transform.GetChild(0).GetChild(i).GetComponent<Renderer>().enabled = true;
+                    }
+                }
             }
         }
 

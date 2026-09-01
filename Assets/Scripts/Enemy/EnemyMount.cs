@@ -9,25 +9,34 @@ public class EnemyMount : MonoBehaviour
     private Renderer render;
     private bool isWalk;
     private bool hasAttacked = false;
-    private Animator animator;
+    public bool hasAnimator = false;
+    private Animator playerAnimator;
+    public Animator animator;
 
     public void Mount(Enemy Enemy, int loc)
     {
         enemy = Enemy;
         enemy.enemyObj = this.gameObject;
         enemy.playerTarget = GameObject.Find("Player Temp");
-        animator = enemy.playerTarget.transform.GetChild(0).GetComponent<Animator>();
+        playerAnimator = enemy.playerTarget.transform.GetChild(0).GetComponent<Animator>();
         sounds = GetComponents<AudioSource>();
         render = GetComponent<Renderer>();
+
         enemy.getBody();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (hasAnimator)
+        {
+            animator.SetBool("Strike", false);
+            animator.SetBool("Shoot", false);
+            animator.SetBool("Hit", false);
+        }
         if (hasAttacked && States.playerEnemyHit)
         {
-            animator.SetBool("Hit", false);
+            playerAnimator.SetBool("Hit", false);
             hasAttacked = false;
             States.playerEnemyHit = false;
         }
@@ -38,6 +47,21 @@ public class EnemyMount : MonoBehaviour
         {
             if (!Physics.Linecast(transform.position, enemy.playerTarget.transform.position, worldMask))
             {
+                if (hasAnimator)
+                    {
+                        animator.SetBool("Walking", true);
+                    }
+                if (enemy.type == Enemy.weaponType.ranged)
+                {
+                    if (enemy.attackCooldown <= 0.0f)
+                    {
+                        ranged();
+                    }
+                    else 
+                    {
+                        enemy.attackCooldown -= Time.deltaTime * 2.0f;
+                    }
+                }
                 transform.LookAt(enemy.playerTarget.transform);
                 if (dist > 0.75f)
                 {
@@ -49,33 +73,45 @@ public class EnemyMount : MonoBehaviour
                     transform.position += (transform.forward * Time.deltaTime);
 
                     transform.position = new Vector3(transform.position.x,
-                    0.4f,
+                    transform.localScale.y,
                     transform.position.z);
                 }
                 else
                 {
+                    if (hasAnimator)
+                    {
+                        animator.SetBool("Walking", false);
+                    }
                     isWalk = false;
                     sounds[0].Pause();
-                    if (enemy.attackCooldown <= 0.0f)
+                    if (enemy.type == Enemy.weaponType.melee)
                     {
-                        hasAttacked = true;
-                        if (enemy.type == Enemy.weaponType.melee)
+                        if (enemy.attackCooldown <= 0.0f)
                         {
+                            hasAttacked = true;
+
                             States.playerEnemyHit = true;
                             melee();
                         }
                         else
                         {
-                            ranged();
+                            if (hasAnimator)
+                            {
+                                animator.SetBool("Walking", false);
+                            }
+                            isWalk = false;
+                            sounds[0].Pause();
+                            //Debug.Log(Time.deltaTime * 2);
+                            enemy.attackCooldown -= Time.deltaTime * 2.0f;
                         }
                     }
-                    else
-                    {
-                        isWalk = false;
-                        sounds[0].Pause();
-                        //Debug.Log(Time.deltaTime * 2);
-                        enemy.attackCooldown -= Time.deltaTime * 2.0f;
-                    }
+                }
+            }
+            else
+            {
+                if (hasAnimator)
+                {
+                    animator.SetBool("Walking", false);
                 }
             }
         }  
@@ -83,7 +119,11 @@ public class EnemyMount : MonoBehaviour
 
     void melee()
     {
-        animator.SetBool("Hit", true);
+        if (hasAnimator)
+        {
+            animator.SetBool("Strike", true);
+        }
+        playerAnimator.SetBool("Hit", true);
         sounds[1].Play();
         enemy.attackCooldown = enemy.cooldownMax;
         float damageDone = ((float)(enemy.attack * States.diffMult) / (States.stats.armour.defense / States.diffMult));
@@ -94,18 +134,34 @@ public class EnemyMount : MonoBehaviour
             States.stats.armour = States.inventory.armours[0];
             States.inventory.armours.RemoveAt(0);
         }
-        enemy.playerTarget.transform.position += (transform.forward / 5);
+        damageOffset();
         enemy.playerTarget.transform.forward = -transform.forward;
     }
 
     void ranged()
     {
+        if (hasAnimator)
+        {
+            animator.SetBool("Shoot", true);
+        }
+        enemy.attackCooldown = enemy.cooldownMax;
         Vector3 pos = transform.position + transform.forward;
         GameObject ammunition = Instantiate(ammo, pos, Quaternion.identity);
         ammunition.transform.forward = transform.forward + new Vector3(0.0f, (float)UnityEngine.Random.Range(-0.01f,0.01f),0.0f);
         enemyAmmo ammoLink = ammunition.GetComponent<enemyAmmo>();
         ammoLink.enemyObject = this.gameObject;
-        ammoLink.animator = animator;
+        ammoLink.playerAnimator = playerAnimator;
         ammoLink.enemy = enemy;
+    }
+
+    void damageOffset()
+    {
+        Vector3 movedPos = (enemy.playerTarget.transform.position + (transform.forward / 5));
+        if (Physics.Linecast(transform.position, movedPos, 
+        out RaycastHit hitInfo, worldMask, QueryTriggerInteraction.Ignore))
+        {
+            movedPos = hitInfo.point -(transform.forward / 10);
+        }
+        enemy.playerTarget.transform.position = movedPos;
     }
 }

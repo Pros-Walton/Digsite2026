@@ -44,28 +44,23 @@ public class DiggerAgent : MonoBehaviour
         string path = (Application.persistentDataPath + "/Save/default_level.json");
         grid = new int[width,height];
         dungeonSize = height*width;
-        // if (File.Exists(path))
-        // {
-        //     levelString = File.ReadAllText(path);
-        // }
-        // else
-        // {
-        //     File.Create(path);
-        // }
-        //States.leveldata = JsonUtility.FromJson<LevelData>(levelRead);
+
         setupArray();
         x_coords = (width-1)/2;
         y_coords = (height-1)/2;
         findSize();
+
         Digger();
         parseData();
         dedicateSpace();
         placeHole();
+
         wirteData();
         //printData();
         dataToSave = JsonUtility.ToJson(States.leveldata);
         //Debug.Log(levelString);
         //File.WriteAllText(path, dataToSave);
+        States.NextLevel = false;
     }
 
     void setupArray()
@@ -156,7 +151,7 @@ public class DiggerAgent : MonoBehaviour
         private void parseData()
     {
         int current = 0;
-        int enemySelectorMax = Mathf.Min(3, (int)((States.stats.depth + 1) /2));
+        int enemySelectorMax = Mathf.Min(3, (int)((States.stats.depth + 2) /2));
         int enemySelectorMin = Mathf.Max(0, (States.stats.depth - 2));
         for (int i = 0; i < width; i++)
         {

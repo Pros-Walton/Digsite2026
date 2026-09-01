@@ -8,7 +8,7 @@ public class Enemy
     public GameObject enemyObj;
 
     public float attackCooldown = 0.0f;
-    public float cooldownMax = 3.0f;
+    public float cooldownMax;
 
     public int attack;
     public int defense;
@@ -38,18 +38,21 @@ public class Enemy
                 attack = 1;
                 defense = 1;
                 type = weaponType.melee;
+                cooldownMax = 3.0f;
                 break;
             case 1:
                 maxHP = 15;
                 attack = 2;
                 defense = 1;
-                type = weaponType.ranged;
+                type = weaponType.melee;
+                cooldownMax = 3.0f;
                 break;
             case 2:
                 maxHP = 15;
                 attack = 3;
                 defense = 2;
-                type = weaponType.melee;
+                type = weaponType.ranged;
+                cooldownMax = 5.0f;
                 break;
         }
 

@@ -5,7 +5,7 @@ public class enemyAmmo : MonoBehaviour
     public LayerMask worldMask;
     public LayerMask playerMask;
     public GameObject enemyObject;
-    public Animator animator;
+    public Animator playerAnimator;
     public Enemy enemy;
     private float lifetime = 1.0f;
     private GameObject playerTarget;
@@ -25,10 +25,10 @@ public class enemyAmmo : MonoBehaviour
         if (Physics.Linecast(transform.position, enemyObject.transform.position, 
         out RaycastHit hitInfo, playerMask, QueryTriggerInteraction.Ignore))
         {
-            animator.SetBool("Hit", true);
+            playerAnimator.SetBool("Hit", true);
             States.playerEnemyHit = true;
             States.stats.health -= ((float)enemy.attack * States.diffMult) * 3.0f / (States.stats.armour.defense / States.diffMult);
-            playerTarget.transform.position += transform.forward;
+            damageOffset();
             playerTarget.transform.forward = -transform.forward;
             Destroy(this.gameObject);
         }
@@ -40,5 +40,16 @@ public class enemyAmmo : MonoBehaviour
         {
             Destroy(this.gameObject);
         }  
+    }
+
+    void damageOffset()
+    {
+        Vector3 movedPos = (playerTarget.transform.position + (transform.forward / 5));
+        if (Physics.Linecast(transform.position, movedPos, 
+        out RaycastHit hitInfo, worldMask, QueryTriggerInteraction.Ignore))
+        {
+            movedPos = hitInfo.point -(transform.forward / 10);
+        }
+        playerTarget.transform.position = movedPos;
     }
 }

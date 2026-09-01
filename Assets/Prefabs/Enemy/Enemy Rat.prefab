@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1144939404149783419}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: -1, z: 0.183}
+  m_LocalPosition: {x: 0, y: -0.95, z: 0.183}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 7334788924436210739}
   - component: {fileID: 6720366932970333318}
   - component: {fileID: 7990915008744479987}
+  - component: {fileID: 8160697286002211386}
   m_Layer: 8
   m_Name: Enemy Rat
   m_TagString: Enemy
@@ -198,6 +199,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   sounds: []
+  hasAnimator: 0
+  animator: {fileID: 0}
 --- !u!82 &3210143611228402193
 AudioSource:
   m_ObjectHideFlags: 0
@@ -610,3 +613,11 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &8160697286002211386
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3174737501289481253}
+  m_Mesh: {fileID: 0}

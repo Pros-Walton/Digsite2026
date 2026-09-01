@@ -247,6 +247,7 @@ public class ReadLevel : MonoBehaviour
 
                 EnemyMount mount = enemyInstance.GetComponent<EnemyMount>();
                 mount.Mount(enemy, current); 
+                enemyInstance.transform.position = new Vector3 (enemyInstance.transform.position.x,enemyInstance.transform.localScale.y,enemyInstance.transform.position.z);
                 enemyInstance.transform.parent = entites.transform;
 
             }

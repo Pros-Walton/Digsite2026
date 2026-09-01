@@ -39,8 +39,12 @@ public class ammo : MonoBehaviour
         GameObject targetObject = hitInfo.transform.gameObject;
         EnemyMount mount = targetObject.GetComponent<EnemyMount>();
         Enemy enemy = mount.enemy;
+        if (mount.hasAnimator)
+        {
+            mount.animator.SetBool("Hit", true);
+        }
         enemy.HP -= ((float)(States.stats.weapon.attack / States.diffMult) * (3.0f) / (enemy.defense * States.diffMult));
-        targetObject.transform.position += playerTarget.transform.forward;
+        damageOffset(targetObject);
         if (enemy.HP <= 0)
         {
             enemyKill(targetObject, enemy, mount);
@@ -59,5 +63,16 @@ public class ammo : MonoBehaviour
         Destroy(target);
         States.stats.score += 10;
 
+    }
+
+    void damageOffset(GameObject targetObject)
+    {
+        Vector3 movedPos = (targetObject.transform.position + playerTarget.transform.forward);
+        if (Physics.Linecast(targetObject.transform.position, movedPos, 
+        out RaycastHit hitInfo, worldMask, QueryTriggerInteraction.Ignore))
+        {
+            movedPos = hitInfo.point -(playerTarget.transform.forward / 10);
+        }
+        targetObject.transform.position = movedPos;
     }
 }

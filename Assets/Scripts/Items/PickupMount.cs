@@ -15,7 +15,6 @@ public class PickupMount : MonoBehaviour
 
     public void Sound()
     {
-        Debug.Log("Call Play!");
         // StartCoroutine(player());
         sound.Play(0);
     }

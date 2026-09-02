@@ -47,29 +47,28 @@ public class ItemBtn : MonoBehaviour
         btn.onClick.AddListener(this.use);
         btn.onClick.AddListener(audio.click);
         audio.click();
-
+        Debug.Log("ITEM POINTER: " + States.itemPoint);
         canvas.enabled = true;
     }
 
     public void use()
     {
-        Debug.Log(item.itemId);
-        item.use();
-        depleatCheck();
-    }
-
-    public void depleatCheck()
-    {
-        manager.clearButtons();
-        manager.doItem();
-        if (States.inventory.items[States.itemPoint].count <= 0)
+        Debug.Log("ITEM COUNT BEFORE: " + States.itemCount);
+        States.itemCount--;
+        States.inventory.items[States.itemPoint].count = States.itemCount;
+        int counter = States.itemCount;
+        States.inventory.items[States.itemPoint].use();
+        if (counter <= 0)
         {
             States.itemName = null;
             States.itemDesc = null;
             States.itemIcon = null;
             canvas.enabled = false;
             States.inventory.items.RemoveAt(pointer);
-        }  
+            manager.clearButtons();
+            manager.doItem();
+        }
+        Debug.Log("ITEM COUNT AFTER: " + States.itemCount);  
     }
 
     public void hide()

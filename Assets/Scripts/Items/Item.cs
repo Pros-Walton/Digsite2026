@@ -46,7 +46,5 @@ public class Item
                 break;
 
         }
-        count -= 1;
-        States.itemCount = count;
     }
 }

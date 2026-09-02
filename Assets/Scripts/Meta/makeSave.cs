@@ -121,7 +121,7 @@ public class makeSave : MonoBehaviour
         string metaString = JsonUtility.ToJson(States.saveList);
         File.WriteAllText((Application.persistentDataPath + "/Save/meta.json"), metaString);
 
-        string path = Application.persistentDataPath + "/" + States.saveName;
+        string path = Application.persistentDataPath + "/Save/" + States.saveName;
 
         File.Delete(path + "/player.json");
         File.Delete(path + "/inventory.json");

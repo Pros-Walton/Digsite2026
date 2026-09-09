@@ -18,7 +18,7 @@ public class Artifact
             case 0:
                 name = "Pottery shard";
                 desc = "A shard of a piece of pottery. It's surface implies a wide and shallow shape.";
-                lore = "It seems it was part of a bowel, likely used for eating.";
+                lore = "It seems it was part of a bowl, likely used for eating.";
                 score = 100;
                 count = 1;
                 icon = Resources.Load<Sprite>(dir + "shard") as Sprite;

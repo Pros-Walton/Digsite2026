@@ -6,12 +6,14 @@ public class ArtifactBtn : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private GameObject details;
     private Canvas canvas;
+    private Canvas readOut;
 
 
     public void Start()
     {
         details = GameObject.Find("ArtifactDetails");
         canvas = details.GetComponent<Canvas>();
+        readOut = GameObject.Find("Inventory Readout").GetComponent<Canvas>();
 
     }
 
@@ -28,6 +30,7 @@ public class ArtifactBtn : MonoBehaviour
         States.artLore = artifact.lore;
         States.artCount = artifact.count;
 
+        readOut.enabled = true;
         canvas.enabled = true;
     }
 

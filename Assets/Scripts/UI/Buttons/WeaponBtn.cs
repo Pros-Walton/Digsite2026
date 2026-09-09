@@ -7,6 +7,7 @@ public class WeaponBtn : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private GameObject details;
     private Canvas canvas;
+    private Canvas readOut;
     private Button button;
 
     private int pointer;
@@ -20,6 +21,7 @@ public class WeaponBtn : MonoBehaviour
     {
         details = GameObject.Find("WeaponDetails");
         canvas = details.GetComponent<Canvas>();
+        readOut = GameObject.Find("Inventory Readout").GetComponent<Canvas>();
         button = GameObject.Find("WeaponDetailButton").GetComponent<Button>();
         manager = GameObject.Find("EventSystem").GetComponent<Manager>();
         audio = GameObject.Find("UI Sounds").GetComponent<UISounds>();
@@ -40,6 +42,7 @@ public class WeaponBtn : MonoBehaviour
         button.onClick.AddListener(equipWeapon);
         button.onClick.AddListener(audio.click);
 
+        readOut.enabled = true;
         canvas.enabled = true;
     }
 
@@ -52,6 +55,7 @@ public class WeaponBtn : MonoBehaviour
         setDetails();
         manager.clearButtons();
         manager.doWeapon();
+        readOut.enabled = false;
     }
 
     private void setDetails()
@@ -72,6 +76,7 @@ public class WeaponBtn : MonoBehaviour
             States.itemName = null;
             States.itemDesc = null;
             States.itemIcon = null;
+            readOut.enabled = false;
             canvas.enabled = false;
     }
 

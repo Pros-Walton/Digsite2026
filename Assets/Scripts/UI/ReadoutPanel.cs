@@ -32,6 +32,7 @@ public class ReadoutPanel : MonoBehaviour
     private Canvas keyCanvas;
     private GameObject artifactDetails;
     private Canvas artifactCanvas;
+    private Canvas readOut;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,6 +47,7 @@ public class ReadoutPanel : MonoBehaviour
         keyCanvas = keyDetails.GetComponent<Canvas>();
         artifactDetails = GameObject.Find("ArtifactDetails");
         artifactCanvas = artifactDetails.GetComponent<Canvas>();
+        readOut = GameObject.Find("Inventory Readout").GetComponent<Canvas>();
     }
 
     // Update is called once per frame
@@ -93,5 +95,6 @@ public class ReadoutPanel : MonoBehaviour
         itemCanvas.enabled = false;
         keyCanvas.enabled = false;
         artifactCanvas.enabled = false;
+        readOut.enabled = false;
     }
 }

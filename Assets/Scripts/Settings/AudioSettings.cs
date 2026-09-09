@@ -60,12 +60,6 @@ public class AudioSettings : MonoBehaviour
         Load();   
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void SliderChangeMstr()
     {
         MasterBlip.Play();

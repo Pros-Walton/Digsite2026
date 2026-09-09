@@ -9,6 +9,7 @@ public class ItemBtn : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private GameObject details;
     private Canvas canvas;
+    private Canvas readOut;
 
     private Manager manager;
 
@@ -23,6 +24,7 @@ public class ItemBtn : MonoBehaviour
         btn = btnObject.GetComponent<Button>();
         details = GameObject.Find("ItemDetails");
         canvas = details.GetComponent<Canvas>();
+        readOut = GameObject.Find("Inventory Readout").GetComponent<Canvas>();
         manager = GameObject.Find("EventSystem").GetComponent<Manager>();
         audio = GameObject.Find("UI Sounds").GetComponent<UISounds>();
         
@@ -48,6 +50,7 @@ public class ItemBtn : MonoBehaviour
         btn.onClick.AddListener(audio.click);
         audio.click();
         Debug.Log("ITEM POINTER: " + States.itemPoint);
+        readOut.enabled = true;
         canvas.enabled = true;
     }
 
@@ -63,6 +66,7 @@ public class ItemBtn : MonoBehaviour
             States.itemName = null;
             States.itemDesc = null;
             States.itemIcon = null;
+            readOut.enabled = false;
             canvas.enabled = false;
             States.inventory.items.RemoveAt(pointer);
             manager.clearButtons();
@@ -76,6 +80,7 @@ public class ItemBtn : MonoBehaviour
 
         if (States.hideCanvas == true)
         {
+            readOut.enabled = false;
             canvas.enabled = false;
             States.hideCanvas = false;
         }

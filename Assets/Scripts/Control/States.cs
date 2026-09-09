@@ -17,6 +17,7 @@ public static class States
 
     public static Inventory inventory {get; set;}
     public static PlayerStats stats {get; set;}
+    public static int hungerOdds {get; set;}
 
     public static string itemName {get; set;}
     public static string itemDesc {get; set;}

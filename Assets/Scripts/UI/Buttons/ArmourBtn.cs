@@ -7,6 +7,7 @@ public class ArmourBtn : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private GameObject details;
     private Canvas canvas;
+    private Canvas readOut;
     private Button button;
     private int pointer;
 
@@ -20,6 +21,7 @@ public class ArmourBtn : MonoBehaviour
         details = GameObject.Find("ArmourDetails");
         button = GameObject.Find("ArmourDetailButton").GetComponent<Button>();
         canvas = details.GetComponent<Canvas>();
+        readOut = GameObject.Find("Inventory Readout").GetComponent<Canvas>();
         manager = GameObject.Find("EventSystem").GetComponent<Manager>();
         audio = GameObject.Find("UI Sounds").GetComponent<UISounds>();
 
@@ -39,6 +41,7 @@ public class ArmourBtn : MonoBehaviour
         button.onClick.AddListener(equipArmour);
         button.onClick.AddListener(audio.click);
 
+        readOut.enabled = true;
         canvas.enabled = true;
     }
 
@@ -51,6 +54,7 @@ public class ArmourBtn : MonoBehaviour
         setDetails();
         manager.clearButtons();
         manager.doArmour();
+        readOut.enabled = false;
     }
 
     private void setDetails()
@@ -70,6 +74,7 @@ public class ArmourBtn : MonoBehaviour
             States.itemName = null;
             States.itemDesc = null;
             States.itemIcon = null;
+            readOut.enabled = false;
             canvas.enabled = false;
     }
 

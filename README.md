@@ -13,3 +13,5 @@ CREATE BUILD AND RUN
 11) Give the build a name
 12) Let the build sequence run
 13) Enjoy!
+
+Running the game again after creating a build simply requires you to navigate to the Build Directory and open the executable file (ie Digsite.exe) 
